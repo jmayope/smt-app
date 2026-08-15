@@ -1,0 +1,96 @@
+# ==========================================
+# 1. Node.js & Dependency Management
+# ==========================================
+# Dependencies
+node_modules/
+jspm_packages/
+web_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ==========================================
+# 2. Angular Specifics
+# ==========================================
+# Angular cache and build output
+.angular/
+dist/
+out-tsc/
+bazel-out/
+
+# Testing and coverage artifacts
+/coverage/
+/e2e/test-output/
+
+# Extra build/cache definitions
+/.tmp/
+/.sass-cache/
+.tours
+*.tsbuildinfo
+
+# ==========================================
+# 3. Flutter & Dart Specifics
+# ==========================================
+# Tooling and compiled build outputs
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Android specific builds
+/android/app/debug/
+/android/app/profile/
+/android/app/release/
+
+# Web specific builds
+/build/web/
+
+# App bundle or APK outputs
+*.apk
+*.aab
+*.bundle
+
+# Symbol files for debugging crash dumps
+*.xcresult
+*.vswhere
+
+# ==========================================
+# 4. Environment Variables & Secrets
+# ==========================================
+# Never commit credentials or API keys
+.env
+.env.local
+.env.*.local
+*.env
+*.properties
+
+# ==========================================
+# 5. IDEs and System Files (Optional but Recommended)
+# ==========================================
+# JetBrains (IntelliJ, WebStorm, Android Studio)
+.idea/
+*.iml
+*.iws
+
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+.history/
+
+# Operating System files
+.DS_Store
+Thumbs.db
