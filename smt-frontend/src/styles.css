@@ -988,11 +988,11 @@ h1,h2,h3,h4,h5,h6{
   min-height: 62vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center;
   justify-content: center;
-  text-align: center;
+  text-align: center; */
   color: var(--mt-gris-mineral);
-  padding: 2rem;
+  padding: 1rem;
 }
 .placeholder-panel i{
   font-size: 2.4rem;
