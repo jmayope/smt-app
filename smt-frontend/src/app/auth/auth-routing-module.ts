@@ -3,6 +3,7 @@ import { Login } from "./login/login";
 import { ForgotPassword } from "./forgot-password/forgot-password";
 import { Register } from "./register/register";
 import { NgModule } from "@angular/core";
+import { SelectProfile } from "./select-profile/select-profile";
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'registro',
     component: Register
+  },
+  {
+    path: 'seleccionar-perfil',
+    component: SelectProfile
   },
   {
     path: '**',

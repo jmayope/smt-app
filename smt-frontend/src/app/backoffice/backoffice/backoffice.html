@@ -1,1 +1,182 @@
-<p>backoffice works!</p>
+
+<div class="app-shell">
+
+  <!-- Backdrop para el drawer móvil -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-brand">
+      <svg class="mt-logo-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="6,38 18,16 26,28 32,18 42,38" fill="#F8FAFC"/>
+        <polygon points="18,16 26,28 22,28 16,20" fill="#F2B705"/>
+        <polygon points="32,18 42,38 36,38 30,24" fill="#F2B705"/>
+      </svg>
+      <div class="sidebar-brand-text">
+        <div class="name">MINER<span class="brand-accent">TRANS</span></div>
+        <div class="tag">SISTEMA DE TRANSPORTE</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">General</div>
+      <a href="#" class="nav-link active" title="Dashboard">
+        <i class="fa-solid fa-gauge-high"></i><span class="link-label">Dashboard</span>
+      </a>
+
+      <div class="sidebar-section-label">Operación</div>
+      <a href="#" class="nav-link" title="Rutas y viajes">
+        <i class="fa-solid fa-route"></i><span class="link-label">Rutas y viajes</span>
+      </a>
+      <a href="#" class="nav-link" title="Vehículos">
+        <i class="fa-solid fa-truck"></i><span class="link-label">Vehículos</span>
+      </a>
+      <a href="#" class="nav-link" title="Conductores">
+        <i class="fa-solid fa-id-card-clip"></i><span class="link-label">Conductores</span>
+      </a>
+      <a href="#" class="nav-link" title="Cargas">
+        <i class="fa-solid fa-boxes-stacked"></i><span class="link-label">Cargas</span>
+      </a>
+      <a href="#" class="nav-link" title="Monitoreo en vivo">
+        <i class="fa-solid fa-satellite-dish"></i><span class="link-label">Monitoreo en vivo</span>
+      </a>
+
+      <div class="sidebar-section-label">Gestión</div>
+      <a href="#" class="nav-link" title="Reportes">
+        <i class="fa-solid fa-chart-column"></i><span class="link-label">Reportes</span>
+      </a>
+      <a href="#" class="nav-link" title="Alertas">
+        <i class="fa-solid fa-triangle-exclamation"></i><span class="link-label">Alertas</span>
+      </a>
+      <a href="#" class="nav-link" title="Usuarios">
+        <i class="fa-solid fa-users"></i><span class="link-label">Usuarios</span>
+      </a>
+      <a href="#" class="nav-link" title="Configuración">
+        <i class="fa-solid fa-gear"></i><span class="link-label">Configuración</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="sidebar-collapse-btn" id="collapseBtn" title="Contraer / expandir menú">
+        <i class="fa-solid fa-angles-left"></i>
+        <span class="btn-label">Contraer menú</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ CONTENIDO ============ -->
+  <div class="content-col">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-title">
+        <button class="topbar-mobile-toggle" id="mobileToggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>Dashboard</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="topbar-icon-btn" title="Notificaciones">
+          <i class="fa-regular fa-bell"></i>
+          <span class="dot"></span>
+        </button>
+
+        <div class="user-menu" id="userMenu">
+          <button class="user-menu-trigger" id="userMenuTrigger">
+            <div class="user-avatar">CR</div>
+            <div class="user-meta d-none d-sm-block">
+              <span class="u-name">Carlos Ramírez</span>
+              <span class="u-role">Supervisor de Flota</span>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </button>
+
+          <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+              <span class="u-name">Carlos Ramírez</span>
+              <span class="u-email">carlos.ramirez@minertrans.pe</span>
+            </div>
+            <a href="#"><i class="fa-regular fa-user"></i> Mi perfil</a>
+            <a href="seleccion-perfil.html"><i class="fa-solid fa-right-left"></i> Cambiar perfil</a>
+            <a href="#"><i class="fa-solid fa-gear"></i> Configuración</a>
+            <hr>
+            <a href="index.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Zona dinámica -->
+    <main class="main-content">
+      <div class="breadcrumb-bar">
+        <a href="#">Inicio</a> / <span class="current">Dashboard</span>
+      </div>
+
+      <div class="placeholder-panel">
+        <i class="fa-solid fa-cubes-stacked"></i>
+        <h5>Contenido dinámico</h5>
+        <p class="mb-0">Este módulo se reemplazará con el contenido correspondiente a cada sección.</p>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  const sidebar        = document.getElementById('sidebar');
+  const collapseBtn    = document.getElementById('collapseBtn');
+  const mobileToggle   = document.getElementById('mobileToggle');
+  const backdrop       = document.getElementById('sidebarBackdrop');
+  const userMenu       = document.getElementById('userMenu');
+  const userTrigger    = document.getElementById('userMenuTrigger');
+  const userDropdown   = document.getElementById('userDropdown');
+
+  function isMobile(){ return window.innerWidth < 992; }
+
+  // Contraer / expandir sidebar (desktop) o abrir/cerrar drawer (mobile)
+  collapseBtn.addEventListener('click', () => {
+    if(isMobile()){
+      sidebar.classList.remove('mobile-open');
+      backdrop.classList.remove('show');
+    } else {
+      sidebar.classList.toggle('collapsed');
+    }
+  });
+
+  mobileToggle.addEventListener('click', () => {
+    sidebar.classList.add('mobile-open');
+    backdrop.classList.add('show');
+  });
+
+  backdrop.addEventListener('click', () => {
+    sidebar.classList.remove('mobile-open');
+    backdrop.classList.remove('show');
+  });
+
+  // Menú de usuario
+  userTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown.classList.toggle('show');
+  });
+  document.addEventListener('click', (e) => {
+    if(!userMenu.contains(e.target)) userDropdown.classList.remove('show');
+  });
+
+  // Cambiar módulo activo (demo)
+  document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector('.sidebar-nav .nav-link.active')?.classList.remove('active');
+      link.classList.add('active');
+      document.querySelector('.topbar-title h1').textContent = link.querySelector('.link-label')?.textContent.trim() || link.title;
+      document.querySelector('.breadcrumb-bar .current').textContent = link.querySelector('.link-label')?.textContent.trim() || link.title;
+      if(isMobile()){
+        sidebar.classList.remove('mobile-open');
+        backdrop.classList.remove('show');
+      }
+    });
+  });
+</script>
