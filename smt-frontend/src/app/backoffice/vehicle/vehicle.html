@@ -1,1 +1,111 @@
-<p>vehicle works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-10">
+      <div class="card">
+        <div class="card-body p-2">
+          <div class="row">
+            <div class="col-4">
+              <small class="text-secondary">Buscar por Texto</small>
+              <input type="text" name="text" [(ngModel)]="filters.text" placeholder="BUSCAR POR TEXTO" class="text-uppercase form-control form-control-sm">
+            </div>
+            <div class="col-8">
+              <div class="row">
+                <div class="col-4">
+                  <small class="text-secondary">Por Tipo</small>
+                  <select name="byVehicleType" [(ngModel)]="filters.vehicleType" class="text-uppercase form-select form-select-sm">
+                    <option [ngValue]="undefined">--SELECCIONE--</option>
+                    <option *ngFor="let vt of vehicleTypes" [ngValue]="vt.code">{{vt.name | uppercase}}</option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <small class="text-secondary">Por Estado</small>
+                  <select name="byStatus" [(ngModel)]="filters.status" class="text-uppercase form-select form-select-sm">
+                    <option [ngValue]="undefined">--SELECCIONE--</option>
+                    <option *ngFor="let vt of vehicleStatus" [ngValue]="vt.code">{{vt.name | uppercase}}</option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <small class="text-secondary">Por Disponibilidad</small>
+                  <select name="byAvailability" [(ngModel)]="filters.availability" class="text-uppercase form-select form-select-sm">
+                    <option [ngValue]="undefined">--SELECCIONE--</option>
+                    <option *ngFor="let vt of vehicleAvailabilities" [ngValue]="vt.code">{{vt.name | uppercase}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 pt-3 text-end">
+      <button class="btn btn-sm btn-primary" (click)="toggleVehicle()">
+        <i class="fa fa-plus font-nm me-1"></i>Nuevo Vehiculo
+      </button>
+    </div>
+    <div class="col-12 mt-3">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-secondary">
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <div class="col-1">
+                  Placa
+                </div>
+                <div class="col-6">
+                  Información de Vehiculo
+                </div>
+                <div class="col-1">
+                  Estado
+                </div>
+                <div class="col-2">
+                  Disponibilidad
+                </div>
+                <div class="col-2">
+                  Documentos
+                </div>
+              </div>
+            </div>
+            <div class="col-2 text-end">
+              Acciones
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item" *ngFor="let v of vehicles">
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <div class="col-1">
+                  {{v.license_plate}}
+                </div>
+                <div class="col-6">
+                  <strong>{{v.brand}}</strong> - {{v.model}} - {{v.year}} <br>
+                  {{v.vehicle_type}}
+                  
+                </div>
+                <div class="col-1">
+                  Estado
+                </div>
+                <div class="col-2">
+                  Disponibilidad
+                </div>
+                <div class="col-2">
+                  Documentos
+                </div>
+              </div>
+            </div>
+            <div class="col-2 text-end">
+              Acciones
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-12 text-end">
+              Cantidad de Registros: {{vehicles.length}}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

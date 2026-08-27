@@ -39,7 +39,7 @@ export const routes: Routes = [
           data: { title: 'Administración de Vehiculo' }
       },
       {
-          path: 'adminitracion-de-conductor',
+          path: 'administracion-de-conductor',
           component: Driver,
           data: { title: 'Administración de Conductor' }
       },

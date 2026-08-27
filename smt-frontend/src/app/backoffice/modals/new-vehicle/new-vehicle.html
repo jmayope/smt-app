@@ -1,0 +1,77 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{vehicle.editing ? 'Editar' : 'Nuevo'}}&nbsp;Vehiculo</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-4">
+      <small class="text-secondary">Placa</small>
+      <input type="text" name="license_plate" [(ngModel)]="vehicle.license_plate" class="form-control">
+    </div>
+    <div class="col-4">
+      <small class="text-secondary">Marca</small>
+      <input type="text" name="brand" [(ngModel)]="vehicle.brand" class="form-control">
+    </div>
+    <div class="col-4">
+      <small class="text-secondary">Modelo</small>
+      <input type="text" name="model" [(ngModel)]="vehicle.model" class="form-control">
+    </div>
+    <div class="col-4">
+      <small class="text-secondary">Año</small>
+      <input type="text" name="year" [(ngModel)]="vehicle.year" class="form-control">
+    </div>
+    <div class="col-4">
+      <small class="text-secondary">Color</small>
+      <input type="text" name="color" [(ngModel)]="vehicle.color" class="form-control">
+    </div>
+    <div class="col-4">
+      <small class="text-secondary">Tipo</small>
+      <select name="vehicle_type" [(ngModel)]="vehicle.vehicle_type" class="form-select">
+        <option [ngValue]="undefined">--SELECCIONE--</option>
+        <option *ngFor="let vt of vehicle_types" [ngValue]="vt.code">{{vt.name | uppercase}}</option>
+      </select>
+    </div>
+    <div class="col-4">
+      <small class="text-secondary">Capacidad</small>
+      <input type="text" name="capacity_tons" [(ngModel)]="vehicle.capacity_tons" class="form-control">
+    </div>
+    <div class="col-4">
+      <small class="text-secondary">Material Transportado</small>
+      <input type="text" name="material_type" [(ngModel)]="vehicle.material_type" class="form-control">
+    </div>
+    <div class="col-4">
+      <small class="text-secondary">Nro Poliza Seguro</small>
+      <input type="text" name="insurance_number" [(ngModel)]="vehicle.insurance_number" class="form-control">
+    </div>
+    <div class="col-6">
+      <small class="text-secondary">Nro Identificación Vehicular</small>
+      <input type="text" name="vin" [(ngModel)]="vehicle.vin" class="form-control">
+    </div>
+    <div class="col-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Default switch checkbox input</label>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Default switch checkbox input</label>
+      </div>
+    </div>
+    <div class="col-12">
+      <small class="text-secondary">Documentos Asociados al Vehiculo</small>
+      <div class="input-group mb-2">
+        <input type="file" name="" id="" class="form-control">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-plus"></i></button>
+      </div>
+    </div>
+    <div class="col-12 mt-3 text-center">
+      <button class="btn btn-sm btn-primary" (click)="save()">
+        <i class="fa fa-save me-1"></i>Guardar
+      </button>
+    </div>
+  </div>
+</div>

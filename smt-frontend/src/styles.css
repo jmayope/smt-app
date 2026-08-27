@@ -82,6 +82,10 @@ h1,h2,h3,h4,h5,h6{
 .btn-primary{
   background-color: var(--mt-azul-acero);
   border-color: var(--mt-azul-acero);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 15px !important;
   color: #fff;
   font-weight: 600;
 }
@@ -167,10 +171,9 @@ h1,h2,h3,h4,h5,h6{
 
 .btn{
   border-radius: var(--bs-border-radius-sm);
-  padding: .65rem 1.4rem;
-  letter-spacing: .01em;
   transition: all .18s ease;
 }
+.btn-sm{ padding: .4rem 0.9rem !important; padding-bottom: 0px !important; }
 .btn-lg{ padding: .8rem 1.8rem; }
 
 /* =========================================================
@@ -1024,4 +1027,8 @@ h1,h2,h3,h4,h5,h6{
 }
 @media (min-width: 992px){
   .sidebar-backdrop{ display: none !important; }
+}
+
+.font-nm {
+  font-size: 20px !important;
 }

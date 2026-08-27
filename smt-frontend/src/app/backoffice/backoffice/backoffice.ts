@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './backoffice.html',
   styleUrl: './backoffice.css',
 })
-export class Backoffice {
+export class Backoffice implements OnInit {
 
   sidebarCollapsed = false;
   mobileSidebarOpen = false;
@@ -42,27 +42,27 @@ export class Backoffice {
         {
           label: 'Usuarios',
           icon: 'fa fa-users',
-          route: '/backoffice/usuarios'
+          route: '/backoffice/administracion-de-usuario'
         },
         {
           label: 'Rutas y Viajes',
           icon: 'fa fa-route',
-          route: '/backoffice/rutas'
+          route: '/backoffice/administracion-de-ruta'
         },
         {
           label: 'Vehiculos',
           icon: 'fa fa-car-side',
-          route: '/backoffice/vehiculos'
+          route: '/backoffice/administracion-de-vehiculo'
         },
         {
           label: 'Conductores',
           icon: 'fa fa-route',
-          route: '/backoffice/rutas'
+          route: '/backoffice/administracion-de-conductor'
         },
         {
-          label: 'Transporte',
+          label: 'Incidentes',
           icon: 'fa fa-road-spikes',
-          route: '/backoffice/rutas'
+          route: '/backoffice/incidente'
         },
       ]
     },
@@ -73,14 +73,23 @@ export class Backoffice {
         {
           label: 'Reportes',
           icon: 'fa fa-file-lines',
-          route: '/backoffice/reportes'
+          route: '/backoffice/reporte'
+        },
+        {
+          label: 'Subscripción',
+          icon: 'fa fa-file-lines',
+          route: '/backoffice/modelo-de-subscripcion'
         },
       ]
     },
   ];
 
-  activeModule = 'Dashboard';
+  activeModule = sessionStorage.getItem('menuSelected') || 'Dashboard';
 
+
+  ngOnInit(): void {
+    this.sidebarCollapsed = sessionStorage.getItem('collapsed') ? sessionStorage.getItem('collapsed') === '1' : false;
+  }
 
   // =========================================================
   // RESPONSIVE
@@ -104,7 +113,7 @@ export class Backoffice {
     } else {
 
       this.sidebarCollapsed = !this.sidebarCollapsed;
-
+      sessionStorage.setItem("collapsed", this.sidebarCollapsed ? '1' : '0');
     }
   }
 
@@ -151,6 +160,7 @@ export class Backoffice {
   selectModule(module: string): void {
 
     this.activeModule = module;
+    sessionStorage.setItem("menuSelected", module);
 
     if (this.isMobile()) {
 
