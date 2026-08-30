@@ -170,7 +170,7 @@
               <li><span class="feature-icon">📄</span><div>Reportes básicos</div></li>
               <li><span class="feature-icon">🎧</span><div>Soporte por correo</div></li>
             </ul>
-            <button class="btn btn-outline-primary w-100 mt-auto">Elegir plan</button>
+            <button class="btn btn-outline-primary w-100 mt-auto" (click)="selectPlan('basic')">Elegir plan</button>
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@
               <li><span class="feature-icon">🔔</span><div>Alertas y notificaciones</div></li>
               <li><span class="feature-icon">✅</span><div>Soporte prioritario</div></li>
             </ul>
-            <button class="btn btn-warning w-100 mt-auto">Elegir plan</button>
+            <button class="btn btn-warning w-100 mt-auto" (click)="selectPlan('regular')">Elegir plan</button>
           </div>
         </div>
       </div>
@@ -227,7 +227,7 @@
               <li><span class="feature-icon">✅</span><div>Soporte 24/7 y asesoría dedicada</div></li>
               <li><span class="feature-icon">☁️</span><div>Almacenamiento en la nube</div></li>
             </ul>
-            <button class="btn btn-primary w-100 mt-auto">Elegir plan</button>
+            <button class="btn btn-primary w-100 mt-auto" (click)="selectPlan('premium')">Elegir plan</button>
           </div>
         </div>
       </div>
