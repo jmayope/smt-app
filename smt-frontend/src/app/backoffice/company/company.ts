@@ -19,6 +19,18 @@ export class Company implements OnInit{
   }
 
   companies: any[] = [];
+  business_types: any[] = [
+    { id: "PRI", name: "PRIVADA", },
+    { id: "PUB", name: "PÚBLICA", }
+  ];
+
+  subscription_packages: any[] = [
+    { id: "B", name: "BÁSICO" },
+    { id: "R", name: "REGULAR" },
+    { id: "P", name: "PREMIUM" },
+  ];
+
+  filters: any = {};
 
   ngOnInit(): void {
     this.getCompanies();    

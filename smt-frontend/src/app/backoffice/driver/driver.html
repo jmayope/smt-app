@@ -1,1 +1,421 @@
-<p>driver works!</p>
+<!-- KPIs -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div
+          class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0"
+          style="width:46px;height:46px;">
+          <i class="fa-solid fa-id-card-clip text-primary"></i>
+        </div>
+        <div>
+          <div class="fs-4 fw-bold text-dark lh-1">48</div>
+          <div class="text-secondary small">Conductores totales</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div
+          class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0"
+          style="width:46px;height:46px;">
+          <i class="fa-solid fa-route text-success"></i>
+        </div>
+        <div>
+          <div class="fs-4 fw-bold text-dark lh-1">19</div>
+          <div class="text-secondary small">En ruta ahora</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div
+          class="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0"
+          style="width:46px;height:46px;">
+          <i class="fa-solid fa-mug-hot text-warning"></i>
+        </div>
+        <div>
+          <div class="fs-4 fw-bold text-dark lh-1">24</div>
+          <div class="text-secondary small">Disponibles</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div
+          class="rounded-circle bg-danger bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0"
+          style="width:46px;height:46px;">
+          <i class="fa-solid fa-user-slash text-danger"></i>
+        </div>
+        <div>
+          <div class="fs-4 fw-bold text-dark lh-1">5</div>
+          <div class="text-secondary small">Inactivos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Panel principal -->
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+
+    <!-- Filtros y acciones -->
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+      <div class="d-flex flex-wrap gap-2 flex-grow-1">
+        <div class="input-group" style="max-width:260px;">
+          <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass text-secondary"></i></span>
+          <input type="text" class="form-control" placeholder="Buscar por nombre, DNI...">
+        </div>
+        <select class="form-select" style="max-width:180px;">
+          <option selected>Disponibilidad</option>
+          <option>En ruta</option>
+          <option>Disponible</option>
+          <option>Descanso</option>
+        </select>
+        <select class="form-select" style="max-width:170px;">
+          <option selected>Estado</option>
+          <option>Activo</option>
+          <option>Inactivo</option>
+        </select>
+        <select class="form-select" style="max-width:160px;">
+          <option selected>2FA</option>
+          <option>Activado</option>
+          <option>Desactivado</option>
+        </select>
+      </div>
+
+      <button type="button" class="btn btn-primary flex-shrink-0" data-bs-toggle="modal" data-bs-target="#driverModal">
+        <i class="fa-solid fa-plus me-1"></i> Nuevo conductor
+      </button>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+          <tr class="text-secondary small text-uppercase">
+            <th>Conductor</th>
+            <th>Documento</th>
+            <th>Contacto</th>
+            <th>Vehículo / Ruta actual</th>
+            <th>Último acceso</th>
+            <th>2FA</th>
+            <th>Estado</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="user-avatar" style="width:38px;height:38px;font-size:.78rem;">JP</div>
+                <div>
+                  <div class="fw-semibold text-dark">Jorge Paredes Luna</div>
+                  <div class="text-secondary small">jorge.paredes@minertrans.pe</div>
+                </div>
+              </div>
+            </td>
+            <td>DNI 45 782 190</td>
+            <td>+51 987 654 321</td>
+            <td>
+              <div class="fw-semibold text-dark small">V1A-745</div>
+              <div class="text-secondary small">Ruta Cerro Norte → Planta P1</div>
+            </td>
+            <td class="text-secondary small">Hoy, 07:42 a.m.</td>
+            <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
+            <td><span class="badge text-bg-success">Activo</span></td>
+            <td class="text-end">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
+                    class="fa-solid fa-ellipsis"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
+                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item text-danger" href="#"><i
+                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="user-avatar" style="width:38px;height:38px;font-size:.78rem;">MS</div>
+                <div>
+                  <div class="fw-semibold text-dark">María Salinas Torres</div>
+                  <div class="text-secondary small">maria.salinas@minertrans.pe</div>
+                </div>
+              </div>
+            </td>
+            <td>DNI 41 209 887</td>
+            <td>+51 988 213 044</td>
+            <td>
+              <div class="fw-semibold text-dark small">V5E-274</div>
+              <div class="text-secondary small">Ruta Tajo Sur → Planta P2</div>
+            </td>
+            <td class="text-secondary small">Hoy, 06:15 a.m.</td>
+            <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
+            <td><span class="badge text-bg-success">Activo</span></td>
+            <td class="text-end">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
+                    class="fa-solid fa-ellipsis"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
+                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item text-danger" href="#"><i
+                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="user-avatar"
+                  style="width:38px;height:38px;font-size:.78rem;background:var(--mt-gris-mineral);">RH</div>
+                <div>
+                  <div class="fw-semibold text-dark">Renzo Huamán Díaz</div>
+                  <div class="text-secondary small">renzo.huaman@minertrans.pe</div>
+                </div>
+              </div>
+            </td>
+            <td>DNI 47 331 502</td>
+            <td>+51 966 704 118</td>
+            <td>
+              <div class="text-secondary small">Sin asignación activa</div>
+            </td>
+            <td class="text-secondary small">Ayer, 05:50 p.m.</td>
+            <td><i class="fa-regular fa-circle-xmark text-secondary" title="2FA desactivado"></i></td>
+            <td><span class="badge text-bg-light border text-warning"><i class="fa-solid fa-circle me-1"
+                  style="font-size:6px;"></i>Descanso</span></td>
+            <td class="text-end">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
+                    class="fa-solid fa-ellipsis"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
+                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item text-danger" href="#"><i
+                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="user-avatar"
+                  style="width:38px;height:38px;font-size:.78rem;background:var(--mt-gris-mineral);">LC</div>
+                <div>
+                  <div class="fw-semibold text-dark">Luis Cárdenas Vega</div>
+                  <div class="text-secondary small">luis.cardenas@minertrans.pe</div>
+                </div>
+              </div>
+            </td>
+            <td>DNI 43 018 265</td>
+            <td>+51 977 340 662</td>
+            <td>
+              <div class="text-secondary small">Sin asignación activa</div>
+            </td>
+            <td class="text-secondary small">Hace 12 días</td>
+            <td><i class="fa-regular fa-circle-xmark text-secondary" title="2FA desactivado"></i></td>
+            <td><span class="badge text-bg-secondary">Inactivo</span></td>
+            <td class="text-end">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
+                    class="fa-solid fa-ellipsis"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
+                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item text-success" href="#"><i
+                        class="fa-regular fa-circle-check me-2"></i>Activar</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="user-avatar" style="width:38px;height:38px;font-size:.78rem;">AF</div>
+                <div>
+                  <div class="fw-semibold text-dark">Ana Flores Quispe</div>
+                  <div class="text-secondary small">ana.flores@minertrans.pe</div>
+                </div>
+              </div>
+            </td>
+            <td>DNI 46 590 733</td>
+            <td>+51 991 220 587</td>
+            <td>
+              <div class="fw-semibold text-dark small">V2B-318</div>
+              <div class="text-secondary small">Ruta Cerro Norte → Planta P1</div>
+            </td>
+            <td class="text-secondary small">Hoy, 08:03 a.m.</td>
+            <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
+            <td><span class="badge text-bg-success">Activo</span></td>
+            <td class="text-end">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
+                    class="fa-solid fa-ellipsis"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
+                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item text-danger" href="#"><i
+                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between pt-3 mt-2 border-top">
+      <span class="text-secondary small">Mostrando 1–5 de 48 conductores</span>
+      <nav>
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ MODAL: Nuevo / Editar conductor ============ -->
+<div class="modal fade" id="driverModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold text-dark"><i class="fa-solid fa-id-card-clip text-primary me-2"></i>Nuevo
+          conductor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Nombres</label>
+              <input type="text" class="form-control" placeholder="Jorge">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Apellidos</label>
+              <input type="text" class="form-control" placeholder="Paredes Luna">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label small fw-semibold">Documento de identidad</label>
+              <input type="text" class="form-control" placeholder="45782190">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-semibold">Teléfono</label>
+              <input type="text" class="form-control" placeholder="+51 987 654 321">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-semibold">Rol</label>
+              <select class="form-select" disabled>
+                <option selected>Conductor</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Correo electrónico</label>
+              <input type="email" class="form-control" placeholder="jorge.paredes@minertrans.pe">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Contraseña temporal</label>
+              <input type="password" class="form-control" placeholder="••••••••">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Licencia de conducir</label>
+              <input type="text" class="form-control" placeholder="N° de licencia">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Documento de licencia (PDF/imagen)</label>
+              <input type="file" class="form-control">
+            </div>
+
+            <div class="col-md-4 d-flex align-items-center gap-2 mt-2">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" checked>
+                <label class="form-check-label small">Conductor activo</label>
+              </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-center gap-2 mt-2">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label small">Autenticación 2FA</label>
+              </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-center gap-2 mt-2">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" checked>
+                <label class="form-check-label small">Disponible para asignación</label>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary">Guardar conductor</button>
+      </div>
+    </div>
+  </div>
+</div>

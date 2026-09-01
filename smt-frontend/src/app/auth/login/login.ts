@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { loadingAlert, messageAlert } from '../../constants';
+import { loadingAlert, messageAlert, USERS } from '../../constants';
 import { firstValueFrom } from 'rxjs';
 import { Supabase } from '../../services/supabase';
 import { Router } from '@angular/router';
@@ -26,6 +26,7 @@ export class Login implements OnInit {
 
   credentials: any = {};
   logging: boolean = false;
+  showPassword: boolean = false;
 
   ngOnInit(): void {
       
@@ -34,12 +35,25 @@ export class Login implements OnInit {
   async login() {
     this.logging = true;
     loadingAlert("Validando tus datos");
-    let resultLogin: any = await firstValueFrom(this.Supabase.select(''));
+    let authentication = structuredClone(this.credentials);
+    authentication.password_hash = authentication.password;
+    delete authentication.password;
+    let resultLogin: any = await firstValueFrom(this.Supabase.select(USERS, authentication));
+    console.log(resultLogin);
+    if (!resultLogin) {
+      messageAlert("Error", "Credenciales invalidas", "error");
+      return;
+    }
+    console.log("Verificación de Perfil");
   }
 
   selectPlan(type: string) {
     console.log(type);
     this.Router.navigate([`autenticacion/registro`], {queryParams: {type: type}});
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
 }

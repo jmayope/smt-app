@@ -92,46 +92,48 @@
 
       <!-- Login card -->
       <div class="col-lg-5 offset-lg-1">
-        <div class="login-card">
-          <h2>Ingreso al sistema</h2>
-          <p class="subtitle">Accede a tu cuenta para continuar</p>
-
-          <form>
-            <div class="input-icon-group mb-3">
-              <span class="input-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </span>
-              <input type="text" class="form-control" placeholder="Usuario">
-            </div>
-
-            <div class="input-icon-group mb-3">
-              <span class="input-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              </span>
-              <input type="password" class="form-control" placeholder="Contraseña">
-              <button type="button" class="toggle-visibility" aria-label="Mostrar contraseña">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
-              </button>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="remember">
-                <label class="form-check-label" for="remember" style="font-size:.88rem;">Recordarme</label>
+        <form #loginForm="ngForm">
+          <div class="login-card">
+            <h2>Ingreso al sistema</h2>
+            <p class="subtitle">Accede a tu cuenta para continuar</p>
+  
+            <form>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                  <i class="fa fa-user"></i>
+                </span>
+                <input type="text" class="form-control" name="email" [(ngModel)]="credentials.email" placeholder="Usuario" required>
               </div>
-              <a href="#" class="link-forgot">¿Olvidaste tu contraseña?</a>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 btn-lg">Iniciar sesión</button>
-          </form>
-
-          <div class="login-divider">o continúa con</div>
-
-          <button type="button" class="btn btn-google w-100 btn-lg">
-            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l6-5.8C34.8 3.4 30 1.5 24 1.5 14.9 1.5 7.1 6.7 3.5 14.3l7 5.4C12.2 13.6 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.5 3-2.2 5.5-4.6 7.2l7.1 5.5c4.1-3.8 6.3-9.4 6.3-16.2z"/><path fill="#FBBC05" d="M10.5 19.7a14.5 14.5 0 0 0 0 8.6l-7 5.4a24 24 0 0 1 0-19.4l7 5.4z"/><path fill="#34A853" d="M24 46.5c6 0 11.1-2 14.8-5.4l-7.1-5.5c-2 1.4-4.6 2.2-7.7 2.2-6.4 0-11.8-4.1-13.5-9.8l-7 5.4C7.1 41.3 14.9 46.5 24 46.5z"/></svg>
-            Ingresar con Google
-          </button>
-        </div>
+  
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                  <i class="fa fa-key"></i>
+                </span>
+                <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="credentials.password" class="form-control" placeholder="{{showPassword ? 'S3cr3t0' : '********'}}" required>
+                <button type="button" class="btn btn-light" aria-label="Mostrar contraseña" (click)="togglePassword()">
+                  <i class="fa" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+                </button>
+              </div>
+  
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="remember">
+                  <label class="form-check-label" for="remember" style="font-size:.88rem;">Recordarme</label>
+                </div>
+                <a class="link-forgot hand">¿Olvidaste tu contraseña?</a>
+              </div>
+  
+              <button type="submit" class="btn btn-primary w-100 btn-lg" (click)="login()" [disabled]="loginForm.invalid">Iniciar sesión</button>
+            </form>
+  
+            <div class="login-divider">o continúa con</div>
+  
+            <button type="button" class="btn btn-google w-100 btn-lg">
+              <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l6-5.8C34.8 3.4 30 1.5 24 1.5 14.9 1.5 7.1 6.7 3.5 14.3l7 5.4C12.2 13.6 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.5 3-2.2 5.5-4.6 7.2l7.1 5.5c4.1-3.8 6.3-9.4 6.3-16.2z"/><path fill="#FBBC05" d="M10.5 19.7a14.5 14.5 0 0 0 0 8.6l-7 5.4a24 24 0 0 1 0-19.4l7 5.4z"/><path fill="#34A853" d="M24 46.5c6 0 11.1-2 14.8-5.4l-7.1-5.5c-2 1.4-4.6 2.2-7.7 2.2-6.4 0-11.8-4.1-13.5-9.8l-7 5.4C7.1 41.3 14.9 46.5 24 46.5z"/></svg>
+              Ingresar con Google
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
