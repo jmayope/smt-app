@@ -6,6 +6,9 @@ export const SUPABASE_API_KEY_C = "sb_publishable_VwtDyc_4HoaLKyCLSr_ZKw_g_3xIvk
 export const VEHICLES = 'vehicles';
 export const USERS = 'users';
 export const COMPANIES = 'companies';
+export const USER_COMPANY_ROLES = 'user_company_roles';
+
+export const TOKEN_NAME = "smt-token";
 
 
 

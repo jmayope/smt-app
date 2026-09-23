@@ -4,6 +4,7 @@ import { ForgotPassword } from "./forgot-password/forgot-password";
 import { Register } from "./register/register";
 import { NgModule } from "@angular/core";
 import { SelectProfile } from "./select-profile/select-profile";
+import { SelectCompany } from "./select-company/select-company";
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'seleccionar-perfil',
     component: SelectProfile
+  },
+  {
+    path: 'seleccionar-empresa',
+    component: SelectCompany
   },
   {
     path: '**',
