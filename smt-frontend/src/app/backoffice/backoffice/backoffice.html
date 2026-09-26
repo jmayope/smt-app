@@ -182,7 +182,7 @@
 
             <!-- Avatar -->
             <div class="user-avatar">
-              CR
+              {{userLoged.first_name.substring(0,1) | uppercase}}{{userLoged.last_name.substring(0,1) | uppercase}}
             </div>
 
 
@@ -190,11 +190,11 @@
             <div class="user-meta d-none d-sm-block">
 
               <span class="u-name">
-                Carlos Ramírez
+                {{userLoged.first_name}} {{userLoged.last_name}}
               </span>
 
               <span class="u-role">
-                Supervisor de Flota
+                {{userLoged.currentRole.role | uppercase}}
               </span>
 
             </div>
@@ -220,11 +220,11 @@
             <div class="user-dropdown-header">
 
               <span class="u-name">
-                Carlos Ramírez
+                {{userLoged.first_name}} {{userLoged.last_name}}
               </span>
 
               <span class="u-email">
-                carlos.ramirez@minertrans.pe
+                {{userLoged.email}}
               </span>
 
             </div>
@@ -232,8 +232,7 @@
 
             <!-- Perfil -->
             <a
-              href="#"
-              (click)="$event.preventDefault()">
+              [routerLink]="['/backoffice/perfil']">
 
               <i class="fa-regular fa-user"></i>
 
@@ -244,7 +243,7 @@
 
             <!-- Cambiar perfil -->
             <a
-              href="seleccion-perfil.html">
+              [routerLink]="['/autenticacion/seleccionar-perfil']">
 
               <i class="fa-solid fa-right-left"></i>
 
@@ -255,8 +254,7 @@
 
             <!-- Configuración -->
             <a
-              href="#"
-              (click)="$event.preventDefault()">
+              [routerLink]="['/backoffice/configuracion']">
 
               <i class="fa-solid fa-gear"></i>
 

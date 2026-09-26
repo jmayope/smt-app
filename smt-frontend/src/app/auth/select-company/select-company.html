@@ -23,7 +23,7 @@
           <span class="profile-badge"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Activa</span>
           <div class="profile-avatar"><i class="fa-solid fa-building"></i></div>
           <div class="profile-role">{{c.name}}</div>
-          <div class="profile-site">{{c.roles.length}} {{c.roles.length > 1 ? 'roles asignados' : 'rol asignado'}} · <span *ngFor="let r in c.roles">{{r.role}}</span></div>
+          <div class="profile-site">{{c.roles.length}} {{c.roles.length > 1 ? 'roles asignados' : 'rol asignado'}} · <span *ngFor="let r of c.roles">{{r.role}}</span></div>
           <button type="button" class="btn btn-outline-primary" (click)="selectCompany(c)">Ingresar</button>
         </div>
       </div>

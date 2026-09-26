@@ -1,1 +1,192 @@
-<p>subscription-model works!</p>
+<div class="breadcrumb-bar">
+  <a href="#">Inicio</a> / <span class="current">Suscripción</span>
+</div>
+
+<div class="row g-4">
+
+  <!-- ============ PLAN ACTUAL ============ -->
+  <div class="col-lg-4">
+    <div class="plan-card featured h-100">
+      <div class="plan-header">
+        <span class="plan-name">REGULAR</span>
+        <div class="plan-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F2B705" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </div>
+      </div>
+      <div class="plan-body">
+        <p class="plan-tagline">Plan activo de tu empresa</p>
+        <div class="plan-price">
+          <span class="currency">USD</span><span class="amount">99</span><span class="period">/mes</span>
+        </div>
+        <ul class="plan-features">
+          <li><span class="feature-icon">👤</span>
+            <div>26 cuentas de usuario<small>19 de 26 utilizadas</small></div>
+          </li>
+          <li><span class="feature-icon">🚚</span>
+            <div>20 vehículos<small>14 de 20 utilizados</small></div>
+          </li>
+          <li><span class="feature-icon">⏱</span>
+            <div>Monitoreo en tiempo real</div>
+          </li>
+          <li><span class="feature-icon">📄</span>
+            <div>Reportes avanzados</div>
+          </li>
+          <li><span class="feature-icon">✅</span>
+            <div>Soporte prioritario</div>
+          </li>
+        </ul>
+        <a href="index.html#planes" class="btn btn-outline-primary w-100 mt-auto">Cambiar de plan</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+
+    <!-- Estado de la suscripción -->
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+          <div>
+            <h5 class="mb-1">Estado de la suscripción</h5>
+            <p class="text-secondary small mb-0">Transportes Andina S.A.C.</p>
+          </div>
+          <span class="badge text-bg-success px-3 py-2">Activa</span>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-6 col-md-3">
+            <div class="text-secondary small mb-1">Inicio del plan</div>
+            <div class="fw-semibold text-dark">14 mar 2026</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="text-secondary small mb-1">Próxima renovación</div>
+            <div class="fw-semibold text-dark">14 oct 2026</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="text-secondary small mb-1">Ciclo de facturación</div>
+            <div class="fw-semibold text-dark">Mensual</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="text-secondary small mb-1">Próximo cobro</div>
+            <div class="fw-semibold text-dark">USD 99.00</div>
+          </div>
+        </div>
+
+        <hr class="my-4" style="border-color: var(--mt-gris-claro);">
+
+        <h6 class="mb-3">Uso del plan</h6>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between small mb-1">
+            <span class="text-dark fw-semibold">Cuentas de usuario</span>
+            <span class="text-secondary">19 / 26</span>
+          </div>
+          <div class="progress" style="height:8px;">
+            <div class="progress-bar bg-primary" style="width:73%;"></div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between small mb-1">
+            <span class="text-dark fw-semibold">Vehículos</span>
+            <span class="text-secondary">14 / 20</span>
+          </div>
+          <div class="progress" style="height:8px;">
+            <div class="progress-bar bg-primary" style="width:70%;"></div>
+          </div>
+        </div>
+        <div>
+          <div class="d-flex justify-content-between small mb-1">
+            <span class="text-dark fw-semibold">Almacenamiento de reportes</span>
+            <span class="text-secondary">2.1 GB / 5 GB</span>
+          </div>
+          <div class="progress" style="height:8px;">
+            <div class="progress-bar bg-warning" style="width:42%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Método de pago -->
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Método de pago</h5>
+          <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+            data-bs-target="#paymentModal">
+            <i class="fa-solid fa-pen me-1"></i> Cambiar
+          </button>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
+            style="width:52px;height:36px;">
+            <i class="fa-regular fa-credit-card text-primary"></i>
+          </div>
+          <div>
+            <div class="fw-semibold text-dark">Visa terminada en 4321</div>
+            <div class="text-secondary small">Vence 08/2028 · Facturación mensual automática</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historial de facturación -->
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">Historial de facturación</h5>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr class="text-secondary small text-uppercase">
+                <th>Periodo</th>
+                <th>Plan</th>
+                <th>Monto</th>
+                <th>Estado</th>
+                <th class="text-end">Comprobante</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-dark">14 ago 2026 — 14 sep 2026</td>
+                <td>Regular</td>
+                <td>USD 99.00</td>
+                <td><span class="badge text-bg-success">Pagado</span></td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-secondary"><i
+                      class="fa-solid fa-file-arrow-down"></i></button></td>
+              </tr>
+              <tr>
+                <td class="text-dark">14 jul 2026 — 14 ago 2026</td>
+                <td>Regular</td>
+                <td>USD 99.00</td>
+                <td><span class="badge text-bg-success">Pagado</span></td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-secondary"><i
+                      class="fa-solid fa-file-arrow-down"></i></button></td>
+              </tr>
+              <tr>
+                <td class="text-dark">14 jun 2026 — 14 jul 2026</td>
+                <td>Básico</td>
+                <td>USD 49.00</td>
+                <td><span class="badge text-bg-success">Pagado</span></td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-secondary"><i
+                      class="fa-solid fa-file-arrow-down"></i></button></td>
+              </tr>
+              <tr>
+                <td class="text-dark">14 may 2026 — 14 jun 2026</td>
+                <td>Básico</td>
+                <td>USD 49.00</td>
+                <td><span class="badge text-bg-danger">Fallido</span></td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-secondary"><i
+                      class="fa-solid fa-file-arrow-down"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

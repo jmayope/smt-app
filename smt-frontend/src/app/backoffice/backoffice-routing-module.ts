@@ -12,6 +12,7 @@ import { Incident } from './incident/incident';
 import { Report } from './report/report';
 import { SubscriptionModel } from './subscription-model/subscription-model';
 import { Profile } from './profile/profile';
+import { Settings } from './settings/settings';
 
 export const routes: Routes = [
   {
@@ -72,6 +73,11 @@ export const routes: Routes = [
           path: 'perfil',
           component: Profile,
           data: { title: 'Perfil de Usuario' }
+      },
+      {
+          path: 'configuracion',
+          component: Settings,
+          data: { title: 'Configuración' }
       },
     ]
   }

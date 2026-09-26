@@ -17,36 +17,18 @@
   <div class="profile-grid">
     <div class="row g-4 justify-content-center">
 
-      <!-- Perfil 1 -->
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-4 col-md-6" *ngFor="let r of userLoged.currentCompany.roles">
         <div class="profile-card">
-          <span class="profile-badge"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Activo</span>
+          <span class="profile-badge"><i class="fa-solid fa-circle" style="font-size:6px;"></i> {{r.is_active ? 'ACTIVO' : 'INACTIVO'}}</span>
           <div class="profile-avatar"><i class="fa-solid fa-user-tie"></i></div>
-          <div class="profile-role">Administrador</div>
-          <div class="profile-site">Sede Central — Lima</div>
-          <button class="btn btn-outline-primary">Ingresar</button>
-        </div>
-      </div>
-
-      <!-- Perfil 2 (destacado / premium) -->
-      <div class="col-lg-4 col-md-6">
-        <div class="profile-card premium">
-          <span class="profile-badge"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Activo</span>
-          <div class="profile-avatar"><i class="fa-solid fa-user-shield"></i></div>
-          <div class="profile-role">Supervisor de Flota</div>
-          <div class="profile-site">Sede Arequipa</div>
-          <button class="btn btn-primary">Ingresar</button>
-        </div>
-      </div>
-
-      <!-- Perfil 3 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="profile-card">
-          <span class="profile-badge"><i class="fa-solid fa-circle" style="font-size:6px;"></i> Activo</span>
-          <div class="profile-avatar"><i class="fa-solid fa-truck-front"></i></div>
-          <div class="profile-role">Conductor</div>
-          <div class="profile-site">Sede Cajamarca</div>
-          <button class="btn btn-outline-primary">Ingresar</button>
+          <div class="profile-role">{{r.role | uppercase}}</div>
+          <div class="profile-site">
+            <span class="badge" [ngClass]="{'bg-primary': r.role === 'admin', 'bg-success': r.role !== 'admin'}" >{{r.role === 'admin' ? 'Administrador' : 'Usuario Común'}}</span>
+            <span class="badge bg-light text-dark">
+              <i class="fa me-1" [ngClass]="{'fa-check text-success': r.has_access_all, 'fa-times text-danger': !r.has_access_all}"></i>Acceso Total
+            </span>
+          </div>
+          <button class="btn btn-outline-primary" (click)="selectProfile(r)">Ingresar</button>
         </div>
       </div>
 

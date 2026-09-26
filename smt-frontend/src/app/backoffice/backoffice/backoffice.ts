@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { Main } from '../../services/main';
 
 @Component({
   selector: 'app-backoffice',
@@ -13,6 +14,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './backoffice.css',
 })
 export class Backoffice implements OnInit {
+
+  constructor(
+    private Main: Main
+  ) {}
 
   sidebarCollapsed = false;
   mobileSidebarOpen = false;
@@ -85,10 +90,12 @@ export class Backoffice implements OnInit {
   ];
 
   activeModule = sessionStorage.getItem('menuSelected') || 'Dashboard';
-
+  userLoged: any;
 
   ngOnInit(): void {
     this.sidebarCollapsed = sessionStorage.getItem('collapsed') ? sessionStorage.getItem('collapsed') === '1' : false;
+    this.userLoged = this.Main.getSession();
+    console.log(this.userLoged);
   }
 
   // =========================================================

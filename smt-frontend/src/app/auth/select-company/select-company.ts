@@ -36,6 +36,7 @@ export class SelectCompany implements OnInit {
       this.Router.navigate(["backoffice/tablero"]);
       return;
     }
+    let sessionSaved = this.Main.setSession(this.userLoged);
     this.Router.navigate(["autenticacion/seleccionar-perfil"]);
   }
 }
