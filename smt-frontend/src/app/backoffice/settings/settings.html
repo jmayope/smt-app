@@ -1,1 +1,246 @@
-<p>settings works!</p>
+<div class="breadcrumb-bar">
+  <a href="#">Inicio</a> / <span class="current">Configuración</span>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+
+    <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-general" type="button">
+          <i class="fa-solid fa-sliders me-1"></i> General
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-notificaciones" type="button">
+          <i class="fa-solid fa-bell me-1"></i> Notificaciones
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-modulos" type="button">
+          <i class="fa-solid fa-puzzle-piece me-1"></i> Módulos
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-apariencia" type="button">
+          <i class="fa-solid fa-palette me-1"></i> Apariencia
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+
+      <!-- ============ GENERAL ============ -->
+      <div class="tab-pane fade show active" id="tab-general">
+        <div class="row">
+          <div class="col-lg-7">
+            <h5 class="mb-3">Preferencias regionales</h5>
+            <form>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Zona horaria</label>
+                  <select class="form-select">
+                    <option selected>América/Lima (GMT-5)</option>
+                    <option>América/Bogotá (GMT-5)</option>
+                    <option>América/Santiago (GMT-4)</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Idioma</label>
+                  <select class="form-select">
+                    <option selected>Español</option>
+                    <option>English</option>
+                    <option>Português</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Moneda</label>
+                  <select class="form-select">
+                    <option selected>PEN — Sol peruano</option>
+                    <option>USD — Dólar estadounidense</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Formato de fecha</label>
+                  <select class="form-select">
+                    <option selected>DD/MM/AAAA</option>
+                    <option>MM/DD/AAAA</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </form>
+          </div>
+
+          <div class="col-lg-5">
+            <h5 class="mb-3">Capacidades de la operación</h5>
+            <div class="d-flex justify-content-between align-items-center py-2"
+              style="border-bottom:1px solid var(--mt-gris-claro);">
+              <span class="small text-dark">Operación multi-sede</span>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" checked style="width:2.5em;height:1.4em;">
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center py-2"
+              style="border-bottom:1px solid var(--mt-gris-claro);">
+              <span class="small text-dark">Rastreo GPS</span>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" checked style="width:2.5em;height:1.4em;">
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center py-2">
+              <span class="small text-dark">Alertas en tiempo real</span>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" checked style="width:2.5em;height:1.4em;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ NOTIFICACIONES ============ -->
+      <div class="tab-pane fade" id="tab-notificaciones">
+        <h5 class="mb-3">Preferencias de notificación</h5>
+
+        <div class="d-flex justify-content-between align-items-center py-3"
+          style="border-bottom:1px solid var(--mt-gris-claro);">
+          <div>
+            <div class="fw-semibold text-dark" style="font-size:.9rem;">Alertas de incidentes</div>
+            <div class="text-secondary small">Notificación push cuando se reporte un incidente.</div>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" checked style="width:2.5em;height:1.4em;">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center py-3"
+          style="border-bottom:1px solid var(--mt-gris-claro);">
+          <div>
+            <div class="fw-semibold text-dark" style="font-size:.9rem;">Resumen diario por correo</div>
+            <div class="text-secondary small">Un correo cada mañana con el resumen de viajes.</div>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" checked style="width:2.5em;height:1.4em;">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center py-3"
+          style="border-bottom:1px solid var(--mt-gris-claro);">
+          <div>
+            <div class="fw-semibold text-dark" style="font-size:.9rem;">Documentos por vencer</div>
+            <div class="text-secondary small">Aviso cuando un documento de vehículo esté por expirar.</div>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" checked style="width:2.5em;height:1.4em;">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center py-3">
+          <div>
+            <div class="fw-semibold text-dark" style="font-size:.9rem;">Alertas por SMS</div>
+            <div class="text-secondary small">Notificación por mensaje de texto en incidentes críticos.</div>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" style="width:2.5em;height:1.4em;">
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary mt-3">Guardar cambios</button>
+      </div>
+
+      <!-- ============ MÓDULOS ============ -->
+      <div class="tab-pane fade" id="tab-modulos">
+        <h5 class="mb-3">Módulos habilitados</h5>
+        <p class="text-secondary small mb-4">Activa o desactiva funcionalidades según el plan contratado.</p>
+
+        <div class="d-flex justify-content-between align-items-center py-3"
+          style="border-bottom:1px solid var(--mt-gris-claro);">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
+              style="width:42px;height:42px;">
+              <i class="fa-solid fa-satellite-dish text-primary"></i>
+            </div>
+            <div>
+              <div class="fw-semibold text-dark" style="font-size:.9rem;">Monitoreo en tiempo real</div>
+              <div class="text-secondary small">Seguimiento GPS de vehículos y viajes activos.</div>
+            </div>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" checked style="width:2.5em;height:1.4em;">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center py-3"
+          style="border-bottom:1px solid var(--mt-gris-claro);">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded bg-success bg-opacity-10 d-flex align-items-center justify-content-center"
+              style="width:42px;height:42px;">
+              <i class="fa-solid fa-chart-column text-success"></i>
+            </div>
+            <div>
+              <div class="fw-semibold text-dark" style="font-size:.9rem;">Reportes avanzados</div>
+              <div class="text-secondary small">Estadísticas de uso de vehículos y viajes.</div>
+            </div>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" checked style="width:2.5em;height:1.4em;">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center py-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded bg-warning bg-opacity-10 d-flex align-items-center justify-content-center"
+              style="width:42px;height:42px;">
+              <i class="fa-solid fa-plug text-warning"></i>
+            </div>
+            <div>
+              <div class="fw-semibold text-dark" style="font-size:.9rem;">Integraciones API</div>
+              <div class="text-secondary small">Disponible solo en el plan VIP.</div>
+            </div>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" disabled style="width:2.5em;height:1.4em;">
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ APARIENCIA ============ -->
+      <div class="tab-pane fade" id="tab-apariencia">
+        <h5 class="mb-3">Tema de la interfaz</h5>
+        <div class="row g-3" style="max-width:520px;">
+          <div class="col-4">
+            <div class="card border shadow-sm text-center"
+              style="cursor:pointer; border-color: var(--mt-azul-acero) !important; border-width:2px;">
+              <div class="card-body">
+                <div class="rounded mb-2" style="height:60px; background:#fff; border:1px solid var(--mt-gris-claro);">
+                </div>
+                <span class="fw-semibold small text-dark">Claro</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card border-0 shadow-sm text-center" style="cursor:pointer;">
+              <div class="card-body">
+                <div class="rounded mb-2" style="height:60px; background:var(--mt-azul-profundo);"></div>
+                <span class="fw-semibold small text-dark">Oscuro</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card border-0 shadow-sm text-center" style="cursor:pointer;">
+              <div class="card-body">
+                <div class="rounded mb-2"
+                  style="height:60px; background:linear-gradient(90deg, #fff 50%, var(--mt-azul-profundo) 50%);"></div>
+                <span class="fw-semibold small text-dark">Automático</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-secondary small mt-3 mb-0">El modo oscuro estará disponible próximamente.</p>
+      </div>
+
+    </div>
+  </div>
+</div>

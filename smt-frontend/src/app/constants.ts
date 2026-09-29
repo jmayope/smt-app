@@ -7,6 +7,7 @@ export const VEHICLES = 'vehicles';
 export const USERS = 'users';
 export const COMPANIES = 'companies';
 export const USER_COMPANY_ROLES = 'user_company_roles';
+export const SUBSCRIPTION_PACKAGES = 'subscription_packages';
 
 export const TOKEN_NAME = "smt-token";
 

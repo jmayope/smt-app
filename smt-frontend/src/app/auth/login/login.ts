@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { COMPANIES, loadingAlert, messageAlert, USER_COMPANY_ROLES, USERS } from '../../constants';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { COMPANIES, loadingAlert, messageAlert, SUBSCRIPTION_PACKAGES, USER_COMPANY_ROLES, USERS } from '../../constants';
 import { firstValueFrom } from 'rxjs';
 import { Supabase } from '../../services/supabase';
 import { Router } from '@angular/router';
@@ -22,7 +22,8 @@ export class Login implements OnInit {
   constructor(
     private Supabase: Supabase,
     private Main: Main,
-    private Router: Router
+    private Router: Router,
+    private ChangeDetector: ChangeDetectorRef
   ) {
 
   }
@@ -30,9 +31,19 @@ export class Login implements OnInit {
   credentials: any = {};
   logging: boolean = false;
   showPassword: boolean = false;
+  subscription_packages: any[] = [];
+
+
 
   ngOnInit(): void {
-      
+    this.getSusbscriptionPackages();
+  }
+
+  async getSusbscriptionPackages() {
+    let result_subscription_packages: any = await firstValueFrom(this.Supabase.select(SUBSCRIPTION_PACKAGES, {filters: {}}));
+    console.log(result_subscription_packages);
+    this.subscription_packages = result_subscription_packages;
+    this.ChangeDetector.detectChanges();
   }
 
   async login() {
