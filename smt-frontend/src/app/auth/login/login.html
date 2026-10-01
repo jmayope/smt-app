@@ -149,23 +149,22 @@
 
     <div class="row g-4 justify-content-center">
 
-      <!-- BÁSICO -->
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-4 col-md-6" *ngFor="let sp of subscription_packages">
         <div class="plan-card basic">
           <div class="plan-header">
-            <span class="plan-name">BÁSICO</span>
+            <span class="plan-name">{{sp.name | uppercase}}</span>
             <div class="plan-icon">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1B263B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
           </div>
           <div class="plan-body">
-            <p class="plan-tagline">Ideal para operaciones pequeñas</p>
+            <p class="plan-tagline">{{sp.description}}</p>
             <div class="plan-price">
-              <span class="currency">USD</span><span class="amount">49</span><span class="period">/mes</span>
+              <span class="currency">USD</span><span class="amount">{{sp.price}}</span><span class="period">/mes</span>
             </div>
             <ul class="plan-features">
-              <li><span class="feature-icon">👤</span><div>7 cuentas de usuario<small>1 Administrador, 1 Supervisor, 5 Conductores</small></div></li>
-              <li><span class="feature-icon">🚚</span><div>7 vehículos</div></li>
+              <li><span class="feature-icon">👤</span><div>{{sp.max_users}} cuentas de usuario<small>{{sp.max_users - sp.max_supervisors - sp.max_drivers}} Administrador, {{sp.max_supervisors}} Supervisor, {{sp.max_drivers}} Conductores</small></div></li>
+              <li><span class="feature-icon">🚚</span><div>{{sp.max_vehicles}} vehículos</div></li>
               <li><span class="feature-icon">⏱</span><div>Monitoreo en tiempo real</div></li>
               <li><span class="feature-icon">🛣</span><div>Rutas y viajes</div></li>
               <li><span class="feature-icon">📄</span><div>Reportes básicos</div></li>
@@ -176,62 +175,7 @@
         </div>
       </div>
 
-      <!-- REGULAR (destacado) -->
-      <div class="col-lg-4 col-md-6">
-        <div class="plan-card featured">
-          <div class="plan-header">
-            <span class="plan-name">REGULAR</span>
-            <div class="plan-icon">
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F2B705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-          </div>
-          <div class="plan-body">
-            <p class="plan-tagline">Para operaciones en crecimiento</p>
-            <div class="plan-price">
-              <span class="currency">USD</span><span class="amount">99</span><span class="period">/mes</span>
-            </div>
-            <ul class="plan-features">
-              <li><span class="feature-icon">👤</span><div>26 cuentas de usuario<small>1 Administrador, 5 Supervisores, 20 Conductores</small></div></li>
-              <li><span class="feature-icon">🚚</span><div>20 vehículos</div></li>
-              <li><span class="feature-icon">⏱</span><div>Monitoreo en tiempo real</div></li>
-              <li><span class="feature-icon">🛣</span><div>Rutas y viajes</div></li>
-              <li><span class="feature-icon">📄</span><div>Reportes avanzados</div></li>
-              <li><span class="feature-icon">🔔</span><div>Alertas y notificaciones</div></li>
-              <li><span class="feature-icon">✅</span><div>Soporte prioritario</div></li>
-            </ul>
-            <button class="btn btn-warning w-100 mt-auto" (click)="selectPlan('regular')">Elegir plan</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- PREMIUM -->
-      <div class="col-lg-4 col-md-6">
-        <div class="plan-card premium">
-          <div class="plan-header">
-            <span class="plan-name">PREMIUM</span>
-            <div class="plan-icon">
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0D1B2A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9Z"/><path d="M2 9h20"/><path d="M12 3 8 9l4 12 4-12-4-6Z"/></svg>
-            </div>
-          </div>
-          <div class="plan-body">
-            <p class="plan-tagline">Máximo control y escalabilidad</p>
-            <div class="plan-price">
-              <span class="currency">USD</span><span class="amount">199</span><span class="period">/mes</span>
-            </div>
-            <ul class="plan-features">
-              <li><span class="feature-icon">👤</span><div>Usuarios ilimitados<small>Administradores, Supervisores y Conductores</small></div></li>
-              <li><span class="feature-icon">🚚</span><div>Vehículos ilimitados</div></li>
-              <li><span class="feature-icon">⏱</span><div>Monitoreo en tiempo real</div></li>
-              <li><span class="feature-icon">🛣</span><div>Rutas y viajes</div></li>
-              <li><span class="feature-icon">📄</span><div>Reportes avanzados e inteligentes</div></li>
-              <li><span class="feature-icon">🔗</span><div>Integraciones API</div></li>
-              <li><span class="feature-icon">✅</span><div>Soporte 24/7 y asesoría dedicada</div></li>
-              <li><span class="feature-icon">☁️</span><div>Almacenamiento en la nube</div></li>
-            </ul>
-            <button class="btn btn-primary w-100 mt-auto" (click)="selectPlan('premium')">Elegir plan</button>
-          </div>
-        </div>
-      </div>
+      
 
     </div>
   </div>
