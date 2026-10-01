@@ -13,7 +13,7 @@
           <i class="fa-solid fa-users text-primary"></i>
         </div>
         <div>
-          <div class="fs-4 fw-bold text-dark lh-1">19</div>
+          <div class="fs-4 fw-bold text-dark lh-1">24</div>
           <div class="text-secondary small">Usuarios totales</div>
         </div>
       </div>
@@ -117,21 +117,21 @@
         </thead>
         <tbody>
 
-          <tr>
+          <tr *ngFor="let u of users">
             <td>
               <div class="d-flex align-items-center gap-2">
                 <div class="user-avatar" style="width:36px;height:36px;font-size:.78rem;">RD</div>
                 <div>
-                  <div class="fw-semibold text-dark">Rosa Delgado Vera</div>
-                  <div class="text-secondary small">rosa.delgado@transportesandina.pe</div>
+                  <div class="fw-semibold text-dark">{{u.first_name}} {{u.last_name}}</div>
+                  <div class="text-secondary small">{{u.email}}</div>
                 </div>
               </div>
             </td>
-            <td>DNI 42 108 773</td>
-            <td><span class="badge text-bg-success">Administrador</span></td>
+            <td>{{u.document_id}}</td>
+            <td><span class="badge text-bg-success">{{u.role}}</span></td>
             <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
-            <td class="text-secondary small">Hoy, 08:12 a.m.</td>
-            <td><span class="badge text-bg-success">Activo</span></td>
+            <td class="text-secondary small">{{u.last_login | date:'dd/MM/yyyy hh:mm a'}}</td>
+            <td><span class="badge text-bg-success">{{u.is_active ? 'Activo' : 'Inactivo'}}</span></td>
             <td class="text-end">
               <div class="dropdown">
                 <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
@@ -147,149 +147,6 @@
                   </li>
                   <li><a class="dropdown-item text-danger" href="#"><i
                         class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar" style="width:36px;height:36px;font-size:.78rem;">MS</div>
-                <div>
-                  <div class="fw-semibold text-dark">Miguel Ángel Soto</div>
-                  <div class="text-secondary small">miguel.soto@transportesandina.pe</div>
-                </div>
-              </div>
-            </td>
-            <td>DNI 40 887 215</td>
-            <td><span class="badge text-bg-warning">Supervisor</span></td>
-            <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
-            <td class="text-secondary small">Hoy, 07:45 a.m.</td>
-            <td><span class="badge text-bg-success">Activo</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#userModal"><i
-                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-danger" href="#"><i
-                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar"
-                  style="width:36px;height:36px;font-size:.78rem;background:var(--mt-gris-mineral);">JP</div>
-                <div>
-                  <div class="fw-semibold text-dark">Jorge Paredes Luna</div>
-                  <div class="text-secondary small">jorge.paredes@transportesandina.pe</div>
-                </div>
-              </div>
-            </td>
-            <td>DNI 45 782 190</td>
-            <td><span class="badge rounded-pill text-bg-light border">Conductor</span></td>
-            <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
-            <td class="text-secondary small">Hoy, 07:42 a.m.</td>
-            <td><span class="badge text-bg-success">Activo</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#userModal"><i
-                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-danger" href="#"><i
-                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar"
-                  style="width:36px;height:36px;font-size:.78rem;background:var(--mt-gris-mineral);">AF</div>
-                <div>
-                  <div class="fw-semibold text-dark">Ana Flores Quispe</div>
-                  <div class="text-secondary small">ana.flores@transportesandina.pe</div>
-                </div>
-              </div>
-            </td>
-            <td>DNI 46 590 733</td>
-            <td><span class="badge rounded-pill text-bg-light border">Conductor</span></td>
-            <td><i class="fa-regular fa-circle-xmark text-secondary" title="2FA desactivado"></i></td>
-            <td class="text-secondary small">Hoy, 08:03 a.m.</td>
-            <td><span class="badge text-bg-success">Activo</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#userModal"><i
-                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-danger" href="#"><i
-                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar"
-                  style="width:36px;height:36px;font-size:.78rem;background:var(--mt-gris-mineral);">LC</div>
-                <div>
-                  <div class="fw-semibold text-dark">Luis Cárdenas Vega</div>
-                  <div class="text-secondary small">luis.cardenas@transportesandina.pe</div>
-                </div>
-              </div>
-            </td>
-            <td>DNI 43 018 265</td>
-            <td><span class="badge rounded-pill text-bg-light border">Conductor</span></td>
-            <td><i class="fa-regular fa-circle-xmark text-secondary" title="2FA desactivado"></i></td>
-            <td class="text-secondary small">Hace 12 días</td>
-            <td><span class="badge text-bg-secondary">Inactivo</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#userModal"><i
-                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-success" href="#"><i
-                        class="fa-regular fa-circle-check me-2"></i>Activar</a></li>
                 </ul>
               </div>
             </td>
