@@ -36,7 +36,8 @@
   </div>
 
   <div class="profile-select-footer">
-    <a href="index.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a>
+    <a [routerLink]="['/autenticacion/seleccionar-empresa']" *ngIf="userLoged.companies.length > 1" class="me-5"><i class="fa-solid fa-home"></i> Cambiar de Empresa</a>
+    <a [routerLink]="['/autenticacion/iniciar-sesion']" class="ms-5"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a>
   </div>
 
 </div>
