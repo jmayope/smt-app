@@ -1,0 +1,74 @@
+<!-- ==================================================================
+     new-route.html  — Modal Nueva / Editar Ruta
+     ================================================================== -->
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ new_route && new_route.editing ? 'Editar' : 'Nueva' }}&nbsp;Ruta</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <small class="text-secondary">Nombre de la ruta</small>
+    <input type="text" name="name" [(ngModel)]="new_route.name" class="form-control" placeholder="Ruta Cerro Norte — Planta P1">
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Punto de origen</small>
+        <input type="text" name="start_location" [(ngModel)]="new_route.start_location" class="form-control" placeholder="Cerro Norte">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Punto de destino</small>
+        <input type="text" name="end_location" [(ngModel)]="new_route.end_location" class="form-control" placeholder="Planta de Procesamiento P1">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Distancia (km)</small>
+        <input type="number" name="distance_km" [(ngModel)]="new_route.distance_km" class="form-control" placeholder="68">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Duración estimada (horas)</small>
+        <input type="number" step="0.1" name="estimated_duration_hours" [(ngModel)]="new_route.estimated_duration_hours" class="form-control" placeholder="1.5">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <small class="text-secondary">Descripción</small>
+    <textarea name="description" [(ngModel)]="new_route.description" class="form-control" rows="2" placeholder="Notas sobre el estado de la vía, restricciones, etc."></textarea>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group form-check mt-3">
+        <input type="checkbox" name="is_priority" [(ngModel)]="new_route.is_priority" class="form-check-input" id="isPriority">
+        <label class="form-check-label" for="isPriority">
+          <small class="text-secondary">Ruta prioritaria</small>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group form-check mt-3">
+        <input type="checkbox" name="is_active" [(ngModel)]="new_route.is_active" class="form-check-input" id="isActiveRoute">
+        <label class="form-check-label" for="isActiveRoute">
+          <small class="text-secondary">Ruta activa</small>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer text-center">
+  <button class="btn btn-primary" [disabled]="inserting" (click)="save()">
+    <i class="fa fa-save me-1"></i>Guardar
+  </button>
+</div>

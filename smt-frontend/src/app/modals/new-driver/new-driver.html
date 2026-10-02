@@ -1,0 +1,74 @@
+<!-- ==================================================================
+     new-driver.html  — Modal Nuevo / Editar Conductor
+     ================================================================== -->
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ new_driver && new_driver.editing ? 'Editar' : 'Nuevo' }}&nbsp;Conductor</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Nombres</small>
+        <input type="text" name="first_name" [(ngModel)]="new_driver.first_name" class="form-control" placeholder="Jorge">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Apellidos</small>
+        <input type="text" name="last_name" [(ngModel)]="new_driver.last_name" class="form-control" placeholder="Paredes Luna">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Documento de identidad</small>
+        <input type="text" name="document_id" [(ngModel)]="new_driver.document_id" class="form-control" placeholder="45782190">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Teléfono</small>
+        <input type="text" name="phone" maxlength="9" [(ngModel)]="new_driver.phone" class="form-control" placeholder="987654321">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <small class="text-secondary">Correo electrónico</small>
+    <input type="email" name="email" [(ngModel)]="new_driver.email" class="form-control" placeholder="jorge.paredes@empresa.pe">
+  </div>
+
+  <div class="form-group" *ngIf="!new_driver.editing">
+    <small class="text-secondary">Contraseña temporal</small>
+    <input type="password" name="password_hash" [(ngModel)]="new_driver.password_hash" class="form-control" placeholder="••••••••">
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group form-check mt-3">
+        <input type="checkbox" name="is_active" [(ngModel)]="new_driver.is_active" class="form-check-input" id="isActiveDriver">
+        <label class="form-check-label" for="isActiveDriver">
+          <small class="text-secondary">Conductor activo</small>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group form-check mt-3">
+        <input type="checkbox" name="has_2fa" [(ngModel)]="new_driver.has_2fa" class="form-check-input" id="has2faDriver">
+        <label class="form-check-label" for="has2faDriver">
+          <small class="text-secondary">Autenticación 2FA</small>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer text-center">
+  <button class="btn btn-primary" [disabled]="inserting" (click)="save()">
+    <i class="fa fa-save me-1"></i>Guardar
+  </button>
+</div>

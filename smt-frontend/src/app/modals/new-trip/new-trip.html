@@ -1,0 +1,104 @@
+<!-- ==================================================================
+     new-trip.html  — Modal Nuevo / Editar Viaje (transport_assignments)
+     ================================================================== -->
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ new_trip && new_trip.editing ? 'Editar' : 'Nuevo' }}&nbsp;Viaje</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Ruta</small>
+        <select name="route_id" [(ngModel)]="new_trip.route_id" class="form-select">
+          <option [ngValue]="undefined">--SELECCIONAR--</option>
+          <option *ngFor="let r of routes" [ngValue]="r.id">{{r.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Fecha del viaje</small>
+        <input type="date" name="assignment_date" [(ngModel)]="new_trip.assignment_date" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Vehículo</small>
+        <select name="vehicle_id" [(ngModel)]="new_trip.vehicle_id" class="form-select">
+          <option [ngValue]="undefined">--SELECCIONAR--</option>
+          <option *ngFor="let v of vehicles" [ngValue]="v.id">{{v.license_plate}} — {{v.brand}} {{v.model}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Conductor</small>
+        <select name="driver_id" [(ngModel)]="new_trip.driver_id" class="form-select">
+          <option [ngValue]="undefined">--SELECCIONAR--</option>
+          <option *ngFor="let d of drivers" [ngValue]="d.id">{{d.first_name}} {{d.last_name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Supervisor</small>
+        <select name="supervisor_id" [(ngModel)]="new_trip.supervisor_id" class="form-select">
+          <option [ngValue]="undefined">--SELECCIONAR--</option>
+          <option *ngFor="let s of supervisors" [ngValue]="s.id">{{s.first_name}} {{s.last_name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Carga estimada (toneladas)</small>
+        <input type="number" step="0.1" name="load_weight_tons" [(ngModel)]="new_trip.load_weight_tons" class="form-control" placeholder="28.5">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Hora estimada de inicio</small>
+        <input type="time" name="estimated_start_time" [(ngModel)]="new_trip.estimated_start_time" class="form-control">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Hora estimada de llegada</small>
+        <input type="time" name="estimated_end_time" [(ngModel)]="new_trip.estimated_end_time" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Material transportado</small>
+        <input type="text" name="material_type" [(ngModel)]="new_trip.material_type" class="form-control" placeholder="oro">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Estado</small>
+        <select name="status" [(ngModel)]="new_trip.status" class="form-select">
+          <option *ngFor="let st of status_options" [ngValue]="st.id">{{st.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer text-center">
+  <button class="btn btn-primary" [disabled]="inserting" (click)="save()">
+    <i class="fa fa-save me-1"></i>Guardar
+  </button>
+</div>

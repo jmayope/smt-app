@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ new_company && new_company.id ? 'Editar' : 'Nuevo' }}&nbsp;Compañia</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <small class="text-secondary">Nombre</small>
+    <input type="text" name="name" [(ngModel)]="new_company.name" class="form-control">
+  </div>
+  <div class="form-group">
+    <small class="text-secondary">Tipo de Compañia</small>
+    <select name="business_type" [(ngModel)]="new_company.business_type" class="form-select">
+      <option [ngValue]="undefined">--SELECCIONAR--</option>
+      <option *ngFor="let bt of business_types" [ngValue]="bt.id">{{bt.id}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <small class="text-secondary">RUC</small>
+    <input type="text" name="ruc" maxlength="11" [(ngModel)]="new_company.ruc" class="form-control">
+  </div>
+  <div class="form-group">
+    <small class="text-secondary">Telefono</small>
+    <input type="text" name="phone" maxlength="9" [(ngModel)]="new_company.phone" class="form-control">
+  </div>
+  <div class="form-group">
+    <small class="text-secondary">Dirección</small>
+    <input type="text" name="address" [(ngModel)]="new_company.address" class="form-control">
+  </div>
+</div>
+<div class="modal-footer text-center">
+  <button class="btn btn-primary" [disabled]="inserting" (click)="save()">
+    <i class="fa fa-save me-1"></i>Guardar
+  </button>
+</div>
