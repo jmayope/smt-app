@@ -117,21 +117,27 @@
         </thead>
         <tbody>
 
-          <tr>
+          <tr *ngFor="let i of incidents">
             <td>
               <div class="d-flex align-items-center gap-2">
                 <div class="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10"
                   style="width:32px;height:32px;">
                   <i class="fa-solid fa-car-burst text-danger" style="font-size:.8rem;"></i>
                 </div>
-                <span class="fw-semibold text-dark">Accidente</span>
+                <span class="fw-semibold text-dark">{{i.incident_type}}</span>
               </div>
             </td>
-            <td><span class="badge text-bg-danger">Crítica</span></td>
-            <td class="text-secondary small">Cerro Norte → Planta P1 · V1A-745</td>
-            <td class="text-secondary small" style="max-width:220px;">Colisión menor con otro vehículo en el km 32.</td>
-            <td class="text-secondary small">Hoy, 16:32</td>
-            <td><span class="badge text-bg-warning">Sin resolver</span></td>
+            <td><span class="badge text-white" [ngClass]="{'bg-danger': i.severity === 'critical', 'bg-primary': i.severity === 'high', 'bg-warning': i.severity === 'medium', 'bg-info': i.severity === 'low'}">{{i.severity}}</span></td>
+            <td class="text-secondary small">
+              <span *ngIf="i.assignment">
+                <span *ngIf="i.assignment.route">
+                  {{i.assignment.route.start_location}} → {{i.assignment.route.end_location}}
+                </span>
+              </span>
+            </td>
+            <td class="text-secondary small" style="max-width:220px;">{{i.description}}</td>
+            <td class="text-secondary small">{{i.reported_at | date: 'dd/MM/yyyy hh:mm a'}}</td>
+            <td><span class="badge text-white" [ngClass]="{'bg-warning': !i.is_resolved, 'bg-success': i.is_resolved}">{{i.is_resolved ? 'Resuelto': 'Sin resolver'}}</span></td>
             <td class="text-end">
               <div class="dropdown">
                 <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
@@ -146,125 +152,6 @@
                   </li>
                   <li><a class="dropdown-item text-success" href="#"><i
                         class="fa-regular fa-circle-check me-2"></i>Marcar como resuelto</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="rounded-circle d-flex align-items-center justify-content-center bg-warning bg-opacity-10"
-                  style="width:32px;height:32px;">
-                  <i class="fa-solid fa-screwdriver-wrench text-warning" style="font-size:.8rem;"></i>
-                </div>
-                <span class="fw-semibold text-dark">Falla mecánica</span>
-              </div>
-            </td>
-            <td><span class="badge text-bg-warning">Media</span></td>
-            <td class="text-secondary small">Tajo Sur → Planta P2 · V5E-274</td>
-            <td class="text-secondary small" style="max-width:220px;">Sobrecalentamiento del motor, se detuvo el viaje.
-            </td>
-            <td class="text-secondary small">Ayer, 11:20</td>
-            <td><span class="badge text-bg-success">Resuelto</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#incidentModal"><i
-                        class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10"
-                  style="width:32px;height:32px;">
-                  <i class="fa-solid fa-cloud-showers-heavy text-primary" style="font-size:.8rem;"></i>
-                </div>
-                <span class="fw-semibold text-dark">Clima</span>
-              </div>
-            </td>
-            <td><span class="badge rounded-pill text-bg-light border">Baja</span></td>
-            <td class="text-secondary small">Socavón 4 → Planta P1 · V4D-556</td>
-            <td class="text-secondary small" style="max-width:220px;">Vía con neblina densa, se redujo la velocidad de
-              tránsito.</td>
-            <td class="text-secondary small">Hace 2 días</td>
-            <td><span class="badge text-bg-success">Resuelto</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#incidentModal"><i
-                        class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10"
-                  style="width:32px;height:32px;">
-                  <i class="fa-solid fa-user-ninja text-danger" style="font-size:.8rem;"></i>
-                </div>
-                <span class="fw-semibold text-dark">Robo</span>
-              </div>
-            </td>
-            <td><span class="badge text-bg-danger">Crítica</span></td>
-            <td class="text-secondary small">Chosica → San Mateo · V2B-318</td>
-            <td class="text-secondary small" style="max-width:220px;">Intento de sustracción de carga reportado por el
-              conductor.</td>
-            <td class="text-secondary small">Hace 4 días</td>
-            <td><span class="badge text-bg-warning">Sin resolver</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#incidentModal"><i
-                        class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-file-shield me-2"></i>Registrar reclamo de
-                      seguro</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-success" href="#"><i
-                        class="fa-regular fa-circle-check me-2"></i>Marcar como resuelto</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="rounded-circle d-flex align-items-center justify-content-center bg-warning bg-opacity-10"
-                  style="width:32px;height:32px;">
-                  <i class="fa-solid fa-hourglass-half text-warning" style="font-size:.8rem;"></i>
-                </div>
-                <span class="fw-semibold text-dark">Retraso</span>
-              </div>
-            </td>
-            <td><span class="badge rounded-pill text-bg-light border">Baja</span></td>
-            <td class="text-secondary small">Mina Esperanza → Planta P3 · V1A-745</td>
-            <td class="text-secondary small" style="max-width:220px;">Retraso de 40 minutos por congestión en vía de
-              acceso.</td>
-            <td class="text-secondary small">Hace 6 días</td>
-            <td><span class="badge text-bg-success">Resuelto</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#incidentModal"><i
-                        class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
                 </ul>
               </div>
             </td>

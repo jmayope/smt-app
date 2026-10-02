@@ -11,7 +11,7 @@ export const SUBSCRIPTION_PACKAGES = 'subscription_packages';
 export const COMPANY_SUBSCRIPTIONS = 'company_subscriptions';
 export const ROUTES = 'routes';
 export const TRANSPORT_ASSIGNMENTS = 'transport_assignments';
-
+export const INCIDENTS = 'incidents';
 export const TOKEN_NAME = "smt-token";
 
 export const BUSINESS_TYPES = [

@@ -6,10 +6,15 @@ import { firstValueFrom } from 'rxjs';
 import { messageAlert, ROUTES, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
 import Swal from 'sweetalert2';
 import { NewDriver } from '../../modals/new-driver/new-driver';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-driver',
-  imports: [],
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './driver.html',
   styleUrl: './driver.css',
 })

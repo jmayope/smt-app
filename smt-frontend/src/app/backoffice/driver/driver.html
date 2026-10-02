@@ -113,186 +113,25 @@
         </thead>
         <tbody>
 
-          <tr>
+          <tr *ngFor="let d of drivers">
             <td>
               <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar" style="width:38px;height:38px;font-size:.78rem;">JP</div>
+                <div class="bg-primary text-white text-center rounded-circle pt-2" style="width: 40px; height: 40px;">{{d.first_name.substring(0,1)}}{{d.last_name.substring(0,1)}}</div>
                 <div>
-                  <div class="fw-semibold text-dark">Jorge Paredes Luna</div>
-                  <div class="text-secondary small">jorge.paredes@minertrans.pe</div>
+                  <div class="fw-semibold text-dark">{{d.first_name}} {{d.last_name}}</div>
+                  <div class="text-secondary small">{{d.email}}</div>
                 </div>
               </div>
             </td>
-            <td>DNI 45 782 190</td>
-            <td>+51 987 654 321</td>
+            <td>{{d.document_id}}</td>
+            <td>{{d.phone}}</td>
             <td>
               <div class="fw-semibold text-dark small">V1A-745</div>
               <div class="text-secondary small">Ruta Cerro Norte → Planta P1</div>
             </td>
-            <td class="text-secondary small">Hoy, 07:42 a.m.</td>
-            <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
-            <td><span class="badge text-bg-success">Activo</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
-                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-danger" href="#"><i
-                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar" style="width:38px;height:38px;font-size:.78rem;">MS</div>
-                <div>
-                  <div class="fw-semibold text-dark">María Salinas Torres</div>
-                  <div class="text-secondary small">maria.salinas@minertrans.pe</div>
-                </div>
-              </div>
-            </td>
-            <td>DNI 41 209 887</td>
-            <td>+51 988 213 044</td>
-            <td>
-              <div class="fw-semibold text-dark small">V5E-274</div>
-              <div class="text-secondary small">Ruta Tajo Sur → Planta P2</div>
-            </td>
-            <td class="text-secondary small">Hoy, 06:15 a.m.</td>
-            <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
-            <td><span class="badge text-bg-success">Activo</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
-                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-danger" href="#"><i
-                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar"
-                  style="width:38px;height:38px;font-size:.78rem;background:var(--mt-gris-mineral);">RH</div>
-                <div>
-                  <div class="fw-semibold text-dark">Renzo Huamán Díaz</div>
-                  <div class="text-secondary small">renzo.huaman@minertrans.pe</div>
-                </div>
-              </div>
-            </td>
-            <td>DNI 47 331 502</td>
-            <td>+51 966 704 118</td>
-            <td>
-              <div class="text-secondary small">Sin asignación activa</div>
-            </td>
-            <td class="text-secondary small">Ayer, 05:50 p.m.</td>
-            <td><i class="fa-regular fa-circle-xmark text-secondary" title="2FA desactivado"></i></td>
-            <td><span class="badge text-bg-light border text-warning"><i class="fa-solid fa-circle me-1"
-                  style="font-size:6px;"></i>Descanso</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
-                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-danger" href="#"><i
-                        class="fa-regular fa-trash-can me-2"></i>Desactivar</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar"
-                  style="width:38px;height:38px;font-size:.78rem;background:var(--mt-gris-mineral);">LC</div>
-                <div>
-                  <div class="fw-semibold text-dark">Luis Cárdenas Vega</div>
-                  <div class="text-secondary small">luis.cardenas@minertrans.pe</div>
-                </div>
-              </div>
-            </td>
-            <td>DNI 43 018 265</td>
-            <td>+51 977 340 662</td>
-            <td>
-              <div class="text-secondary small">Sin asignación activa</div>
-            </td>
-            <td class="text-secondary small">Hace 12 días</td>
-            <td><i class="fa-regular fa-circle-xmark text-secondary" title="2FA desactivado"></i></td>
-            <td><span class="badge text-bg-secondary">Inactivo</span></td>
-            <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                    class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
-                        class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-route me-2"></i>Ver asignaciones</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item text-success" href="#"><i
-                        class="fa-regular fa-circle-check me-2"></i>Activar</a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="user-avatar" style="width:38px;height:38px;font-size:.78rem;">AF</div>
-                <div>
-                  <div class="fw-semibold text-dark">Ana Flores Quispe</div>
-                  <div class="text-secondary small">ana.flores@minertrans.pe</div>
-                </div>
-              </div>
-            </td>
-            <td>DNI 46 590 733</td>
-            <td>+51 991 220 587</td>
-            <td>
-              <div class="fw-semibold text-dark small">V2B-318</div>
-              <div class="text-secondary small">Ruta Cerro Norte → Planta P1</div>
-            </td>
-            <td class="text-secondary small">Hoy, 08:03 a.m.</td>
-            <td><i class="fa-solid fa-shield-halved text-success" title="2FA activado"></i></td>
-            <td><span class="badge text-bg-success">Activo</span></td>
+            <td class="text-secondary small">{{d.last_login | date:'dd/MM/yyyy hh:mm a'}}</td>
+            <td><i class="fa-solid" [ngClass]="{'fa-shield-halved text-success': d.has_2fa, 'fa-times text-danger': !d.has_2fa}" title="2FA {{d.has_2fa ? 'Activado' : 'Inactivado'}}"></i></td>
+            <td><span class="badge text-bg-success">{{d.is_active ? 'Activo' : 'Inactivo'}}</span></td>
             <td class="text-end">
               <div class="dropdown">
                 <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
