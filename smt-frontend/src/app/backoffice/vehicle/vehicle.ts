@@ -1,17 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { NewVehicle } from '../modals/new-vehicle/new-vehicle';
 import { Supabase } from '../../services/supabase';
 import { firstValueFrom } from 'rxjs';
-import { VEHICLES } from '../../constants';
+import { VEHICLE_DOCUMENTS, VEHICLES } from '../../constants';
+import { Main } from '../../services/main';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-vehicle',
   imports: [
     CommonModule,
     FormsModule,
+    BsDropdownModule
   ],
   providers: [
     BsModalService
@@ -22,8 +25,10 @@ import { VEHICLES } from '../../constants';
 export class Vehicle implements OnInit {
 
   constructor(
+    private Main: Main,
     private modalService: BsModalService,
-    private Supabase: Supabase
+    private Supabase: Supabase,
+    private ChangeDetector: ChangeDetectorRef
   ) {
 
   }
@@ -47,16 +52,35 @@ export class Vehicle implements OnInit {
   ];
 
   vehicles: any[] = [];
-
+  vehicle_totals: any = {};
   modalRef?: BsModalRef;
+  user_loged: any;
 
   ngOnInit(): void {
+    this.user_loged = this.Main.getSession();
     this.getVehicles();
   }
 
   async getVehicles() {
-    let result: any = await firstValueFrom(this.Supabase.select(VEHICLES, {}));
+    let filters: any = {};
+    if (this.user_loged.currentCompany) {
+      filters.company_id = this.user_loged.currentCompany.id;
+    }
+    let result: any = await firstValueFrom(this.Supabase.select(VEHICLES, {filters: filters}));
     this.vehicles = result;
+    this.vehicle_totals.total = this.vehicles.length;
+    this.vehicle_totals.availables = this.vehicles.filter((v: any) => v.is_available).length;
+    this.vehicle_totals.actives = this.vehicles.filter((v: any) => v.is_active).length;
+    this.getVehicleDocuments();
+  }
+  
+  async getVehicleDocuments() {
+    let result_vehicle_documents: any = await firstValueFrom(this.Supabase.select(VEHICLE_DOCUMENTS, {filters: {vehicle_id: this.vehicles.map((v: any) => v.id)}}));
+    this.vehicles.map((v: any) => {
+      v.documents = result_vehicle_documents.filter((vd: any) => vd.vehicle_id === v.id);
+    });
+    console.log(this.vehicles);
+    this.ChangeDetector.detectChanges();
   }
 
   toggleVehicle(item?: any) {

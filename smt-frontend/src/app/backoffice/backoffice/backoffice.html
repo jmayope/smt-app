@@ -226,6 +226,10 @@
               <span class="u-email">
                 {{userLoged.email}}
               </span>
+              <br>
+              <span class="u-email" *ngIf="userLoged.currentCompany">
+                {{userLoged.currentCompany.name}}
+              </span>
 
             </div>
 

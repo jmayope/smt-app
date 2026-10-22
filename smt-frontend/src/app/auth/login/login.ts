@@ -66,7 +66,7 @@ export class Login implements OnInit {
     let userLoged = resultLogin[0];
     let resultUserCompanyRoles: any = await firstValueFrom(this.Supabase.select(USER_COMPANY_ROLES, {filters: {user_id: userLoged.id}}));
     if (!resultUserCompanyRoles.length) {
-      messageAlert("Validación", "No se tiene asignado ningun rol para este usuari", "warning")
+      messageAlert("Validación", "No se tiene asignado ningun rol para este usuario", "warning")
       return;
     }
     let resultCompaniesOfUser: any = await firstValueFrom(this.Supabase.select(COMPANIES, {filters: {id: resultUserCompanyRoles.map((r: any) => r.company_id)}}));
@@ -86,7 +86,8 @@ export class Login implements OnInit {
       Swal.close();
       if (userLoged.currentCompany.roles.length === 1) {
         userLoged.currentRole = userLoged.currentCompany.roles[0];
-        this.Router.navigate(["autenticacion/tablero"]);
+        this.Main.setSession(userLoged);
+        this.Router.navigate(["backoffice/tablero"]);
       } else {
         this.Router.navigate(["autenticacion/seleccionar-perfil"]);
       }

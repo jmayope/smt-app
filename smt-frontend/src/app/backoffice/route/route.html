@@ -53,7 +53,7 @@
               <i class="fa-solid fa-road text-success"></i>
             </div>
             <div>
-              <div class="fs-4 fw-bold text-dark lh-1">62 km</div>
+              <div class="fs-4 fw-bold text-dark lh-1">{{routes_totals.avg}} km</div>
               <div class="text-secondary small">Distancia promedio</div>
             </div>
           </div>
@@ -126,10 +126,10 @@
                 <td><span class="badge text-bg-danger">{{r.is_priority ? 'Prioritaria' : ''}}</span></td>
                 <td><span class="badge text-bg-success">{{r.is_active ? 'Activo' : 'Inactivo'}}</span></td>
                 <td class="text-end">
-                  <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
+                  <div class="dropdown" dropdown>
+                    <button class="btn btn-sm btn-outline-primary" dropdownToggle data-bs-toggle="dropdown"><i
                         class="fa-solid fa-ellipsis"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
                       <li><a class="dropdown-item" href="#"><i class="fa-solid fa-map-location-dot me-2"></i>Ver puntos
                           de ruta</a></li>
                       <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#routeModal"><i
@@ -148,15 +148,15 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between pt-3 mt-2 border-top">
-          <span class="text-secondary small">Mostrando 1–4 de 14 rutas</span>
-          <nav>
+          <span class="text-secondary small">Mostrando {{routes.length}} rutas</span>
+          <!-- <nav>
             <ul class="pagination pagination-sm mb-0">
               <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
               <li class="page-item active"><a class="page-link" href="#">1</a></li>
               <li class="page-item"><a class="page-link" href="#">2</a></li>
               <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
             </ul>
-          </nav>
+          </nav> -->
         </div>
 
       </div>
@@ -250,10 +250,10 @@
             <input type="date" class="form-control" style="max-width:160px;">
           </div>
 
-          <button type="button" class="btn btn-primary flex-shrink-0" data-bs-toggle="modal"
+          <!-- <button type="button" class="btn btn-primary flex-shrink-0" data-bs-toggle="modal"
             data-bs-target="#tripModal" (click)="toggleTrip()">
             <i class="fa-solid fa-plus me-1"></i> Nuevo viaje
-          </button>
+          </button> -->
         </div>
 
         <div class="table-responsive">
@@ -271,95 +271,26 @@
             </thead>
             <tbody>
 
-              <tr>
-                <td class="fw-semibold text-dark">Cerro Norte → Planta P1</td>
-                <td>V1A-745</td>
-                <td>Jorge Paredes Luna</td>
-                <td>28.5 t oro</td>
-                <td><span class="badge text-bg-success">En progreso</span></td>
-                <td class="text-secondary small">08:00 — 09:30 (est.)</td>
+              <tr *ngFor="let t of trips">
+                <td class="fw-semibold text-dark" *ngIf="t.route">{{t.route.start_location}} → {{t.route.end_location}}</td>
+                <td *ngIf="t.vehicle">{{t.vehicle.license_plate | uppercase}}</td>
+                <td *ngIf="t.driver">{{t.driver.first_name}} {{t.driver.last_name}}</td>
+                <td>{{t.load_weight_tons}} Tn {{t.material_type}}</td>
+                <td><span class="badge text-bg-success">Completado</span></td>
+                <td class="text-secondary small">{{t.estimated_start_time | date:'HH:mm a'}} — {{t.estimated_end_time | date:'HH:mm a'}} (est.)</td>
                 <td class="text-end">
-                  <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
+                  <div class="dropdown" dropdown>
+                    <button class="btn btn-sm btn-outline-primary" dropdownToggle data-bs-toggle="dropdown"><i
                         class="fa-solid fa-ellipsis"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-map-location-dot me-2"></i>Seguimiento
-                          en vivo</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+                      <!-- <li><a class="dropdown-item" href="#"><i class="fa-solid fa-map-location-dot me-2"></i>Seguimiento
+                          en vivo</a></li> -->
                       <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                      <li>
+                      <!-- <li>
                         <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item text-danger" href="#"><i class="fa-solid fa-ban me-2"></i>Cancelar
-                          viaje</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="fw-semibold text-dark">Chosica → San Mateo</td>
-                <td>V2B-318</td>
-                <td>Ana Flores Quispe</td>
-                <td>24.0 t oro</td>
-                <td><span class="badge text-bg-warning">Retrasado</span></td>
-                <td class="text-secondary small">07:15 — 08:45 (est.)</td>
-                <td class="text-end">
-                  <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                        class="fa-solid fa-ellipsis"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-map-location-dot me-2"></i>Seguimiento
-                          en vivo</a></li>
-                      <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item text-danger" href="#"><i class="fa-solid fa-ban me-2"></i>Cancelar
-                          viaje</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="fw-semibold text-dark">Tajo Sur → Planta P2</td>
-                <td>V5E-274</td>
-                <td>María Salinas Torres</td>
-                <td>25.0 t oro</td>
-                <td><span class="badge text-bg-secondary">Pendiente</span></td>
-                <td class="text-secondary small">10:00 — 11:05 (est.)</td>
-                <td class="text-end">
-                  <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                        class="fa-solid fa-ellipsis"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-play me-2"></i>Iniciar viaje</a></li>
-                      <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item text-danger" href="#"><i class="fa-solid fa-ban me-2"></i>Cancelar
-                          viaje</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="fw-semibold text-dark">Socavón 4 → Planta P1</td>
-                <td>V4D-556</td>
-                <td>Jorge Paredes Luna</td>
-                <td>30.0 t oro</td>
-                <td><span class="badge text-bg-primary">Completado</span></td>
-                <td class="text-secondary small">05:30 — 07:20</td>
-                <td class="text-end">
-                  <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
-                        class="fa-solid fa-ellipsis"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
-                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-file-arrow-down me-2"></i>Descargar
-                          constancia</a></li>
+                      </li> -->
+                      <!-- <li><a class="dropdown-item text-danger" href="#"><i class="fa-solid fa-ban me-2"></i>Cancelar
+                          viaje</a></li> -->
                     </ul>
                   </div>
                 </td>
@@ -369,16 +300,16 @@
           </table>
         </div>
 
-        <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between pt-3 mt-2 border-top">
-          <span class="text-secondary small">Mostrando 1–4 de 23 viajes</span>
-          <nav>
+        <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between pt-3 ">
+          <span class="text-secondary small">Mostrando {{trips.length}} viajes</span>
+          <!-- <nav>
             <ul class="pagination pagination-sm mb-0">
               <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
               <li class="page-item active"><a class="page-link" href="#">1</a></li>
               <li class="page-item"><a class="page-link" href="#">2</a></li>
               <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
             </ul>
-          </nav>
+          </nav> -->
         </div>
 
       </div>

@@ -4,14 +4,17 @@ export const SUPABASE_URL_C = "https://lfixohlfrqyzxilpdazs.supabase.co/rest/v1/
 export const SUPABASE_API_KEY_C = "sb_publishable_VwtDyc_4HoaLKyCLSr_ZKw_g_3xIvkN";
 
 export const VEHICLES = 'vehicles';
+export const VEHICLE_DOCUMENTS = 'vehicle_documents';
 export const USERS = 'users';
 export const COMPANIES = 'companies';
 export const USER_COMPANY_ROLES = 'user_company_roles';
 export const SUBSCRIPTION_PACKAGES = 'subscription_packages';
 export const COMPANY_SUBSCRIPTIONS = 'company_subscriptions';
 export const ROUTES = 'routes';
+export const ROUTE_POINTS = 'route_points';
 export const TRANSPORT_ASSIGNMENTS = 'transport_assignments';
 export const INCIDENTS = 'incidents';
+export const DAILY_REPORTS = 'daily_reports';
 export const TOKEN_NAME = "smt-token";
 
 export const BUSINESS_TYPES = [
@@ -21,6 +24,13 @@ export const BUSINESS_TYPES = [
   { id: "Logística"},
   { id: "Operaciones mineras"},
   { id: "Servicios mineros"}
+];
+
+export const ROLES = [
+  {id: 'administrador', name: 'Administrador'}, 
+  {id: 'administrador_empresa', name: 'Administrador de Empresa'}, 
+  {id: 'supervisor', name: 'Supervisor'}, 
+  {id: 'conductor', name: 'Conductor'}
 ];
 
 

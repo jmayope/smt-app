@@ -31,6 +31,8 @@ export class NewVehicle implements OnInit {
   ];
 
   vehicle: any = {};
+  new_document: any;
+  documents: any[] = [];
 
   ngOnInit(): void {
     if (this.vehicle.id) {
@@ -49,5 +51,13 @@ export class NewVehicle implements OnInit {
     let resultVehicleCreate = await firstValueFrom(this.Supabase.insert(VEHICLES, this.vehicle));
     console.log(resultVehicleCreate);
     this.bsModalRef.hide();
+  }
+
+
+  toggleDocument(document?: any) {
+    console.log(document);
+    if (!document) {
+      this.new_document = {};
+    }
   }
 }

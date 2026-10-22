@@ -1,1 +1,362 @@
-<p>dashboard works!</p>
+<!-- ==================================================================
+     dashboard.html  — Dashboard de MinerTrans
+     ================================================================== -->
+
+<!-- Encabezado -->
+<div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+  <div>
+    <h4 class="mb-0">Dashboard</h4>
+    <small class="text-secondary">Resumen de la operación al {{ today | date:'dd/MM/yyyy' }}</small>
+  </div>
+  <button class="btn btn-outline-primary" [disabled]="loading" (click)="refresh()">
+    <i class="fa me-1" [ngClass]="loading ? 'fa-spinner fa-spin' : 'fa-rotate'"></i>Actualizar
+  </button>
+</div>
+
+<!-- Carga inicial -->
+<div class="text-center py-5" *ngIf="!loaded">
+  <div class="spinner-border text-primary" role="status"></div>
+  <div class="text-secondary mt-2">Cargando información...</div>
+</div>
+
+<div *ngIf="loaded">
+
+  <!-- Alertas -->
+  <div class="alert alert-danger d-flex align-items-center" *ngIf="totals.incidents_critical > 0">
+    <i class="fa fa-triangle-exclamation me-2"></i>
+    <div>
+      Hay <strong>{{ totals.incidents_critical }}</strong> incidente(s) de severidad alta o crítica sin resolver.
+    </div>
+  </div>
+  <div class="alert alert-warning d-flex align-items-center" *ngIf="totals.documents_expired > 0">
+    <i class="fa fa-file-circle-exclamation me-2"></i>
+    <div>
+      Hay <strong>{{ totals.documents_expired }}</strong> documento(s) de vehículos vencidos.
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-2">
+            <i class="fa fa-truck-fast fa-fw text-primary"></i>
+          </div>
+          <div class="fs-4 fw-bold lh-1">{{ totals.trips_today }}</div>
+          <div class="text-secondary small">Viajes hoy</div>
+          <small class="text-secondary">{{ totals.trips_in_progress }} en progreso · {{ totals.trips_completed }} completados</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-block mb-2">
+            <i class="fa fa-truck fa-fw text-success"></i>
+          </div>
+          <div class="fs-4 fw-bold lh-1">{{ totals.vehicles_available }}<small class="text-secondary fs-6"> / {{ totals.vehicles_total }}</small></div>
+          <div class="text-secondary small">Vehículos disponibles</div>
+          <small class="text-secondary">{{ totals.vehicles_in_route }} en ruta · {{ totals.vehicles_maintenance }} en mantenimiento</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-block mb-2">
+            <i class="fa fa-id-card-clip fa-fw text-info"></i>
+          </div>
+          <div class="fs-4 fw-bold lh-1">{{ totals.drivers_available }}<small class="text-secondary fs-6"> / {{ totals.drivers_active }}</small></div>
+          <div class="text-secondary small">Conductores disponibles</div>
+          <small class="text-secondary">{{ totals.drivers_in_route }} en ruta</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="rounded-circle bg-danger bg-opacity-10 p-3 d-inline-block mb-2">
+            <i class="fa fa-triangle-exclamation fa-fw text-danger"></i>
+          </div>
+          <div class="fs-4 fw-bold lh-1">{{ totals.incidents_unresolved }}</div>
+          <div class="text-secondary small">Incidentes sin resolver</div>
+          <small class="text-secondary">{{ totals.incidents_critical }} alta / crítica</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="rounded-circle bg-warning bg-opacity-10 p-3 d-inline-block mb-2">
+            <i class="fa fa-weight-hanging fa-fw text-warning"></i>
+          </div>
+          <div class="fs-4 fw-bold lh-1">{{ totals.load_today | number:'1.0-1' }}<small class="text-secondary fs-6"> t</small></div>
+          <div class="text-secondary small">Carga programada hoy</div>
+          <small class="text-secondary">{{ totals.routes_priority }} rutas prioritarias activas</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="rounded-circle bg-secondary bg-opacity-10 p-3 d-inline-block mb-2">
+            <i class="fa fa-file-circle-exclamation fa-fw text-secondary"></i>
+          </div>
+          <div class="fs-4 fw-bold lh-1">{{ totals.documents_expiring }}</div>
+          <div class="text-secondary small">Documentos por vencer</div>
+          <small class="text-secondary">{{ totals.documents_expired }} ya vencidos</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Viajes de hoy + Estado de viajes -->
+  <div class="row g-4 mb-4">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="mb-3">Viajes de hoy</h5>
+
+          <div class="table-responsive" *ngIf="trips_today.length; else noTrips">
+            <table class="table table-hover align-middle mb-0">
+              <thead>
+                <tr class="text-secondary small text-uppercase">
+                  <th>Ruta</th>
+                  <th>Vehículo</th>
+                  <th>Conductor</th>
+                  <th>Carga</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let t of trips_today">
+                  <td class="fw-semibold">{{ t.route?.name || '—' }}</td>
+                  <td>{{ t.vehicle?.license_plate || '—' }}</td>
+                  <td>{{ t.driver ? (t.driver.first_name + ' ' + t.driver.last_name) : '—' }}</td>
+                  <td>{{ t.load_weight_tons ? (t.load_weight_tons + ' t') : '—' }}</td>
+                  <td><span class="badge" [ngClass]="t.badge_class">{{ t.status_label }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-template #noTrips>
+            <div class="text-center text-secondary py-4">
+              <i class="fa fa-route fa-2x mb-2 d-block"></i>
+              No hay viajes programados para hoy.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="mb-3">Estado de viajes (hoy)</h5>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between small mb-1">
+              <span class="fw-semibold">Completados</span>
+              <span class="text-secondary">{{ totals.trips_completed }} · {{ trip_status.completed_pct }}%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar bg-primary" [style.width.%]="trip_status.completed_pct"></div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between small mb-1">
+              <span class="fw-semibold">En progreso</span>
+              <span class="text-secondary">{{ totals.trips_in_progress }} · {{ trip_status.in_progress_pct }}%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar bg-success" [style.width.%]="trip_status.in_progress_pct"></div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between small mb-1">
+              <span class="fw-semibold">Pendientes</span>
+              <span class="text-secondary">{{ totals.trips_pending }} · {{ trip_status.pending_pct }}%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar bg-secondary" [style.width.%]="trip_status.pending_pct"></div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between small mb-1">
+              <span class="fw-semibold">Retrasados</span>
+              <span class="text-secondary">{{ totals.trips_delayed }} · {{ trip_status.delayed_pct }}%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar bg-warning" [style.width.%]="trip_status.delayed_pct"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="d-flex justify-content-between small mb-1">
+              <span class="fw-semibold">Cancelados</span>
+              <span class="text-secondary">{{ totals.trips_cancelled }} · {{ trip_status.cancelled_pct }}%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar bg-danger" [style.width.%]="trip_status.cancelled_pct"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico semanal + Plan -->
+  <div class="row g-4 mb-4">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Viajes completados (últimos 7 días)</h5>
+            <small class="text-secondary">
+              {{ totals.week_completed }} viajes · {{ totals.week_distance | number:'1.0-0' }} km · {{ totals.week_load | number:'1.0-0' }} t
+            </small>
+          </div>
+
+          <div class="d-flex align-items-end gap-3" style="height: 180px;" *ngIf="chart_days.length; else noChart">
+            <div class="d-flex flex-column flex-fill h-100 align-items-center" *ngFor="let d of chart_days">
+              <small class="text-secondary">{{ d.completed }}</small>
+              <div class="flex-grow-1 d-flex align-items-end w-100">
+                <div class="w-100 bg-primary rounded-top" [style.height.%]="d.height_pct" [style.min-height.px]="2"></div>
+              </div>
+              <small class="text-secondary mt-1">{{ d.label }}</small>
+            </div>
+          </div>
+          <ng-template #noChart>
+            <div class="text-center text-secondary py-4">Aún no hay reportes diarios generados.</div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="mb-3">Mi plan</h5>
+
+          <div *ngIf="plan_usage; else noPlan">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <span class="fs-5 fw-bold text-capitalize">{{ plan_usage.name }}</span>
+              <span class="badge text-bg-warning" *ngIf="plan_usage.is_trial">Prueba</span>
+              <span class="badge text-bg-success" *ngIf="!plan_usage.is_trial">Activo</span>
+            </div>
+            <div class="small mb-3" *ngIf="plan_usage.end_date">
+              <span class="text-secondary">Vence el {{ plan_usage.end_date | date:'dd/MM/yyyy' }}</span>
+              <span class="badge ms-1"
+                    [ngClass]="plan_usage.days_left <= 7 ? 'text-bg-danger' : 'text-bg-light border'">
+                {{ plan_usage.days_left < 0 ? 'Vencido' : (plan_usage.days_left + ' día(s)') }}
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small mb-1">
+                <span class="fw-semibold">Usuarios</span>
+                <span class="text-secondary">{{ plan_usage.users_used }} / {{ plan_usage.max_users }}</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" [ngClass]="plan_usage.users_bar" [style.width.%]="plan_usage.users_pct"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="d-flex justify-content-between small mb-1">
+                <span class="fw-semibold">Vehículos</span>
+                <span class="text-secondary">{{ plan_usage.vehicles_used }} / {{ plan_usage.max_vehicles }}</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" [ngClass]="plan_usage.vehicles_bar" [style.width.%]="plan_usage.vehicles_pct"></div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noPlan>
+            <div class="text-center text-secondary py-4">
+              <i class="fa fa-crown fa-2x mb-2 d-block"></i>
+              Tu empresa no tiene una suscripción activa.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Incidentes recientes + Documentos -->
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="mb-3">Incidentes recientes</h5>
+
+          <div *ngIf="recent_incidents.length; else noIncidents">
+            <div class="d-flex justify-content-between align-items-start py-2 border-bottom"
+                 *ngFor="let i of recent_incidents">
+              <div>
+                <div class="fw-semibold">{{ i.incident_type_label }}</div>
+                <small class="text-secondary d-block">
+                  {{ i.route?.name || 'Sin ruta asociada' }}<span *ngIf="i.vehicle"> · {{ i.vehicle.license_plate }}</span>
+                </small>
+                <small class="text-secondary">{{ i.reported_at | date:'dd/MM/yyyy HH:mm' }}</small>
+              </div>
+              <div class="text-end">
+                <span class="badge d-block mb-1" [ngClass]="i.badge_class">{{ i.severity_label }}</span>
+                <span class="badge" [ngClass]="i.is_resolved ? 'text-bg-success' : 'text-bg-warning'">
+                  {{ i.is_resolved ? 'Resuelto' : 'Sin resolver' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <ng-template #noIncidents>
+            <div class="text-center text-secondary py-4">
+              <i class="fa fa-circle-check fa-2x mb-2 d-block"></i>
+              No hay incidentes registrados.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="mb-3">Documentos por vencer</h5>
+
+          <div *ngIf="documents_alert.length; else noDocuments">
+            <div class="d-flex justify-content-between align-items-center py-2 border-bottom"
+                 *ngFor="let d of documents_alert">
+              <div>
+                <div class="fw-semibold">{{ d.document_type }}</div>
+                <small class="text-secondary d-block">
+                  Placa {{ d.vehicle?.license_plate || '—' }} · N° {{ d.document_number || '—' }}
+                </small>
+                <small class="text-secondary">Vence el {{ d.expiry_date | date:'dd/MM/yyyy' }}</small>
+              </div>
+              <span class="badge"
+                    [ngClass]="d.days_left < 0 ? 'text-bg-danger' : (d.days_left <= 7 ? 'text-bg-warning' : 'text-bg-light border')">
+                {{ d.days_left < 0 ? ('Vencido hace ' + (-d.days_left) + ' día(s)') : ('Vence en ' + d.days_left + ' día(s)') }}
+              </span>
+            </div>
+          </div>
+          <ng-template #noDocuments>
+            <div class="text-center text-secondary py-4">
+              <i class="fa fa-circle-check fa-2x mb-2 d-block"></i>
+              Todos los documentos están al día.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

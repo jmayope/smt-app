@@ -3,18 +3,20 @@ import { Main } from '../../services/main';
 import { Supabase } from '../../services/supabase';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { firstValueFrom } from 'rxjs';
-import { messageAlert, ROUTES, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
+import { messageAlert, ROUTE_POINTS, ROUTES, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
 import { NewRoute } from '../../modals/new-route/new-route';
 import Swal from 'sweetalert2';
 import { NewTrip } from '../../modals/new-trip/new-trip';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-route',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    BsDropdownModule
   ],
   templateUrl: './route.html',
   styleUrl: './route.css',
@@ -70,13 +72,28 @@ export class Route implements OnInit {
 
   async getRoutes() {
     this.routes = [];
+    let filters: any = {};
+    if (this.user_loged.currentCompany) {
+      filters.company_id = this.user_loged.currentCompany.id;
+    }
     let result_routes: any = await firstValueFrom(
-      this.Supabase.select(ROUTES, { filters: { company_id: this.user_loged.company_id } })
+      this.Supabase.select(ROUTES, { filters: filters })
     );
     this.routes = result_routes;
     this.routes_totals.total = this.routes.length;
     this.routes_totals.priority = this.routes.filter((r: any) => r.is_priority).length;
     this.routes_totals.active = this.routes.filter((r: any) => r.is_active).length;
+    this.routes_totals.avg = this.routes.reduce((m: number, i: any) => { return m + i.distance_km}, 0) / this.routes.length;
+    this.getRoutePoints();
+  }
+  
+  async getRoutePoints() {
+    let resultRoutePoints: any = await firstValueFrom(this.Supabase.select(ROUTE_POINTS, {filters: {route_id: this.routes.map((r: any) => r.id)}}));
+    console.log(resultRoutePoints);
+    this.routes.map((r: any) => {
+      r.points = resultRoutePoints.filter((p: any) => p.route_id === r.id);
+    });
+    console.log(this.routes);
     this.ChangeDetector.detectChanges();
   }
 
@@ -117,8 +134,12 @@ export class Route implements OnInit {
 
   async getTrips() {
     this.trips = [];
+    let filters: any = {status: 'completed'};
+    if (this.user_loged.currentCompany) {
+      filters.company_id = this.user_loged.currentCompany.id;
+    }
     let result_trips: any = await firstValueFrom(
-      this.Supabase.select(TRANSPORT_ASSIGNMENTS, { filters: { company_id: this.user_loged.company_id } })
+      this.Supabase.select(TRANSPORT_ASSIGNMENTS, { filters: filters })
     );
     this.trips = result_trips;
     this.trips_totals.total = this.trips.length;
@@ -129,28 +150,36 @@ export class Route implements OnInit {
   }
 
   async getTripsRelations() {
+    let filters: any = {};
+    if (this.user_loged.currentCompany) {
+      filters.company_id = this.user_loged.currentCompany.id;
+    }
     let result_vehicles: any = await firstValueFrom(
-      this.Supabase.select(VEHICLES, { filters: { company_id: this.user_loged.company_id } })
+      this.Supabase.select(VEHICLES, { filters: {} })
     );
     this.vehicles = result_vehicles;
 
     let result_drivers: any = await firstValueFrom(
-      this.Supabase.select(USERS, { filters: { company_id: this.user_loged.company_id, role: 'conductor' } })
+      this.Supabase.select(USERS, { filters: { role: 'conductor' } })
     );
     this.drivers = result_drivers;
 
     let result_supervisors: any = await firstValueFrom(
-      this.Supabase.select(USERS, { filters: { company_id: this.user_loged.company_id, role: 'supervisor' } })
+      this.Supabase.select(USERS, { filters: { company_id: this.user_loged.currentCompany.id, role: 'supervisor' } })
     );
     this.supervisors = result_supervisors;
 
+    let result_routes: any = await firstValueFrom(this.Supabase.select(ROUTES, {filters: {id: this.trips.map((t: any) => t.route_id)}}));
+    console.log(result_routes);
+
     this.trips.map((t: any) => {
-      t.route = this.routes.find((r: any) => r.id === t.route_id);
+      t.route = result_routes.find((r: any) => r.id === t.route_id);
       t.vehicle = this.vehicles.find((v: any) => v.id === t.vehicle_id);
       t.driver = this.drivers.find((d: any) => d.id === t.driver_id);
       t.supervisor = this.supervisors.find((s: any) => s.id === t.supervisor_id);
       t.status_label = this.status_labels[t.status] || t.status;
     });
+    console.log(this.trips);
 
     this.ChangeDetector.detectChanges();
   }

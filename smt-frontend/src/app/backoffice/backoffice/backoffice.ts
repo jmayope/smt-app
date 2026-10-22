@@ -23,8 +23,9 @@ export class Backoffice implements OnInit {
   mobileSidebarOpen = false;
   userDropdownOpen = false;
 
-  modules = [
+  modules: any = [
     {
+      id: 'main',
       name: 'General',
       icon: 'fa fa-cog',
       children: [
@@ -36,10 +37,12 @@ export class Backoffice implements OnInit {
       ]
     },
     {
+      id: 'operation',
       name: 'Operación',
       icon: 'fa fa-route',
       children: [
         {
+          id: 999,
           label: 'Compañias',
           icon: 'fa fa-building',
           route: '/backoffice/administracion-de-empresa'
@@ -96,6 +99,10 @@ export class Backoffice implements OnInit {
     this.sidebarCollapsed = sessionStorage.getItem('collapsed') ? sessionStorage.getItem('collapsed') === '1' : false;
     this.userLoged = this.Main.getSession();
     console.log(this.userLoged);
+    if (this.userLoged.currentCompany) {
+      let operationModule = this.modules.find((m: any) => m.id === 'operation');
+      operationModule!.children = operationModule?.children.filter((c: any) => c.id !== 999);
+    }
   }
 
   // =========================================================
