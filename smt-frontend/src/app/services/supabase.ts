@@ -127,5 +127,50 @@ export class Supabase {
     );
   }
 
+    /**
+   * Método genérico para ejecutar funciones (RPC / stored procedures)
+   * POST {SUPABASE_URL}rpc/{functionName}
+   *
+   * @param functionName Nombre de la función en Postgres (ej: 'generate_report')
+   * @param params       Parámetros de la función como objeto { nombre_param: valor }
+   * @param options      Opciones extra (ej: get para funciones STABLE/IMMUTABLE)
+   */
+  rpc<T = any>(
+    functionName: string,
+    params: Record<string, any> = {},
+    options: { get?: boolean } = {}
+  ): Observable<T> {
+    const url = `${this.SUPABASE_URL}rpc/${functionName}`;
+
+    // Opción GET: solo para funciones STABLE / IMMUTABLE (sin efectos secundarios)
+    if (options.get) {
+      let httpParams = new HttpParams();
+      Object.keys(params).forEach(key => {
+        const value = params[key];
+        if (value !== undefined && value !== null) {
+          httpParams = httpParams.set(
+            key,
+            typeof value === 'object' ? JSON.stringify(value) : String(value)
+          );
+        }
+      });
+
+      return this.http.get<T>(url, { headers: this.headers, params: httpParams }).pipe(
+        catchError(error => {
+          console.error(`Error en RPC (${functionName}):`, error);
+          return throwError(() => error);
+        })
+      );
+    }
+
+    // Por defecto: POST (funciona con cualquier función)
+    return this.http.post<T>(url, params, { headers: this.headers }).pipe(
+      catchError(error => {
+        console.error(`Error en RPC (${functionName}):`, error);
+        return throwError(() => error);
+      })
+    );
+  }
+
 
 }

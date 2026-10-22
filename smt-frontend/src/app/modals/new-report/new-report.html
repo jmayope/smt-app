@@ -1,0 +1,44 @@
+<!-- ==================================================================
+     new-report.html  — Modal "Generar reporte"
+     ================================================================== -->
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Generar reporte</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <small class="text-secondary">Tipo de reporte</small>
+    <select name="type" [(ngModel)]="new_report.type" class="form-select">
+      <option *ngFor="let rt of report_types" [ngValue]="rt.id">{{rt.name}}</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Desde</small>
+        <input type="date" name="from_date" [(ngModel)]="new_report.from_date" class="form-control">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <small class="text-secondary">Hasta</small>
+        <input type="date" name="to_date" [(ngModel)]="new_report.to_date" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <small class="text-secondary">Formato</small>
+    <select name="format" [(ngModel)]="new_report.format" class="form-select">
+      <option *ngFor="let f of formats" [ngValue]="f.id">{{f.name}}</option>
+    </select>
+  </div>
+</div>
+<div class="modal-footer text-center">
+  <button class="btn btn-primary" [disabled]="generating" (click)="generate()">
+    <i class="fa" [ngClass]="generating ? 'fa-spinner fa-spin' : 'fa-file-export'"></i>&nbsp;Generar
+  </button>
+</div>

@@ -1,0 +1,116 @@
+<!-- ==================================================================
+     new-vehicle.html  — Modal Nuevo / Editar Vehículo
+     ================================================================== -->
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ new_vehicle && new_vehicle.editing ? 'Editar' : 'Nuevo' }}&nbsp;Vehículo</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">Placa</small>
+        <input type="text" name="license_plate" [(ngModel)]="new_vehicle.license_plate" class="form-control" placeholder="V1A-745">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">Marca</small>
+        <input type="text" name="brand" [(ngModel)]="new_vehicle.brand" class="form-control" placeholder="Volvo">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">Modelo</small>
+        <input type="text" name="model" [(ngModel)]="new_vehicle.model" class="form-control" placeholder="FMX 440">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">Año</small>
+        <input type="number" name="year" [(ngModel)]="new_vehicle.year" class="form-control" placeholder="2024">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">Color</small>
+        <input type="text" name="color" [(ngModel)]="new_vehicle.color" class="form-control" placeholder="Amarillo">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">Tipo de vehículo</small>
+        <select name="vehicle_type" [(ngModel)]="new_vehicle.vehicle_type" class="form-select">
+          <option [ngValue]="undefined">--SELECCIONAR--</option>
+          <option *ngFor="let vt of vehicle_types" [ngValue]="vt.id">{{vt.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">Capacidad (toneladas)</small>
+        <select name="capacity_tons" [(ngModel)]="new_vehicle.capacity_tons" class="form-select">
+          <option [ngValue]="undefined">--SELECCIONAR--</option>
+          <option *ngFor="let c of capacities" [ngValue]="c">{{c}} t</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">Material transportado</small>
+        <input type="text" name="material_type" [(ngModel)]="new_vehicle.material_type" class="form-control" placeholder="oro">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <small class="text-secondary">N° de póliza de seguro</small>
+        <input type="text" name="insurance_number" [(ngModel)]="new_vehicle.insurance_number" class="form-control" placeholder="POL-2024-0093">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <small class="text-secondary">VIN</small>
+    <input type="text" name="vin" [(ngModel)]="new_vehicle.vin" class="form-control" placeholder="9BWZZZ377VT004251">
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group form-check mt-3">
+        <input type="checkbox" name="is_active" [(ngModel)]="new_vehicle.is_active" class="form-check-input" id="isActiveVehicle">
+        <label class="form-check-label" for="isActiveVehicle">
+          <small class="text-secondary">Vehículo activo</small>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group form-check mt-3">
+        <input type="checkbox" name="is_available" [(ngModel)]="new_vehicle.is_available" class="form-check-input" id="isAvailableVehicle">
+        <label class="form-check-label" for="isAvailableVehicle">
+          <small class="text-secondary">Disponible para asignación</small>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group form-check mt-3">
+        <input type="checkbox" name="has_maintenance_scheduled" [(ngModel)]="new_vehicle.has_maintenance_scheduled" class="form-check-input" id="hasMaintenanceVehicle">
+        <label class="form-check-label" for="hasMaintenanceVehicle">
+          <small class="text-secondary">Mantenimiento programado</small>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer text-center">
+  <button class="btn btn-primary" [disabled]="inserting" (click)="save()">
+    <i class="fa fa-save me-1"></i>Guardar
+  </button>
+</div>
