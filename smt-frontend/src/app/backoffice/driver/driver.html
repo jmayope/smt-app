@@ -133,10 +133,10 @@
             <td><i class="fa-solid" [ngClass]="{'fa-shield-halved text-success': d.has_2fa, 'fa-times text-danger': !d.has_2fa}" title="2FA {{d.has_2fa ? 'Activado' : 'Inactivado'}}"></i></td>
             <td><span class="badge text-bg-success">{{d.is_active ? 'Activo' : 'Inactivo'}}</span></td>
             <td class="text-end">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="dropdown"><i
+              <div class="dropdown" dropdown>
+                <button class="btn btn-sm btn-outline-primary" dropdownToggle data-bs-toggle="dropdown"><i
                     class="fa-solid fa-ellipsis"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu>
                   <li><a class="dropdown-item" href="#"><i class="fa-regular fa-eye me-2"></i>Ver detalle</a></li>
                   <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#driverModal"><i
                         class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>

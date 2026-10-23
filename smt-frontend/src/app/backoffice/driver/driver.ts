@@ -8,12 +8,14 @@ import Swal from 'sweetalert2';
 import { NewDriver } from '../../modals/new-driver/new-driver';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-driver',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    BsDropdownModule
   ],
   templateUrl: './driver.html',
   styleUrl: './driver.css',

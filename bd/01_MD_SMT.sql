@@ -19,7 +19,7 @@ CREATE TABLE users (
     last_name VARCHAR(100),
     document_id VARCHAR(50),
     phone VARCHAR(50),
-    role VARCHAR(50) CHECK (role IN ('administrador', 'administrador_empresa', 'supervisor', 'conductor')),
+    role VARCHAR(50) CHECK (role IN ('admin', 'admin_entity', 'supervisor', 'driver')),
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     last_login TIMESTAMP,
@@ -314,3 +314,22 @@ CREATE TABLE vehicle_usage_stats (
     is_optimized BOOLEAN DEFAULT FALSE
 );
 
+CREATE TABLE menus(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tag VARCHAR(50),
+    name VARCHAR(255),
+    description TEXT,
+    icon VARCHAR(50),
+    parent_id UUID,
+    additional_fields VARCHAR(5000),
+    status BOOLEAN DEFAULT TRUE,
+    create_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE menu_by_roles(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    role VARCHAR(50) CHECK (role IN ('admin', 'admin_entity<', 'supervisor', 'driver', 'viewer')),
+    menu_id UUID,
+    status BOOLEAN DEFAULT TRUE,
+    create_at TIMESTAMP DEFAULT NOW()
+);
