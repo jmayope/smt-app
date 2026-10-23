@@ -25,10 +25,10 @@
   <div class="row g-4 justify-content-center">
 
     <!-- ============ RESUMEN DEL PLAN ============ -->
-    <div class="col-lg-4">
+    <div class="col-lg-4" *ngIf="package_selected">
       <div class="plan-card featured" id="planSummaryCard" style="position:sticky; top:1.5rem;">
         <div class="plan-header">
-          <span class="plan-name" id="planName">REGULAR</span>
+          <span class="plan-name" id="planName">{{package_selected.name | uppercase}}</span>
           <div class="plan-icon">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F2B705" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" id="planIconSvg">
@@ -42,15 +42,15 @@
         <div class="plan-body">
           <p class="plan-tagline" id="planTagline">Para operaciones en crecimiento</p>
           <div class="plan-price">
-            <span class="currency">USD</span><span class="amount" id="planAmount">99</span><span
+            <span class="currency">USD</span><span class="amount" id="planAmount">{{package_selected.price | number: '1.2-2'}}</span><span
               class="period">/mes</span>
           </div>
           <ul class="plan-features" id="planFeaturesList">
             <li><span class="feature-icon">👤</span>
-              <div>26 cuentas de usuario<small>1 Administrador, 5 Supervisores, 20 Conductores</small></div>
+              <div>{{package_selected.max_users}} cuentas de usuario<small>{{package_selected.max_users - package_selected.max_supervisors - package_selected.max_drivers}} Administrador, {{package_selected.max_supervisors}} Supervisores, {{package_selected.max_drivers}} Conductores</small></div>
             </li>
             <li><span class="feature-icon">🚚</span>
-              <div>20 vehículos</div>
+              <div>{{package_selected.max_vehicles}} vehículos</div>
             </li>
             <li><span class="feature-icon">⏱</span>
               <div>Monitoreo en tiempo real</div>
@@ -69,162 +69,178 @@
 
     <!-- ============ FORMULARIO ============ -->
     <div class="col-lg-7">
-      <div class="login-card">
-        <h2>Datos de la empresa</h2>
-        <p class="subtitle">Información general de tu operación minera</p>
-
-        <form>
-          <div class="row g-3 mb-2">
-            <div class="col-md-8">
-              <label class="form-label small fw-semibold text-dark">Razón social</label>
-              <input type="text" class="form-control" placeholder="Transportes Andina S.A.C.">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label small fw-semibold text-dark">RUC</label>
-              <input type="text" class="form-control" placeholder="20601234567">
-            </div>
-          </div>
-
-          <div class="row g-3 mb-2">
-            <div class="col-md-6">
-              <label class="form-label small fw-semibold text-dark">Tipo de negocio</label>
-              <select class="form-select">
-                <option selected>Transporte de mineral</option>
-                <option>Minería aurífera</option>
-                <option>Operador logístico</option>
-                <option>Otro</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label small fw-semibold text-dark">Teléfono de la empresa</label>
-              <div class="input-icon-group">
-                <span class="input-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path
-                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                </span>
-                <input type="text" class="form-control" placeholder="+51 1 234 5678">
+      <form #companyForm="ngForm">
+        <div class="login-card">
+          <h2>Datos de la empresa</h2>
+          <p class="subtitle">Información general de tu operación minera</p>
+  
+          <form>
+            <div class="row g-3 mb-2">
+              <div class="col-md-8">
+                <label class="form-label small fw-semibold text-dark">Razón social</label>
+                <input type="text" class="form-control" name="new_company.name" [(ngModel)]="new_company.name" placeholder="Transportes Andina S.A.C." required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold text-dark">RUC</label>
+                <input type="text" class="form-control" maxlength="11" name="new_company.ruc" [(ngModel)]="new_company.ruc" placeholder="20601234567" required>
               </div>
             </div>
-          </div>
-
-          <div class="mb-4">
-            <label class="form-label small fw-semibold text-dark">Dirección</label>
-            <div class="input-icon-group">
-              <span class="input-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-              </span>
-              <input type="text" class="form-control" placeholder="Av. Industrial 450, Lima">
-            </div>
-          </div>
-
-          <hr class="mb-4" style="border-color: var(--mt-gris-claro);">
-
-          <h2 style="font-size:1.15rem;">Datos del administrador</h2>
-          <p class="subtitle" style="margin-bottom:1.2rem;">Esta persona tendrá acceso total al sistema</p>
-
-          <div class="row g-3 mb-2">
-            <div class="col-md-6">
-              <label class="form-label small fw-semibold text-dark">Nombres</label>
-              <input type="text" class="form-control" placeholder="Rosa">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label small fw-semibold text-dark">Apellidos</label>
-              <input type="text" class="form-control" placeholder="Delgado Vera">
-            </div>
-          </div>
-
-          <div class="row g-3 mb-2">
-            <div class="col-md-6">
-              <label class="form-label small fw-semibold text-dark">Documento de identidad</label>
-              <input type="text" class="form-control" placeholder="DNI / Carné de extranjería">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label small fw-semibold text-dark">Teléfono personal</label>
-              <input type="text" class="form-control" placeholder="+51 987 654 321">
-            </div>
-          </div>
-
-          <div class="mb-2">
-            <label class="form-label small fw-semibold text-dark">Correo electrónico</label>
-            <div class="input-icon-group">
-              <span class="input-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="m22 7-10 6L2 7" />
-                </svg>
-              </span>
-              <input type="email" class="form-control" placeholder="rosa.delgado@empresa.pe">
-            </div>
-          </div>
-
-          <div class="row g-3 mb-4">
-            <div class="col-md-6">
-              <label class="form-label small fw-semibold text-dark">Contraseña</label>
-              <div class="input-icon-group">
-                <span class="input-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" />
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                  </svg>
-                </span>
-                <input type="password" class="form-control" placeholder="Crea una contraseña" id="regPassword">
-                <button type="button" class="toggle-visibility" data-target="regPassword"
-                  aria-label="Mostrar contraseña">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                </button>
+  
+            <div class="row g-3 mb-2">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Tipo de negocio</label>
+                <select class="form-select" name="new_company.business_type" [(ngModel)]="new_company.business_type" required>
+                  <option [ngValue]="undefined">--SELECCIONE TIPO--</option>
+                  <option [ngValue]="'MINERAL'">Transporte de mineral</option>
+                  <option [ngValue]="'MINERAL-AURIFERA'">Minería aurífera</option>
+                  <option [ngValue]="'LOGISTICO'">Operador logístico</option>
+                  <option [ngValue]="'OTRO'">Otro</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Teléfono de la empresa</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                  </span>
+                  <input type="text" class="form-control" maxlength="12" name="new_company.phone" [(ngModel)]="new_company.phone" placeholder="+51 1 234 5678" required>
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <label class="form-label small fw-semibold text-dark">Confirmar contraseña</label>
-              <div class="input-icon-group">
-                <span class="input-icon">
+  
+            <div class="mb-4">
+              <label class="form-label small fw-semibold text-dark">Dirección</label>
+              <div class="input-group">
+                <span class="input-group-text">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" />
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z" />
+                    <circle cx="12" cy="10" r="3" />
                   </svg>
                 </span>
-                <input type="password" class="form-control" placeholder="Repite tu contraseña" id="regPasswordConfirm">
-                <button type="button" class="toggle-visibility" data-target="regPasswordConfirm"
-                  aria-label="Mostrar contraseña">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                </button>
+                <input type="text" class="form-control" name="new_company.address" [(ngModel)]="new_company.address" placeholder="Av. Industrial 450, Lima" required>
               </div>
             </div>
-          </div>
-
-          <div class="form-check mb-4">
-            <input class="form-check-input" type="checkbox" id="terms">
-            <label class="form-check-label small text-secondary" for="terms">
-              Acepto los <a href="#" class="link-forgot">Términos y condiciones</a> y la <a href="#"
-                class="link-forgot">Política de privacidad</a> de MinerTrans.
-            </label>
-          </div>
-
-          <button type="submit" class="btn btn-primary w-100 btn-lg">Crear cuenta y continuar</button>
-
-          <p class="text-center text-secondary small mt-4 mb-0">
-            ¿Ya tienes una cuenta? <a href="index.html" class="link-forgot">Inicia sesión</a>
-          </p>
-        </form>
-      </div>
+  
+            <hr class="mb-4" style="border-color: var(--mt-gris-claro);">
+  
+            <h2 style="font-size:1.15rem;">Datos del administrador</h2>
+            <p class="subtitle" style="margin-bottom:1.2rem;">Esta persona tendrá acceso total al sistema</p>
+  
+            <div class="row g-3 mb-2">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Nombres</label>
+                <input type="text" class="form-control" name="new_user.first_name" [(ngModel)]="new_user.first_name" placeholder="Rosa" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Apellidos</label>
+                <input type="text" class="form-control" name="new_user.last_name" [(ngModel)]="new_user.last_name" placeholder="Delgado Vera" required>
+              </div>
+            </div>
+  
+            <div class="row g-3 mb-2">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Documento de identidad</label>
+                <input type="text" class="form-control" maxlength="8" name="new_user.document_id" [(ngModel)]="new_user.document_id" placeholder="DNI / Carné de extranjería">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Teléfono personal</label>
+                <input type="text" class="form-control" maxlength="12" name="new_user.phone" [(ngModel)]="new_user.phone" placeholder="+51 987 654 321" required>
+              </div>
+            </div>
+  
+            <div class="mb-2">
+              <label class="form-label small fw-semibold text-dark">Correo electrónico</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="m22 7-10 6L2 7" />
+                  </svg>
+                </span>
+                <input type="email" class="form-control" name="new_user.email" [(ngModel)]="new_user.email" placeholder="rosa.delgado@empresa.pe" required>
+              </div>
+            </div>
+  
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Contraseña</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  </span>
+                  <input type="{{show_password ? 'text' : 'password'}}" class="form-control" name="new_user.password_hash" [(ngModel)]="new_user.password_hash" placeholder="Crea una contraseña" id="regPassword" required>
+                  <button type="button" class="btn toggle-visibility" [ngClass]="{'btn-light': !show_password, 'btn-primary': show_password}" (click)="togglePassword()" data-target="regPassword"
+                    aria-label="Mostrar contraseña">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-dark">Confirmar contraseña</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  </span>
+                  <input type="{{show_password ? 'text' : 'password'}}" class="form-control" name="new_user.confirm_password" [(ngModel)]="new_user.confirm_password" placeholder="Repite tu contraseña" id="regPasswordConfirm" required>
+                  <button type="button" class="btn toggle-visibility" [ngClass]="{'btn-light': !show_password, 'btn-primary': show_password}" (click)="togglePassword()" data-target="regPasswordConfirm"
+                    aria-label="Mostrar contraseña">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" name="new_company.accept_terms" [(ngModel)]="new_company.accept_terms" id="terms" required>
+              <label class="form-check-label small text-secondary" for="terms">
+                Acepto los <a class="link-forgot">Términos y condiciones</a> y la <a href="#"
+                  class="link-forgot">Política de privacidad</a> de MinerTrans.
+              </label>
+            </div>
+  
+            <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="companyForm.invalid || registering" (click)="register()">
+              <div *ngIf="registering">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-secondary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+              <span *ngIf="!registering">Crear cuenta y continuar</span>
+            </button>
+  
+            <p class="text-center text-secondary small mt-4 mb-0">
+              ¿Ya tienes una cuenta? <a href="index.html" class="link-forgot">Inicia sesión</a>
+            </p>
+          </form>
+        </div>
+      </form>
     </div>
 
   </div>
