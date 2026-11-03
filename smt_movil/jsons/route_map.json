@@ -1,0 +1,15 @@
+{
+  "id?": "7bcedb6e-8ca8-4097-8c4b-798012bc20a4",
+  "company_id?": "f8d91fca-1b4b-4e57-b6e5-b79fca38ede2",
+  "name?": "Ruta Mina Central - Planta Norte",
+  "start_location?": "Mina Central",
+  "end_location?": "Planta Norte",
+  "distance_km?": "185.50",
+  "estimated_duration_hours?": "4.80",
+  "description?": "Transporte de mineral desde Mina Central hacia Planta Norte.",
+  "created_at?": "2026-09-04 19:34:24.792728",
+  "updated_at?": "2026-09-04 19:34:24.792728",
+  "is_active?": true,
+  "is_priority?": true,
+  "progress_text?": "asasd asd " 
+}
