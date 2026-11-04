@@ -1,0 +1,12 @@
+{
+  "id?": "55ee45e5-b4bd-43d7-89a6-d0eb8696e6d0",
+  "company_id?": "f8d91fca-1b4b-4e57-b6e5-b79fca38ede2",
+  "package_id?": "58b94ed8-cda0-424c-aeec-6ac15e0317de",
+  "package?": "$subscription_package",
+  "start_date?": "@datetime",
+  "end_date?": "@datetime",
+  "created_at?": "@datetime",
+  "updated_at?": "@datetime",
+  "is_active?": true,
+  "is_trial?": false
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:smt_movil/app/data/constants.dart';
+import 'package:smt_movil/app/helpers/main.helper.dart';
 import 'package:smt_movil/app/theme/app_colors.dart';
 
 import '../controllers/home_controller.dart';
@@ -72,21 +73,26 @@ class HomeView extends GetView<HomeController> {
             children: [
               // Avatar
               Obx(
-                () => Container(
-                  width: 46,
-                  height: 46,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.15),
-                    border: Border.all(color: Colors.white, width: 1.5),
-                  ),
-                  child: Center(
-                    child: Text(
-                      controller.userLoged.value.firstName!.substring(0,2),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                () => InkWell(
+                  onTap: () {
+                    controller.goToProfile();
+                  },
+                  child: Container(
+                    width: 46,
+                    height: 46,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.15),
+                      border: Border.all(color: Colors.white, width: 1.5),
+                    ),
+                    child: Center(
+                      child: Text(
+                        initials(controller.userLoged.value),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),

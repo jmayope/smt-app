@@ -41,6 +41,10 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
+  Future<void> goToProfile() async {
+    Get.offAllNamed(Routes.USER_PROFILE);
+  }
+
   Future<void> refreshData() async {
 
   }

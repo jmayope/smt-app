@@ -1,0 +1,13 @@
+{
+  "id?": "39324c1b-1365-4e96-81ac-450dace77943",
+  "name?": "ULTIMATE",
+  "description?": "Plan máximo para operaciones empresariales sin restricciones operativas básicas.",
+  "max_users?": 500,
+  "max_supervisors?": 100,
+  "max_drivers?": 400,
+  "max_vehicles?": 400,
+  "price?": 1499.90,
+  "created_at?": "@datetime",
+  "is_active?": true,
+  "duration_in_days?": -1
+}

@@ -34,7 +34,8 @@ class RegisterController extends GetxController {
   final validatingEntity = false.obs;
   final validatingUser = false.obs;
   final registering = false.obs;
-
+  final subscriptionPackages = <SubscriptionPackage>[].obs;
+  final subscriptionPackageSelectedId = ''.obs;
   final supabase = Get.put(SupabaseService());
 
   // Uso de GlobalFormState
@@ -53,6 +54,12 @@ class RegisterController extends GetxController {
       TableType(code: "LOGISTICA", name: "LOGISTICA"),
       TableType(code: "OPERACIONES", name: "OPERACIONES"),
     ];
+    final resultSubscriptionPackages = await supabase.select(SUBSCRIPTION_PACKAGES, filters: {"is_active": true});
+    if ((resultSubscriptionPackages as Iterable).isEmpty) {
+      Get.snackbar("Error", "No se tienen registrados ningún Paquete de Subscripción.");
+      return;
+    }
+    subscriptionPackages.value = (resultSubscriptionPackages as Iterable).map((sp) => SubscriptionPackage.fromJson(sp)).toList();
     businessTypeSelected.value = businessTypes.first;
     loading.value = false;
   }
@@ -96,6 +103,24 @@ class RegisterController extends GetxController {
         return;
       }
       companySelected.value = companyCreateds.first;
+
+      // REGISTRANDO EL PACKAGE SUBSCRIPTION DE LA EMPRESA
+      SubscriptionPackage subscriptionPackage = subscriptionPackages.singleWhere((s) => s.id == subscriptionPackageSelectedId.value);
+      final newCompanySubscription = {
+        "company_id": companySelected.value.id,
+        "package_id": subscriptionPackage.id,
+        "start_date": DateTime.now().toIso8601String(),
+        "end_date": DateTime.now().add(Duration(days: subscriptionPackage.durationInDays! == -1 ? 31 : subscriptionPackage.durationInDays!)),
+        "is_active": true,
+        "is_trial": subscriptionPackage.durationInDays! != -1
+      };
+
+      final resultCompanySubscription = await supabase.insert(COMPANY_SUBSCRIPTIONS, newCompanySubscription);
+      if ((resultCompanySubscription as Iterable).isEmpty) {
+        Get.snackbar("Error", "Hubo un error al momento de registrar la subscripción de la Empresa");
+        return;
+      }
+      
     }
 
     if (!userExists.value) {
@@ -107,7 +132,7 @@ class RegisterController extends GetxController {
         "last_name": lastName.value.text,
         "document_id" : documentNumber.value.text,
         "phone": phone.value.text,
-        "role": isNewCompany.value ? 'administrador_empresa' : 'asociado',
+        "role": isNewCompany.value ? 'administrador_empresa' : 'conductor',
         "is_active": false,
         "has_2fa": false
       };
@@ -140,6 +165,8 @@ class RegisterController extends GetxController {
     Get.snackbar("Éxito", isNewCompany.value ? "Se creó la empresa y el Usuario. Espere la validación" : "Se creó correctamente el usuario.");
     Get.offAllNamed(Routes.LOGIN);
   }
+
+  void selectPlan(String id) => subscriptionPackageSelectedId.value = id;
 
   Future<void> validateUser() async {
     userExists.value = false;

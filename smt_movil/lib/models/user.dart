@@ -35,9 +35,9 @@ class User {
   final String? documentId;
   final String? phone;
   final String? role;
-  final String? createdAt;
-  final String? updatedAt;
-  final String? lastLogin;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final DateTime? lastLogin;
   final bool? isActive;
   final bool? has2fa;
   final Company? currentCompany;
@@ -54,9 +54,9 @@ class User {
     documentId: json['document_id']?.toString(),
     phone: json['phone']?.toString(),
     role: json['role']?.toString(),
-    createdAt: json['created_at']?.toString(),
-    updatedAt: json['updated_at']?.toString(),
-    lastLogin: json['last_login']?.toString(),
+    createdAt: json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : null,
+    updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : null,
+    lastLogin: json['last_login'] != null ? DateTime.parse(json['last_login'] as String) : null,
     isActive: json['is_active'] != null ? json['is_active'] as bool : null,
     has2fa: json['has_2fa'] != null ? json['has_2fa'] as bool : null,
     currentCompany: json['currentCompany'] != null ? Company.fromJson(json['currentCompany'] as Map<String, dynamic>) : null,
@@ -74,9 +74,9 @@ class User {
     'document_id': documentId,
     'phone': phone,
     'role': role,
-    'created_at': createdAt,
-    'updated_at': updatedAt,
-    'last_login': lastLogin,
+    'created_at': createdAt?.toIso8601String(),
+    'updated_at': updatedAt?.toIso8601String(),
+    'last_login': lastLogin?.toIso8601String(),
     'is_active': isActive,
     'has_2fa': has2fa,
     'currentCompany': currentCompany?.toJson(),
@@ -115,9 +115,9 @@ class User {
     Optional<String?>? documentId,
     Optional<String?>? phone,
     Optional<String?>? role,
-    Optional<String?>? createdAt,
-    Optional<String?>? updatedAt,
-    Optional<String?>? lastLogin,
+    Optional<DateTime?>? createdAt,
+    Optional<DateTime?>? updatedAt,
+    Optional<DateTime?>? lastLogin,
     Optional<bool?>? isActive,
     Optional<bool?>? has2fa,
     Optional<Company?>? currentCompany,

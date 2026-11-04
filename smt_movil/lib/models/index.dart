@@ -1,4 +1,6 @@
+export 'company_subscription.dart';
 export 'table_type.dart';
+export 'subscription_package.dart';
 export 'user_company_role.dart';
 export 'user.dart';
 export 'company.dart';

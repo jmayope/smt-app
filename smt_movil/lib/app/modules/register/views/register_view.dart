@@ -192,7 +192,8 @@ class RegisterView extends GetView<RegisterController> {
                     Text(
                       "Datos de la Empresa",
                       style: TextStyle(
-                        color: AppColors.navy
+                        color: AppColors.navy,
+                        fontWeight: FontWeight.w500
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -239,6 +240,7 @@ class RegisterView extends GetView<RegisterController> {
                       keyboardType: TextInputType.name,
                       textCapitalization: TextCapitalization.words,
                       enabled: controller.isValid.value,
+                      maxLength: 9,
                       decoration: _inputDecoration(
                         hint: 'Telefono',
                         icon: Icons.phone,
@@ -262,7 +264,8 @@ class RegisterView extends GetView<RegisterController> {
                   Text(
                     controller.isNewCompany.value ? "Datos del Representante Legal" : "Datos del Colaborador",
                     style: TextStyle(
-                      color: AppColors.navy
+                      color: AppColors.navy,
+                      fontWeight: FontWeight.w500
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -271,6 +274,7 @@ class RegisterView extends GetView<RegisterController> {
                     keyboardType: TextInputType.number,
                     textCapitalization: TextCapitalization.words,
                     enabled: controller.isValid.value,
+                    maxLength: 8,
                     decoration: _inputDecoration(
                       hint: 'Número de Documento',
                       icon: Icons.card_membership,
@@ -279,7 +283,6 @@ class RegisterView extends GetView<RegisterController> {
                         icon: Icon(Icons.search)
                       )
                     ),
-                    
                     validator: validateDocumentNumber,
                   ),
                   const SizedBox(height: 12),
@@ -325,6 +328,7 @@ class RegisterView extends GetView<RegisterController> {
                           controller: controller.phone,
                           keyboardType: TextInputType.phone,
                           enabled: controller.isValid.value,
+                          maxLength: 9,
                           decoration: _inputDecoration(
                             hint: 'Teléfono',
                             icon: Icons.phone_outlined,
@@ -370,6 +374,45 @@ class RegisterView extends GetView<RegisterController> {
                           validator: validateConfirmPassword,
                         ),
                         const SizedBox(height: 12),
+                      ],
+                    )
+                  :
+                    Container()
+                  ,
+                  controller.isNewCompany.value ? 
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 12),
+                        Text(
+                          "Elige tu Paquete de Subscripción",
+                          style: TextStyle(
+                            color: AppColors.navy,
+                            fontWeight: FontWeight.w500
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SizedBox(
+                            height: 275,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.all(5),
+                              itemCount: controller.subscriptionPackages.length,
+                              itemBuilder: (context, index) {
+                                final plan = controller.subscriptionPackages.reversed.elementAt(index);
+                                return Obx(() => PlanCard(
+                                  plan: plan,
+                                  isSelected:
+                                      controller.subscriptionPackageSelectedId.value == plan.id,
+                                  onTap: () => controller.selectPlan(plan.id!),
+                                ));
+                              }
+                            ),
+                          ),
+                        )
                       ],
                     )
                   :
@@ -508,3 +551,145 @@ class RegisterView extends GetView<RegisterController> {
   }
 }
  
+class PlanCard extends StatelessWidget {
+  final SubscriptionPackage plan;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const PlanCard({
+    super.key,
+    required this.plan,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: 260,
+        margin: const EdgeInsets.only(right: 16),
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? Colors.white
+              : Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? AppColors.navyDark : Colors.grey.shade300,
+            width: isSelected ? 2.5 : 1,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: AppColors.navyDark.withOpacity(0.25),
+                    blurRadius: 16,
+                    offset: const Offset(0, 8),
+                  ),
+                ]
+              : null,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Badge "Más popular"
+            if (plan.durationInDays != -1)
+              Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.navyLight,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  'Más popular',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            // Nombre
+            Text(
+              plan.name!,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            // Precio
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                plan.price! == 0 ?
+                  Container()
+                :
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Text(
+                      "S/. ${plan.price!}",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.navyDark,
+                      ),
+                    ),
+                  )
+                ,
+                Text(
+                  plan.durationInDays != -1 ? '${plan.durationInDays} dias' : 'Mensual',
+                  style: const TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+            const Divider(height: 1),
+            const SizedBox(height: 5,),
+            Row(
+              children: [
+                Icon(Icons.bookmark_add_outlined),
+                SizedBox(width: 5,),
+                Text("${(plan.maxUsers! - plan.maxSupervisors! - plan.maxDrivers!) == 0 ? plan.maxSupervisors! : (plan.maxUsers! - plan.maxSupervisors! - plan.maxDrivers!)} Administradores")
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.account_box),
+                SizedBox(width: 5,),
+                Text("${plan.maxSupervisors!} Supervisores")
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.directions_bus_filled_outlined),
+                SizedBox(width: 5,),
+                Text("${plan.maxDrivers!} Conductores")
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.car_repair),
+                SizedBox(width: 5,),
+                Text("${plan.maxVehicles!} Vehículos")
+              ],
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor:
+                      isSelected ? AppColors.navyDark : Colors.grey.shade400,
+                ),
+                onPressed: onTap,
+                child: Text(isSelected ? 'Seleccionado' : 'Elegir'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
