@@ -1,0 +1,13 @@
+{
+  "id?": "656e4a45-6e41-431f-b927-d013fe40c3d0",
+  "route_id?": "7bcedb6e-8ca8-4097-8c4b-798012bc20a4",
+  "point_code?": "I1",
+  "point_type?": "I",
+  "name?": "Mina Central - Inicio",
+  "latitude?": -11.87542100,
+  "longitude?": -75.32451800,
+  "address?": "Acceso principal Mina Central",
+  "sequence_order?": 1,
+  "created_at?": "@datetime",
+  "estimated_arrival_minutes?": 0
+}

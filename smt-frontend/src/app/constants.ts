@@ -12,6 +12,7 @@ export const SUBSCRIPTION_PACKAGES = 'subscription_packages';
 export const COMPANY_SUBSCRIPTIONS = 'company_subscriptions';
 export const ROUTES = 'routes';
 export const ROUTE_POINTS = 'route_points';
+export const ROUTE_SEGMENTS = 'route_segments';
 export const TRANSPORT_ASSIGNMENTS = 'transport_assignments';
 export const INCIDENTS = 'incidents';
 export const DAILY_REPORTS = 'daily_reports';
@@ -95,4 +96,12 @@ export function messageAlert(title: any, message: string, icon: string) {
     text: message,
     icon: icons[icon]
   });
+}
+
+export function formatDuration(seconds: number): string {
+  const mins = Math.round(seconds / 60);
+  if (mins < 60) return `${mins} min`;
+  const hours = Math.floor(mins / 60);
+  const remainingMins = mins % 60;
+  return `${hours} h ${remainingMins} min`;
 }

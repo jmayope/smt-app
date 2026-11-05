@@ -1,0 +1,26 @@
+#map {
+  height: 450px;
+  width: 100% !important;
+  border-radius: 10px;
+}
+
+.marker-selected {
+  filter: drop-shadow(0 0 6px #ff3b3b) brightness(1.2);
+  transform: scale(1.2);
+  transform-origin: bottom center;
+  transition: transform 0.15s ease;
+}
+
+.delete-marker-btn {
+  position: absolute;
+  top: 200px;
+  right: 60px;
+  z-index: 1000; /* por encima del mapa */
+  background: #fff;
+  border: 1px solid #d33;
+  color: #d33;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}

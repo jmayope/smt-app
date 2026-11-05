@@ -3,13 +3,14 @@ import { Main } from '../../services/main';
 import { Supabase } from '../../services/supabase';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { firstValueFrom } from 'rxjs';
-import { messageAlert, ROUTE_POINTS, ROUTES, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
+import { messageAlert, ROUTE_POINTS, ROUTE_SEGMENTS, ROUTES, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
 import { NewRoute } from '../../modals/new-route/new-route';
 import Swal from 'sweetalert2';
 import { NewTrip } from '../../modals/new-trip/new-trip';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-route',
@@ -26,7 +27,8 @@ export class Route implements OnInit {
     private Main: Main,
     private Supabase: Supabase,
     private ChangeDetector: ChangeDetectorRef,
-    private ModalService: BsModalService
+    private ModalService: BsModalService,
+    private Router: Router
   ) { }
 
   modalRef?: BsModalRef;
@@ -83,32 +85,40 @@ export class Route implements OnInit {
     this.routes_totals.total = this.routes.length;
     this.routes_totals.priority = this.routes.filter((r: any) => r.is_priority).length;
     this.routes_totals.active = this.routes.filter((r: any) => r.is_active).length;
-    this.routes_totals.avg = this.routes.reduce((m: number, i: any) => { return m + i.distance_km}, 0) / this.routes.length;
+    this.routes_totals.avg = this.routes.length == 0 ? 0 : parseFloat((this.routes.reduce((m: number, i: any) => { return m + i.distance_km}, 0) / this.routes.length).toFixed(2));
     this.getRoutePoints();
   }
   
   async getRoutePoints() {
     let resultRoutePoints: any = await firstValueFrom(this.Supabase.select(ROUTE_POINTS, {filters: {route_id: this.routes.map((r: any) => r.id)}}));
+    let resultRouteSegments: any = await firstValueFrom(this.Supabase.select(ROUTE_SEGMENTS, {filters: {route_id: this.routes.map((r: any) => r.id)}}));
     console.log(resultRoutePoints);
     this.routes.map((r: any) => {
       r.points = resultRoutePoints.filter((p: any) => p.route_id === r.id);
+      r.segments = resultRouteSegments.filter((p: any) => p.route_id === r.id);
     });
+    this.routes_totals.totals_points = resultRoutePoints.length;
     console.log(this.routes);
     this.ChangeDetector.detectChanges();
   }
 
   toggleRoute(route?: any) {
-    this.modalRef = this.ModalService.show(NewRoute, { class: 'modal-nm' });
-
-    if (this.modalRef && this.modalRef.content) {
-      this.modalRef.content.route = structuredClone(route);
+    let route_id = '0';
+    if (route) {
+      route_id = route.id;
     }
+    this.Router.navigate(['backoffice/ruta', route_id]);
+    // this.modalRef = this.ModalService.show(NewRoute, { class: 'modal-nm' });
 
-    this.modalRef.content?.onClose.subscribe((data: any) => {
-      if (data.registered) {
-        this.getRoutes();
-      }
-    });
+    // if (this.modalRef && this.modalRef.content) {
+    //   this.modalRef.content.route = structuredClone(route);
+    // }
+
+    // this.modalRef.content?.onClose.subscribe((data: any) => {
+    //   if (data.registered) {
+    //     this.getRoutes();
+    //   }
+    // });
   }
 
   deleteRoute(route: any) {
@@ -142,6 +152,7 @@ export class Route implements OnInit {
       this.Supabase.select(TRANSPORT_ASSIGNMENTS, { filters: filters })
     );
     this.trips = result_trips;
+    console.log(this.trips);
     this.trips_totals.total = this.trips.length;
     this.trips_totals.in_progress = this.trips.filter((t: any) => t.status === 'in_progress').length;
     this.trips_totals.delayed = this.trips.filter((t: any) => t.has_delayed).length;

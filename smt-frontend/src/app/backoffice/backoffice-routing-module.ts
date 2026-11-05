@@ -13,6 +13,7 @@ import { Report } from './report/report';
 import { SubscriptionModel } from './subscription-model/subscription-model';
 import { Profile } from './profile/profile';
 import { Settings } from './settings/settings';
+import { NewRouteMap } from './new-route-map/new-route-map';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,11 @@ export const routes: Routes = [
       {
           path: 'administracion-de-ruta',
           component: Route,
+          data: { title: 'Administración de Rutas' }
+      },
+      {
+          path: 'ruta/:id',
+          component: NewRouteMap,
           data: { title: 'Administración de Rutas' }
       },
       {

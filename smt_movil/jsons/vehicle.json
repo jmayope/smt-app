@@ -1,0 +1,19 @@
+{
+  "id?": "e4875a74-1a9c-4571-98eb-6cbc109f64c9",
+  "company_id?": "f8d91fca-1b4b-4e57-b6e5-b79fca38ede2",
+  "license_plate?": "ABC-101",
+  "brand?": "Volvo",
+  "model?": "FH 540",
+  "year?": 2022,
+  "vehicle_type?": "camion_encapsulado",
+  "capacity_tons?": 35,
+  "material_type?": "oro",
+  "color?": "Rojo",
+  "vin?": "YV2RT40A1NA000001",
+  "insurance_number?": "SOAT-2026-00001",
+  "created_at?": "2026-09-04 19:21:35.385177",
+  "updated_at?": "2026-09-04 19:21:35.385177",
+  "is_active?": true,
+  "has_maintenance_scheduled?": false,
+  "is_available?": true
+}

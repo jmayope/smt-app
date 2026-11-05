@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:smt_movil/app/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 String formatDate(DateTime date) {
@@ -9,6 +9,15 @@ String formatDate(DateTime date) {
   ];
   return '${date.day} de ${months[date.month - 1]} de ${date.year}';
 }
+
+const List<Color> profileColors = [
+  AppColors.navy,
+  AppColors.safe,
+  AppColors.warn,
+  AppColors.navyLight,
+];
+
+
 
 String formatDateToYYYYMMDD(DateTime date) {
   return date.toIso8601String().split('T')[0];
@@ -83,6 +92,12 @@ Color getRandomColor() {
 }
 
 const String TOKEN_NAME = "smt_token";
+
+const String STATUS_PENDING = 'pending';
+const String STATUS_IN_PROGRESS = 'in_progress';
+const String STATUS_COMPLETED = 'completed';
+const String STATUS_CANCELLED = 'cancelled';
+const String STATUS_DELAYED = 'delayed';
 
 const String COMPANIES = 'companies';
 const String USERS = 'users';

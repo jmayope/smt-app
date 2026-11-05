@@ -246,7 +246,7 @@
 
 
             <!-- Cambiar perfil -->
-            <a
+            <a *ngIf="userLoged.currentCompany.roles.length > 1"
               [routerLink]="['/autenticacion/seleccionar-perfil']">
 
               <i class="fa-solid fa-right-left"></i>

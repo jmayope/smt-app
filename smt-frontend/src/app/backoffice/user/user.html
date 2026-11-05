@@ -102,7 +102,7 @@
     </div>
 
     <!-- Tabla -->
-    <div class="table-responsive">
+    <div class="" style="max-height: 350px; overflow: auto;">
       <table class="table table-hover align-middle mb-0">
         <thead>
           <tr class="text-secondary small text-uppercase">
@@ -141,11 +141,15 @@
                         class="fa-regular fa-pen-to-square me-2"></i>Editar</a></li>
                   <li><a class="dropdown-item" (click)="changePassword(u)"><i class="fa-solid fa-key me-2"></i>Restablecer contraseña</a>
                   </li>
-                  <li>
+                  <li *ngIf="userLoged.id !== u.id">
                     <hr class="dropdown-divider">
                   </li>
-                  <li><a class="dropdown-item" (click)="toggleActivate(u)"><i
-                        class="fa-regular me-2" [ngClass]="{'fa-trash-can text-danger': u.is_active, 'fa-check text-primary': !u.is_active}"></i>{{u.is_active ? 'Desactivar' : 'Activar'}}</a></li>
+                  <li *ngIf="userLoged.id !== u.id">
+                    <a class="dropdown-item" (click)="toggleActivate(u)">
+                      <i class="fa-regular me-2" [ngClass]="{'fa-trash-can text-danger': u.is_active, 'fa-check text-primary': !u.is_active}"></i>
+                      {{u.is_active ? 'Desactivar' : 'Activar'}}
+                    </a>
+                  </li>
                 </ul>
               </div>
             </td>

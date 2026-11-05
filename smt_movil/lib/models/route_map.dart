@@ -20,6 +20,9 @@ class RouteMap {
     this.isActive,
     this.isPriority,
     this.progressText,
+    this.points,
+    this.currentSegment,
+    this.segments,
   });
 
   final String? id;
@@ -27,14 +30,17 @@ class RouteMap {
   final String? name;
   final String? startLocation;
   final String? endLocation;
-  final String? distanceKm;
+  final double? distanceKm;
   final String? estimatedDurationHours;
   final String? description;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final bool? isActive;
   final bool? isPriority;
   final String? progressText;
+  final List<RoutePoint>? points;
+  final RouteSegment? currentSegment;
+  final List<RouteSegment>? segments;
 
   factory RouteMap.fromJson(Map<String,dynamic> json) => RouteMap(
     id: json['id']?.toString(),
@@ -42,14 +48,17 @@ class RouteMap {
     name: json['name']?.toString(),
     startLocation: json['start_location']?.toString(),
     endLocation: json['end_location']?.toString(),
-    distanceKm: json['distance_km']?.toString(),
+    distanceKm: json['distance_km'] != null ? (json['distance_km'] as num).toDouble() : null,
     estimatedDurationHours: json['estimated_duration_hours']?.toString(),
     description: json['description']?.toString(),
-    createdAt: json['created_at']?.toString(),
-    updatedAt: json['updated_at']?.toString(),
+    createdAt: json['created_at'] != null ? DateTime.parse(json['created_at'] as String) : null,
+    updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : null,
     isActive: json['is_active'] != null ? json['is_active'] as bool : null,
     isPriority: json['is_priority'] != null ? json['is_priority'] as bool : null,
-    progressText: json['progress_text']?.toString()
+    progressText: json['progress_text']?.toString(),
+    points: json['points'] != null ? (json['points'] as List? ?? []).map((e) => RoutePoint.fromJson(e as Map<String, dynamic>)).toList() : null,
+    currentSegment: json['current_segment'] != null ? RouteSegment.fromJson(json['current_segment'] as Map<String, dynamic>) : null,
+    segments: json['segments'] != null ? (json['segments'] as List? ?? []).map((e) => RouteSegment.fromJson(e as Map<String, dynamic>)).toList() : null
   );
   
   Map<String, dynamic> toJson() => {
@@ -61,11 +70,14 @@ class RouteMap {
     'distance_km': distanceKm,
     'estimated_duration_hours': estimatedDurationHours,
     'description': description,
-    'created_at': createdAt,
-    'updated_at': updatedAt,
+    'created_at': createdAt?.toIso8601String(),
+    'updated_at': updatedAt?.toIso8601String(),
     'is_active': isActive,
     'is_priority': isPriority,
-    'progress_text': progressText
+    'progress_text': progressText,
+    'points': points?.map((e) => e.toJson()).toList(),
+    'current_segment': currentSegment?.toJson(),
+    'segments': segments?.map((e) => e.toJson()).toList()
   };
 
   RouteMap clone() => RouteMap(
@@ -81,7 +93,10 @@ class RouteMap {
     updatedAt: updatedAt,
     isActive: isActive,
     isPriority: isPriority,
-    progressText: progressText
+    progressText: progressText,
+    points: points?.map((e) => e.clone()).toList(),
+    currentSegment: currentSegment?.clone(),
+    segments: segments?.map((e) => e.clone()).toList()
   );
 
 
@@ -91,14 +106,17 @@ class RouteMap {
     Optional<String?>? name,
     Optional<String?>? startLocation,
     Optional<String?>? endLocation,
-    Optional<String?>? distanceKm,
+    Optional<double?>? distanceKm,
     Optional<String?>? estimatedDurationHours,
     Optional<String?>? description,
-    Optional<String?>? createdAt,
-    Optional<String?>? updatedAt,
+    Optional<DateTime?>? createdAt,
+    Optional<DateTime?>? updatedAt,
     Optional<bool?>? isActive,
     Optional<bool?>? isPriority,
-    Optional<String?>? progressText
+    Optional<String?>? progressText,
+    Optional<List<RoutePoint>?>? points,
+    Optional<RouteSegment?>? currentSegment,
+    Optional<List<RouteSegment>?>? segments
   }) => RouteMap(
     id: checkOptional(id, () => this.id),
     companyId: checkOptional(companyId, () => this.companyId),
@@ -113,12 +131,15 @@ class RouteMap {
     isActive: checkOptional(isActive, () => this.isActive),
     isPriority: checkOptional(isPriority, () => this.isPriority),
     progressText: checkOptional(progressText, () => this.progressText),
+    points: checkOptional(points, () => this.points),
+    currentSegment: checkOptional(currentSegment, () => this.currentSegment),
+    segments: checkOptional(segments, () => this.segments),
   );
 
   @override
   bool operator ==(Object other) => identical(this, other)
-    || other is RouteMap && id == other.id && companyId == other.companyId && name == other.name && startLocation == other.startLocation && endLocation == other.endLocation && distanceKm == other.distanceKm && estimatedDurationHours == other.estimatedDurationHours && description == other.description && createdAt == other.createdAt && updatedAt == other.updatedAt && isActive == other.isActive && isPriority == other.isPriority && progressText == other.progressText;
+    || other is RouteMap && id == other.id && companyId == other.companyId && name == other.name && startLocation == other.startLocation && endLocation == other.endLocation && distanceKm == other.distanceKm && estimatedDurationHours == other.estimatedDurationHours && description == other.description && createdAt == other.createdAt && updatedAt == other.updatedAt && isActive == other.isActive && isPriority == other.isPriority && progressText == other.progressText && points == other.points && currentSegment == other.currentSegment && segments == other.segments;
 
   @override
-  int get hashCode => id.hashCode ^ companyId.hashCode ^ name.hashCode ^ startLocation.hashCode ^ endLocation.hashCode ^ distanceKm.hashCode ^ estimatedDurationHours.hashCode ^ description.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode ^ isActive.hashCode ^ isPriority.hashCode ^ progressText.hashCode;
+  int get hashCode => id.hashCode ^ companyId.hashCode ^ name.hashCode ^ startLocation.hashCode ^ endLocation.hashCode ^ distanceKm.hashCode ^ estimatedDurationHours.hashCode ^ description.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode ^ isActive.hashCode ^ isPriority.hashCode ^ progressText.hashCode ^ points.hashCode ^ currentSegment.hashCode ^ segments.hashCode;
 }

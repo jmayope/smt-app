@@ -254,3 +254,11 @@ h1,h2,h3,h4,h5,h6{
 .font-xs {
   font-size: 13px !important;
 }
+
+.font-xxs {
+  font-size: 10px !important;
+}
+
+.no-resize {
+  resize: none;
+}

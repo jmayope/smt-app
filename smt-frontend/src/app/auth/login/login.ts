@@ -40,9 +40,14 @@ export class Login implements OnInit {
   }
 
   async getSusbscriptionPackages() {
-    let result_subscription_packages: any = await firstValueFrom(this.Supabase.select(SUBSCRIPTION_PACKAGES, {filters: {}}));
+    let result_subscription_packages: any = await firstValueFrom(this.Supabase.select(SUBSCRIPTION_PACKAGES, {filters: {is_active: true}}));
     console.log(result_subscription_packages);
     this.subscription_packages = result_subscription_packages;
+    this.subscription_packages.map((sp: any) => {
+      sp.most_popular = sp.max_users === 500 || sp.duration_in_days != -1;
+    })
+    this.subscription_packages.reverse();
+
     this.ChangeDetector.detectChanges();
   }
 
@@ -64,7 +69,7 @@ export class Login implements OnInit {
       return;
     }
     let userLoged = resultLogin[0];
-    let resultUserCompanyRoles: any = await firstValueFrom(this.Supabase.select(USER_COMPANY_ROLES, {filters: {user_id: userLoged.id}}));
+    let resultUserCompanyRoles: any = await firstValueFrom(this.Supabase.select(USER_COMPANY_ROLES, {filters: {user_id: userLoged.id, role: 'admin'}}));
     if (!resultUserCompanyRoles.length) {
       messageAlert("Validación", "No se tiene asignado ningun rol para este usuario", "warning")
       return;

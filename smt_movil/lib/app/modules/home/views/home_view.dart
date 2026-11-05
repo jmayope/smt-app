@@ -331,19 +331,46 @@ class HomeView extends GetView<HomeController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildActiveRouteCard(),
-            const SizedBox(height: 24),
-            _buildSectionTitle('ACCESO RÁPIDO'),
-            const SizedBox(height: 12),
-            _buildQuickAccessGrid(),
-            const SizedBox(height: 24),
-            _buildSectionTitle(
-              'RUTAS DE HOY',
-              actionLabel: 'Ver todas',
-              onAction: () => controller.goToRoutes(),
-            ),
-            const SizedBox(height: 12),
-            _buildTodayRoutes(),
+            !controller.hasTransportAssignments.value ?
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.close, size: 40, color: Colors.redAccent,),
+                    Text(
+                      "No tienes asignaciones para el dia de hoy.",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontSize: 16
+                      ),
+                    )
+                  ],
+                ),
+              )
+            : 
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildActiveRouteCard(),
+                  // const SizedBox(height: 24),
+                  // _buildSectionTitle('ACCESO RÁPIDO'),
+                  // const SizedBox(height: 12),
+                  // _buildQuickAccessGrid(),
+                  const SizedBox(height: 24),
+                  _buildSectionTitle(
+                    'RUTAS DE HOY',
+                    actionLabel: 'Ver todas',
+                    onAction: () => controller.goToRoutes(),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildTodayRoutes(),
+                ],
+              )
+            ,
+            
+            
           ],
         ),
       ),
@@ -354,22 +381,21 @@ class HomeView extends GetView<HomeController> {
   Widget _buildActiveRouteCard() {
     return Obx(() {
       final route = controller.activeRoute.value;
-      final hasActive = route != null;
  
       return InkWell(
         onTap: () =>
-            hasActive ? controller.openActiveRoute() : controller.startRoute(),
+            controller.hasActive.value ? controller.openActiveRoute() : controller.startRoute(),
         borderRadius: BorderRadius.circular(16),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
           decoration: BoxDecoration(
-            color: hasActive ? AppColors.navy : AppColors.safe,
+            color: controller.hasActive.value ? AppColors.navy : AppColors.safe,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
               Icon(
-                hasActive ? Icons.route : Icons.play_circle_outline,
+                controller.hasActive.value ? Icons.route : Icons.play_circle_outline,
                 color: Colors.white,
                 size: 30,
               ),
@@ -379,7 +405,7 @@ class HomeView extends GetView<HomeController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      hasActive ? '${route.name}' : 'Iniciar recorrido',
+                      controller.hasActive.value ? '${route.name}' : 'Iniciar recorrido',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -388,7 +414,7 @@ class HomeView extends GetView<HomeController> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      hasActive
+                      controller.hasActive.value
                           ? '${route.progressText}'
                           : 'No tienes un recorrido en curso',
                       style: const TextStyle(

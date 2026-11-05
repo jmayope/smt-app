@@ -1,0 +1,95 @@
+<form #routeForm="ngForm">
+  <div class="row">
+    <div class="col-lg-8 mb-3">
+      <button class="btn btn-sm btm-link text-danger" (click)="goBack()">
+        <i class="fa fa-chevron-left me-1"></i> Volver
+      </button>
+      <strong class="font-nm">{{editing ? 'Editar' : 'Nueva'}} Ruta</strong>
+    </div>
+    <div class="col-4 mb-3 text-end">
+      <button class="btn btn-primary" [disabled]="routeForm.invalid || !markers_info.length" (click)="saveChanges()">
+        <i class="fa fa-save me-1"></i>Guardar Cambios
+      </button> <br>
+      <small class="text-danger font-xxs" *ngIf="!markers_info.length">Es necesario registrar el Inicio y Fin de la ruta.</small>
+    </div>
+    <div class="col-lg-6">
+      <div class="form-group">
+        <small class="text-secondary">Nombre</small>
+        <input type="text" name="name" [(ngModel)]="new_route.name" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <small class="text-secondary">Descripción</small>
+        <textarea name="description" rows="4" [(ngModel)]="new_route.description" class="form-control no-resize" required></textarea>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-6">
+          <div class="input-group mb-2">
+            <span class="input-group-text">Distancia (km)</span>
+            <input type="text" disabled class="form-control" name="distance_km" [(ngModel)]="new_route.distance_km">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-group mb-2">
+            <span class="input-group-text">Tiempo estimado (en horas)</span>
+            <input type="text" disabled class="form-control" name="estimated_duration_hours" [(ngModel)]="new_route.estimated_duration_hours">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="is_active" [(ngModel)]="new_route.is_active" role="switch" id="is_active">
+            <label class="form-check-label" for="is_active">Activo</label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="is_priority" [(ngModel)]="new_route.is_priority" role="switch" id="is_priority">
+            <label class="form-check-label" for="is_priority">Prioritario</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <ng-container *ngIf="markers_info.length">
+          <div class="row">
+            <div class="col-8">
+              <strong class="text-primary">
+                Puntos en el Mapa
+              </strong>
+            </div>
+            <div class="col-4 font-xs text-end">
+              <i class="fa fa-circle text-success me-1"></i>Inicio &nbsp;<i class="fa fa-circle text-danger me-1"></i>Final
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4" *ngFor="let m of markers_info; let i = index; let f = first; let l = last">
+              <div class="alert alert-danger font-xxs p-2">
+                <i class="fa fa-map-pin text-danger me-1"></i>Punto {{i + 1}} 
+                <span class="float-end" [ngClass]="{'text-success': f, 'text-danger': l}" *ngIf="markers_info.length > 1 && (f || l)"><i class="fa fa-circle"></i></span>
+                <br>
+                <small>
+                  {{m.direction | uppercase}}
+                </small>
+                <!-- <div class="card-body p-2">
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-12 text-end font-xxs">
+          <i class="fa fa-info me-1"></i>Click, para agregar un punto de referencia de la ruta en el mapa.
+        </div>
+      </div>
+      <div id="map"></div>
+      <button
+        *ngIf="selected_marker"
+        class="delete-marker-btn"
+        (click)="deleteSelectedMarker()"
+        title="Eliminar punto seleccionado">
+        🗑️&nbsp;<span class="text-danger">Eliminar</span>
+      </button>
+    </div>
+  </div>
+</form>
