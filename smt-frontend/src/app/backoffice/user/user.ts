@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Main } from '../../services/main';
 import { Supabase } from '../../services/supabase';
 import { firstValueFrom } from 'rxjs';
-import { generateRandomString, messageAlert, USERS } from '../../constants';
+import { generateRandomString, loadingAlert, messageAlert, USERS } from '../../constants';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import Swal from 'sweetalert2';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -35,6 +35,7 @@ export class User implements OnInit {
 
   ngOnInit(): void {
     this.userLoged = this.Main.getSession();
+    loadingAlert("Cargando información del formulario");
     this.getUsers();
   }
 
@@ -50,6 +51,7 @@ export class User implements OnInit {
     this.totals.admin = this.users.filter((u: any) => u.role.includes('administrador')).length;
     this.totals.supervisor = this.users.filter((u: any) => u.role.includes('supervisor')).length;
     this.totals.driver = this.users.filter((u: any) => u.role.includes('conductor')).length;
+    Swal.close();
     this.ChangeDetector.detectChanges();
   }
 

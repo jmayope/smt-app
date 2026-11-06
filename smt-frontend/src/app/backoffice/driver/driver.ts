@@ -3,7 +3,7 @@ import { Main } from '../../services/main';
 import { Supabase } from '../../services/supabase';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { firstValueFrom } from 'rxjs';
-import { messageAlert, ROUTES, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
+import { loadingAlert, messageAlert, ROUTES, STATUS_IN_PROGRESS, STATUS_PENDING, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
 import Swal from 'sweetalert2';
 import { NewDriver } from '../../modals/new-driver/new-driver';
 import { CommonModule } from '@angular/common';
@@ -41,16 +41,23 @@ export class Driver {
   user_loged: any;
 
   ngOnInit(): void {
+    loadingAlert("Cargando información de Conductores");
     this.user_loged = this.Main.getSession();
     this.getDrivers();
   }
 
   async getDrivers() {
     this.drivers = [];
+    let filters: any = {};
+    if (this.user_loged.currentCompany) {
+      filters.company_id = this.user_loged.currentCompany.id;
+    }
+    filters.role = 'conductor';
     let result_drivers: any = await firstValueFrom(
-      this.Supabase.select(USERS, { filters: { company_id: this.user_loged.company_id, role: 'conductor' } })
+      this.Supabase.select(USERS, { filters: filters })
     );
     this.drivers = result_drivers;
+    console.log(this.drivers);
     this.totals.total = this.drivers.length;
     this.totals.active = this.drivers.filter((d: any) => d.is_active).length;
     this.totals.with_2fa = this.drivers.filter((d: any) => d.has_2fa).length;
@@ -64,12 +71,14 @@ export class Driver {
     let result_assignments: any = await firstValueFrom(
       this.Supabase.select(TRANSPORT_ASSIGNMENTS, {
         filters: {
+          company_id: this.user_loged.currentCompany.id,
           driver_id: this.drivers.map((d: any) => d.id),
           assignment_date: today
         }
       })
     );
     this.assignments = result_assignments;
+    this.totals.assignments_in_progress = this.assignments.filter((a: any) => a.status === STATUS_IN_PROGRESS).length;
 
     let result_routes: any = await firstValueFrom(
       this.Supabase.select(ROUTES, { filters: { id: this.assignments.map((a: any) => a.route_id) } })
@@ -83,14 +92,14 @@ export class Driver {
 
     this.drivers.map((d: any) => {
       d.current_assignment = this.assignments.find((a: any) =>
-        a.driver_id === d.id && (a.status === 'in_progress' || a.status === 'pending')
+        a.driver_id === d.id && (a.status === STATUS_IN_PROGRESS || a.status === STATUS_PENDING)
       );
       if (d.current_assignment) {
         d.current_assignment.route = this.routes.find((r: any) => r.id === d.current_assignment.route_id);
         d.current_assignment.vehicle = this.vehicles.find((v: any) => v.id === d.current_assignment.vehicle_id);
       }
     });
-
+    Swal.close();
     this.ChangeDetector.detectChanges();
   }
 

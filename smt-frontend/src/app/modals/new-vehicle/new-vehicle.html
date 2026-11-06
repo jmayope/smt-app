@@ -44,7 +44,7 @@
     </div>
     <div class="col-md-4">
       <div class="form-group">
-        <small class="text-secondary">Tipo de vehículo</small>
+        <small class="text-secondary">Tipos de vehículos</small>
         <select name="vehicle_type" [(ngModel)]="new_vehicle.vehicle_type" class="form-select">
           <option [ngValue]="undefined">--SELECCIONAR--</option>
           <option *ngFor="let vt of vehicle_types" [ngValue]="vt.id">{{vt.name}}</option>

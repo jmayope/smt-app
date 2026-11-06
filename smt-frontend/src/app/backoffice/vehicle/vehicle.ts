@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
-import { NewVehicle } from '../modals/new-vehicle/new-vehicle';
 import { Supabase } from '../../services/supabase';
 import { firstValueFrom } from 'rxjs';
-import { VEHICLE_DOCUMENTS, VEHICLES } from '../../constants';
+import { loadingAlert, VEHICLE_DOCUMENTS, VEHICLE_TYPES, VEHICLES } from '../../constants';
 import { Main } from '../../services/main';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NewVehicle } from '../../modals/new-vehicle/new-vehicle';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-vehicle',
@@ -45,11 +46,7 @@ export class Vehicle implements OnInit {
     { id: 2, code: false, name: "Inactivo" },
   ];
 
-  vehicleAvailabilities: any[] = [
-    { id: 1, code: "A", name: "Bombona" },
-    { id: 2, code: "B", name: "Encapsulado" },
-    { id: 3, code: "C", name: "Retro" }
-  ];
+  vehicleAvailabilities: any[] = VEHICLE_TYPES;
 
   vehicles: any[] = [];
   vehicle_totals: any = {};
@@ -58,6 +55,7 @@ export class Vehicle implements OnInit {
 
   ngOnInit(): void {
     this.user_loged = this.Main.getSession();
+    loadingAlert("Cargando información de Vehiculos");
     this.getVehicles();
   }
 
@@ -80,6 +78,7 @@ export class Vehicle implements OnInit {
       v.documents = result_vehicle_documents.filter((vd: any) => vd.vehicle_id === v.id);
     });
     console.log(this.vehicles);
+    Swal.close();
     this.ChangeDetector.detectChanges();
   }
 
@@ -88,9 +87,17 @@ export class Vehicle implements OnInit {
     if (item) {
       config.vehicle = structuredClone(item);
     }
+
     this.modalRef = this.modalService.show(NewVehicle, { 
       initialState: config,
       class: 'modal-lg'
+    });
+
+    this.modalRef.onHidden?.subscribe(() => {
+      console.log('El modal se cerró correctamente');
+
+      // Ejecuta aquí lo que necesites
+      this.getVehicles();
     });
 
   }

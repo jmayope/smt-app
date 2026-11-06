@@ -54,7 +54,7 @@
             </div>
             <div>
               <div class="fs-4 fw-bold text-dark lh-1">{{routes_totals.avg}} km</div>
-              <div class="text-secondary small">Distancia promedio</div>
+              <div class="text-secondary small">Distancia Aproximada</div>
             </div>
           </div>
         </div>
@@ -242,28 +242,35 @@
 
         <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
           <div class="d-flex flex-wrap gap-2 flex-grow-1">
-            <div class="input-group" style="max-width:260px;">
-              <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass text-secondary"></i></span>
-              <input type="text" class="form-control" placeholder="Buscar por ruta, conductor...">
-            </div>
-            <select class="form-select" style="max-width:170px;">
-              <option selected>Estado</option>
-              <option>Pendiente</option>
-              <option>En progreso</option>
-              <option>Completado</option>
-              <option>Retrasado</option>
-              <option>Cancelado</option>
-            </select>
-            <input type="date" class="form-control" style="max-width:160px;">
+            <ng-container *ngIf="trips.length">
+              <div class="input-group" style="max-width:260px;">
+                <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass text-secondary"></i></span>
+                <input type="text" class="form-control" placeholder="Buscar por ruta, conductor...">
+              </div>
+              <select class="form-select" style="max-width:170px;">
+                <option selected>Estado</option>
+                <option>Pendiente</option>
+                <option>En progreso</option>
+                <option>Completado</option>
+                <option>Retrasado</option>
+                <option>Cancelado</option>
+              </select>
+              <input type="date" class="form-control" style="max-width:160px;">
+            </ng-container>
+            <ng-container *ngIf="!trips.length">
+              <div class="text-center">
+                <i class="fa fa-times text-danger fa-2x me-1"></i> <br>No se tienen asignaciones registradas
+              </div>
+            </ng-container>
           </div>
 
-          <!-- <button type="button" class="btn btn-primary flex-shrink-0" data-bs-toggle="modal"
+          <button type="button" class="btn btn-primary flex-shrink-0" data-bs-toggle="modal"
             data-bs-target="#tripModal" (click)="toggleTrip()">
-            <i class="fa-solid fa-plus me-1"></i> Nuevo viaje
-          </button> -->
+            <i class="fa-solid fa-plus me-1"></i> Nueva Asignación
+          </button>
         </div>
 
-        <div class="table-responsive">
+        <div class="" *ngIf="trips.length">
           <table class="table table-hover align-middle mb-0">
             <thead>
               <tr class="text-secondary small text-uppercase">
@@ -283,7 +290,7 @@
                 <td *ngIf="t.vehicle">{{t.vehicle.license_plate | uppercase}}</td>
                 <td *ngIf="t.driver">{{t.driver.first_name}} {{t.driver.last_name}}</td>
                 <td>{{t.load_weight_tons}} Tn {{t.material_type}}</td>
-                <td><span class="badge text-bg-success">Completado</span></td>
+                <td><span class="badge text-bg-success">{{getStatusName(t.status)}}</span></td>
                 <td class="text-secondary small">{{t.estimated_start_time | date:'HH:mm a'}} — {{t.estimated_end_time | date:'HH:mm a'}} (est.)</td>
                 <td class="text-end">
                   <div class="dropdown" dropdown>
@@ -307,7 +314,7 @@
           </table>
         </div>
 
-        <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between pt-3 ">
+        <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between pt-3 " *ngIf="trips.length">
           <span class="text-secondary small">Mostrando {{trips.length}} viajes</span>
           <!-- <nav>
             <ul class="pagination pagination-sm mb-0">

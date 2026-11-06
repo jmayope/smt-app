@@ -9,7 +9,7 @@
           <i class="fa-solid fa-id-card-clip text-primary"></i>
         </div>
         <div>
-          <div class="fs-4 fw-bold text-dark lh-1">48</div>
+          <div class="fs-4 fw-bold text-dark lh-1">{{totals.total}}</div>
           <div class="text-secondary small">Conductores totales</div>
         </div>
       </div>
@@ -24,7 +24,7 @@
           <i class="fa-solid fa-route text-success"></i>
         </div>
         <div>
-          <div class="fs-4 fw-bold text-dark lh-1">19</div>
+          <div class="fs-4 fw-bold text-dark lh-1">{{totals.assignments_in_progress || 0}}</div>
           <div class="text-secondary small">En ruta ahora</div>
         </div>
       </div>
@@ -39,7 +39,7 @@
           <i class="fa-solid fa-mug-hot text-warning"></i>
         </div>
         <div>
-          <div class="fs-4 fw-bold text-dark lh-1">24</div>
+          <div class="fs-4 fw-bold text-dark lh-1">{{totals.active}}</div>
           <div class="text-secondary small">Disponibles</div>
         </div>
       </div>
@@ -54,7 +54,7 @@
           <i class="fa-solid fa-user-slash text-danger"></i>
         </div>
         <div>
-          <div class="fs-4 fw-bold text-dark lh-1">5</div>
+          <div class="fs-4 fw-bold text-dark lh-1">{{totals.inactive}}</div>
           <div class="text-secondary small">Inactivos</div>
         </div>
       </div>
@@ -69,26 +69,33 @@
     <!-- Filtros y acciones -->
     <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
       <div class="d-flex flex-wrap gap-2 flex-grow-1">
-        <div class="input-group" style="max-width:260px;">
-          <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass text-secondary"></i></span>
-          <input type="text" class="form-control" placeholder="Buscar por nombre, DNI...">
-        </div>
-        <select class="form-select" style="max-width:180px;">
-          <option selected>Disponibilidad</option>
-          <option>En ruta</option>
-          <option>Disponible</option>
-          <option>Descanso</option>
-        </select>
-        <select class="form-select" style="max-width:170px;">
-          <option selected>Estado</option>
-          <option>Activo</option>
-          <option>Inactivo</option>
-        </select>
-        <select class="form-select" style="max-width:160px;">
-          <option selected>2FA</option>
-          <option>Activado</option>
-          <option>Desactivado</option>
-        </select>
+        <ng-container *ngIf="drivers.length">
+          <div class="input-group" style="max-width:260px;">
+            <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass text-secondary"></i></span>
+            <input type="text" class="form-control" placeholder="Buscar por nombre, DNI...">
+          </div>
+          <select class="form-select" style="max-width:180px;">
+            <option selected>Disponibilidad</option>
+            <option>En ruta</option>
+            <option>Disponible</option>
+            <option>Descanso</option>
+          </select>
+          <select class="form-select" style="max-width:170px;">
+            <option selected>Estado</option>
+            <option>Activo</option>
+            <option>Inactivo</option>
+          </select>
+          <select class="form-select" style="max-width:160px;">
+            <option selected>2FA</option>
+            <option>Activado</option>
+            <option>Desactivado</option>
+          </select>
+        </ng-container>
+        <ng-container *ngIf="!drivers.length">
+          <div class="text-center">
+            <i class="fa fa-times text-danger fa-2x me-1"></i> <br>No se tienen conductores registrados
+          </div>
+        </ng-container>
       </div>
 
       <button type="button" class="btn btn-primary flex-shrink-0" data-bs-toggle="modal" data-bs-target="#driverModal" (click)="toggleDriver()">
@@ -97,7 +104,7 @@
     </div>
 
     <!-- Tabla -->
-    <div class="table-responsive">
+    <div class="" *ngIf="drivers.length">
       <table class="table table-hover align-middle mb-0">
         <thead>
           <tr class="text-secondary small text-uppercase">
@@ -126,8 +133,13 @@
             <td>{{d.document_id}}</td>
             <td>{{d.phone}}</td>
             <td>
-              <div class="fw-semibold text-dark small">V1A-745</div>
-              <div class="text-secondary small">Ruta Cerro Norte → Planta P1</div>
+              <ng-container *ngIf="d.current_assignment">
+                <div class="fw-semibold text-dark small">{{d.current_assignment.vehicle.license_plate}}</div>
+                <div class="text-secondary small">{{d.current_assignment.route.name}}</div>
+              </ng-container>
+              <ng-container *ngIf="!d.current_assignment">
+                Sin asignación
+              </ng-container>
             </td>
             <td class="text-secondary small">{{d.last_login | date:'dd/MM/yyyy hh:mm a'}}</td>
             <td><i class="fa-solid" [ngClass]="{'fa-shield-halved text-success': d.has_2fa, 'fa-times text-danger': !d.has_2fa}" title="2FA {{d.has_2fa ? 'Activado' : 'Inactivado'}}"></i></td>
@@ -158,9 +170,9 @@
     </div>
 
     <!-- Paginación -->
-    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between pt-3 mt-2 border-top">
-      <span class="text-secondary small">Mostrando 1–5 de 48 conductores</span>
-      <nav>
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between pt-3 mt-2" *ngIf="drivers.length">
+      <span class="text-secondary small">Mostrando {{drivers.length}} conductores</span>
+      <!-- <nav>
         <ul class="pagination pagination-sm mb-0">
           <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
           <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -168,7 +180,7 @@
           <li class="page-item"><a class="page-link" href="#">3</a></li>
           <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
         </ul>
-      </nav>
+      </nav> -->
     </div>
 
   </div>

@@ -18,6 +18,35 @@ export const INCIDENTS = 'incidents';
 export const DAILY_REPORTS = 'daily_reports';
 export const TOKEN_NAME = "smt-token";
 
+export const STATUS_PENDING = 'pending';
+export const STATUS_IN_PROGRESS = 'in_progress';
+export const STATUS_COMPLETED = 'completed';
+export const STATUS_CANCELLED = 'cancelled';
+export const STATUS_DELAYED = 'delayed';
+
+export const VEHICLE_TYPES = [
+  { id: 'camion_encapsulado', name: 'Camión encapsulado' },
+  { id: 'camion_bombona', name: 'Camión bombona' },
+  { id: 'camion_retro', name: 'Camión retro' }
+];
+
+export function getStatusName(status_id: string) {
+  switch (status_id) {
+    case STATUS_PENDING:
+      return 'Pendiente';
+    case STATUS_IN_PROGRESS:
+      return 'En Progreso';
+    case STATUS_COMPLETED:
+      return 'Completado';
+    case STATUS_CANCELLED:
+      return 'Cancelado';
+    case STATUS_DELAYED:
+      return 'Retrasado';
+    default:
+      return 'Sin estado'
+  }
+}
+
 export const BUSINESS_TYPES = [
   { id: "Minería"},
   { id: "Transporte minero"},
@@ -104,4 +133,19 @@ export function formatDuration(seconds: number): string {
   const hours = Math.floor(mins / 60);
   const remainingMins = mins % 60;
   return `${hours} h ${remainingMins} min`;
+}
+
+export function timeToDatetime(time: string): string {
+  const [hours, minutes] = time.split(':').map(Number);
+
+  const now = new Date();
+  now.setHours(hours, minutes, 0, 0); // segundos y ms en 0
+
+  // Formato local sin zona horaria
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}` +
+         `T${pad(hours)}:${pad(minutes)}:00`;
+}
+
+export function pad(n: number): string {
+  return n.toString().padStart(2, '0');
 }

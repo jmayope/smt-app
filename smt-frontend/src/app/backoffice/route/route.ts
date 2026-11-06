@@ -3,7 +3,7 @@ import { Main } from '../../services/main';
 import { Supabase } from '../../services/supabase';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { firstValueFrom } from 'rxjs';
-import { messageAlert, ROUTE_POINTS, ROUTE_SEGMENTS, ROUTES, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
+import { getStatusName, loadingAlert, messageAlert, ROUTE_POINTS, ROUTE_SEGMENTS, ROUTES, STATUS_IN_PROGRESS, STATUS_PENDING, TRANSPORT_ASSIGNMENTS, USERS, VEHICLES } from '../../constants';
 import { NewRoute } from '../../modals/new-route/new-route';
 import Swal from 'sweetalert2';
 import { NewTrip } from '../../modals/new-trip/new-trip';
@@ -61,10 +61,11 @@ export class Route implements OnInit {
   tabSelected: any;
 
   ngOnInit(): void {
+    loadingAlert("Cargando información de Rutas");
     this.user_loged = this.Main.getSession();
     this.selectTab(this.tabs[0]);
     this.getRoutes();
-    this.getTrips();
+    
   }
 
   selectTab(tab: any) {
@@ -85,7 +86,7 @@ export class Route implements OnInit {
     this.routes_totals.total = this.routes.length;
     this.routes_totals.priority = this.routes.filter((r: any) => r.is_priority).length;
     this.routes_totals.active = this.routes.filter((r: any) => r.is_active).length;
-    this.routes_totals.avg = this.routes.length == 0 ? 0 : parseFloat((this.routes.reduce((m: number, i: any) => { return m + i.distance_km}, 0) / this.routes.length).toFixed(2));
+    this.routes_totals.avg = this.routes.length == 0 ? 0 : parseFloat((this.routes.reduce((m: number, i: any) => { return m + i.distance_km}, 0)).toFixed(2));
     this.getRoutePoints();
   }
   
@@ -99,7 +100,7 @@ export class Route implements OnInit {
     });
     this.routes_totals.totals_points = resultRoutePoints.length;
     console.log(this.routes);
-    this.ChangeDetector.detectChanges();
+    this.getTrips();
   }
 
   toggleRoute(route?: any) {
@@ -144,7 +145,7 @@ export class Route implements OnInit {
 
   async getTrips() {
     this.trips = [];
-    let filters: any = {status: 'completed'};
+    let filters: any = {};
     if (this.user_loged.currentCompany) {
       filters.company_id = this.user_loged.currentCompany.id;
     }
@@ -166,14 +167,15 @@ export class Route implements OnInit {
       filters.company_id = this.user_loged.currentCompany.id;
     }
     let result_vehicles: any = await firstValueFrom(
-      this.Supabase.select(VEHICLES, { filters: {} })
+      this.Supabase.select(VEHICLES, { filters: filters })
     );
     this.vehicles = result_vehicles;
-
+    let filter_driver = {...filters, role: 'conductor'};
     let result_drivers: any = await firstValueFrom(
-      this.Supabase.select(USERS, { filters: { role: 'conductor' } })
+      this.Supabase.select(USERS, { filters: filter_driver})
     );
     this.drivers = result_drivers;
+    console.log(this.drivers);
 
     let result_supervisors: any = await firstValueFrom(
       this.Supabase.select(USERS, { filters: { company_id: this.user_loged.currentCompany.id, role: 'supervisor' } })
@@ -191,12 +193,37 @@ export class Route implements OnInit {
       t.status_label = this.status_labels[t.status] || t.status;
     });
     console.log(this.trips);
-
+    Swal.close();
     this.ChangeDetector.detectChanges();
   }
 
+  getStatusName(status_id: string) {
+    return getStatusName(status_id);
+  }
+
   toggleTrip(trip?: any) {
-    this.modalRef = this.ModalService.show(NewTrip, { class: 'modal-nm' });
+    console.log(this.vehicles);
+    if (!this.vehicles.length) {
+      messageAlert("Validación", "No se tienen vehiculos registrados. Registrelos en la opción VEHICULOS", "warning");
+      return;
+    }
+
+    if (!this.vehicles.filter((v: any) => v.is_available).length) {
+      messageAlert("Validación", "No se tienen vehiculos DISPONIBLES. Administrelos en la opción VEHICULOS", "warning");
+      return;
+    }
+
+    if (!this.drivers.length) {
+      messageAlert("Validación", "No se tiene conductores registrados ni asignados. Registrelos en la opción CONDUCTORES", "warning");
+      return;
+    }
+
+    if (!this.supervisors.length) {
+      messageAlert("Validación", "No se tiene supervisores registrados ni asignados. Registrelos en la opción USUARIOS", "warning");
+      return;
+    }
+
+    this.modalRef = this.ModalService.show(NewTrip, { class: 'modal-lg' });
 
     if (this.modalRef && this.modalRef.content) {
       this.modalRef.content.trip = structuredClone(trip);

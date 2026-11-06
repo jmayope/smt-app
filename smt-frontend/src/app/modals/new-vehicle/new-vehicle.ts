@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Supabase } from '../../services/supabase';
 import { firstValueFrom, Subject } from 'rxjs';
-import { messageAlert, VEHICLES } from '../../constants';
+import { messageAlert, VEHICLE_TYPES, VEHICLES } from '../../constants';
 import { Main } from '../../services/main';
 
 @Component({
@@ -30,11 +30,7 @@ export class NewVehicle implements OnInit {
   inserting: boolean = false;
   public onClose: Subject<any> = new Subject<any>();
 
-  vehicle_types: any[] = [
-    { id: 'camion_encapsulado', name: 'Camión encapsulado' },
-    { id: 'camion_bombona', name: 'Camión bombona' },
-    { id: 'camion_retro', name: 'Camión retro' }
-  ];
+  vehicle_types: any[] = VEHICLE_TYPES;
 
   capacities: any[] = [25, 30, 35];
   user_loged: any;
@@ -47,6 +43,7 @@ export class NewVehicle implements OnInit {
       this.ChangeDetector.detectChanges();
     } else {
       this.new_vehicle = {
+        company_id: this.user_loged.currentCompany.id,
         material_type: 'oro',
         is_active: true,
         is_available: true,
@@ -73,7 +70,7 @@ export class NewVehicle implements OnInit {
       }
       messageAlert("Éxito", "Se actualizó correctamente el vehículo", "success");
     } else {
-      this.new_vehicle.company_id = this.user_loged.company_id;
+      this.new_vehicle.company_id = this.user_loged.currentCompany.id;
       let result_vehicle: any = await firstValueFrom(
         this.Supabase.insert(VEHICLES, this.new_vehicle)
       );

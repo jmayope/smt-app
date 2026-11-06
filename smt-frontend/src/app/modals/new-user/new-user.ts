@@ -68,7 +68,7 @@ export class NewUser implements OnInit {
       messageAlert("Éxito", "Se actualizó correctamente el conductor", "success");
     } else {
       this.new_user.company_id = this.user_loged.company_id;
-      this.new_user.role = 'conductor';
+      // this.new_user.role = 'conductor';
       let result_driver: any = await firstValueFrom(
         this.Supabase.insert(USERS, this.new_user)
       );
