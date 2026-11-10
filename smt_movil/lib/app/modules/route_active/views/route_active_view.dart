@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:smt_movil/app/theme/app_colors.dart';
 
 import '../controllers/route_active_controller.dart';
@@ -28,10 +31,64 @@ class RouteActiveView extends GetView<RouteActiveController> {
           children: [
             // ================= MAPA (fondo) =================
             // TODO: reemplazar por tu widget de mapa real (GoogleMap, flutter_map, etc.)
-            Positioned.fill(
-              child: CustomPaint(painter: _MapPlaceholderPainter()),
+            // Positioned.fill(
+            //   child: 
+            //   // CustomPaint(painter: _MapPlaceholderPainter()),
+            // ),
+            FlutterMap(
+              mapController: controller.mapController.value,
+              options: MapOptions(
+                initialCenter: controller.userLocation.value ?? LatLng(0,0),
+                initialZoom: 15,
+                minZoom: 0,
+                maxZoom: 40
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                  userAgentPackageName: 'com.stmapp.utpdevs.smt_movil'
+                ),
+                CurrentLocationLayer(
+                  style: LocationMarkerStyle(
+                    marker: DefaultLocationMarker(
+                      child: Icon(
+                        Icons.location_pin,
+                        color: Colors.white,
+                      ),
+                    ),
+                    markerSize: Size(35,35),
+                    markerDirection: MarkerDirection.heading
+                  ),
+                ),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: LatLng(controller.currentRouteSegment.value.fromPoint!.latitude!, controller.currentRouteSegment.value.fromPoint!.longitude!), 
+                      width: 35,
+                      height: 35,
+                      child: Icon(
+                        Icons.location_pin,
+                        size: 40,
+                        color: Colors.blueAccent,
+                      )
+                    ),
+                    Marker(
+                      point: LatLng(controller.currentRouteSegment.value.toPoint!.latitude!, controller.currentRouteSegment.value.toPoint!.longitude!), 
+                      width: 35,
+                      height: 35,
+                      child: Icon(
+                        Icons.location_pin,
+                        size: 40,
+                        color: Colors.blueAccent,
+                      )
+                    ),
+                  ]
+                ),
+                PolylineLayer(
+                  polylines: [Polyline(points: controller.routeFromTo, strokeWidth: 5, color: Colors.red)]
+                )
+              ]
             ),
-  
             // ================= HEADER + PANEL INFERIOR =================
             Column(
               children: [
@@ -778,66 +835,66 @@ class _FloatingActionBox extends StatelessWidget {
   }
 }
  
-// ==========================================================
-// Mapa oscuro de ejemplo: cuadrícula + ruta + posición actual
-// ==========================================================
-class _MapPlaceholderPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawRect(
-      Offset.zero & size,
-      Paint()..color = const Color(0xFF151A30),
-    );
+// // ==========================================================
+// // Mapa oscuro de ejemplo: cuadrícula + ruta + posición actual
+// // ==========================================================
+// class _MapPlaceholderPainter extends CustomPainter {
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     canvas.drawRect(
+//       Offset.zero & size,
+//       Paint()..color = const Color(0xFF151A30),
+//     );
  
-    final thin = Paint()
-      ..color = const Color(0xFF1F2540)
-      ..strokeWidth = 3;
-    final thick = Paint()
-      ..color = const Color(0xFF232A47)
-      ..strokeWidth = 5;
+//     final thin = Paint()
+//       ..color = const Color(0xFF1F2540)
+//       ..strokeWidth = 3;
+//     final thick = Paint()
+//       ..color = const Color(0xFF232A47)
+//       ..strokeWidth = 5;
  
-    for (final x in [0.2, 0.5, 0.85]) {
-      canvas.drawLine(Offset(size.width * x, 0),
-          Offset(size.width * x, size.height), thick);
-    }
-    for (final y in [0.25, 0.55, 0.75]) {
-      canvas.drawLine(Offset(0, size.height * y),
-          Offset(size.width, size.height * y), thin);
-    }
+//     for (final x in [0.2, 0.5, 0.85]) {
+//       canvas.drawLine(Offset(size.width * x, 0),
+//           Offset(size.width * x, size.height), thick);
+//     }
+//     for (final y in [0.25, 0.55, 0.75]) {
+//       canvas.drawLine(Offset(0, size.height * y),
+//           Offset(size.width, size.height * y), thin);
+//     }
  
-    final start = Offset(size.width * 0.22, size.height * 0.36);
-    final path = Path()
-      ..moveTo(start.dx, start.dy)
-      ..cubicTo(
-        size.width * 0.25, size.height * 0.22,
-        size.width * 0.35, size.height * 0.15,
-        size.width * 0.45, size.height * 0.05,
-      )
-      ..lineTo(size.width * 0.55, 0);
+//     final start = Offset(size.width * 0.22, size.height * 0.36);
+//     final path = Path()
+//       ..moveTo(start.dx, start.dy)
+//       ..cubicTo(
+//         size.width * 0.25, size.height * 0.22,
+//         size.width * 0.35, size.height * 0.15,
+//         size.width * 0.45, size.height * 0.05,
+//       )
+//       ..lineTo(size.width * 0.55, 0);
  
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = const Color(0xFF3B82F6).withValues(alpha: 0.35)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 8
-        ..strokeCap = StrokeCap.round,
-    );
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = const Color(0xFF4F7DF3)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 4
-        ..strokeCap = StrokeCap.round,
-    );
+//     canvas.drawPath(
+//       path,
+//       Paint()
+//         ..color = const Color(0xFF3B82F6).withValues(alpha: 0.35)
+//         ..style = PaintingStyle.stroke
+//         ..strokeWidth = 8
+//         ..strokeCap = StrokeCap.round,
+//     );
+//     canvas.drawPath(
+//       path,
+//       Paint()
+//         ..color = const Color(0xFF4F7DF3)
+//         ..style = PaintingStyle.stroke
+//         ..strokeWidth = 4
+//         ..strokeCap = StrokeCap.round,
+//     );
  
-    canvas.drawCircle(start, 10,
-        Paint()..color = const Color(0xFF3B82F6).withValues(alpha: 0.3));
-    canvas.drawCircle(start, 6, Paint()..color = Colors.white);
-    canvas.drawCircle(start, 4, Paint()..color = const Color(0xFF3B82F6));
-  }
+//     canvas.drawCircle(start, 10,
+//         Paint()..color = const Color(0xFF3B82F6).withValues(alpha: 0.3));
+//     canvas.drawCircle(start, 6, Paint()..color = Colors.white);
+//     canvas.drawCircle(start, 4, Paint()..color = const Color(0xFF3B82F6));
+//   }
  
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
+//   @override
+//   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+// }

@@ -20,8 +20,8 @@ class HomeView extends GetView<HomeController> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircularProgressIndicator(),
-              Text("Cargando información")
+              CircularProgressIndicator(color: Colors.white,),
+              Text("Cargando información", style: TextStyle(color: Colors.white),)
             ],
           ),
         )

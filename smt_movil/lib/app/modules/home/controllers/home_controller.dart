@@ -42,11 +42,8 @@ class HomeController extends GetxController {
     final resultTransportAssignments = await supabase.select(TRANSPORT_ASSIGNMENTS, filters: {"driver_id": userLoged.value.id, "status": [STATUS_PENDING, STATUS_IN_PROGRESS, STATUS_COMPLETED]});
     transportAssignments.value = (resultTransportAssignments as Iterable).map((ta) => TransportAssignment.fromJson(ta)).toList();
     if (transportAssignments.isNotEmpty) {
-      currentTransportAssignment.value = transportAssignments.singleWhere((ta) => ta.status == STATUS_IN_PROGRESS, orElse: () => TransportAssignment());
-      if (currentTransportAssignment.value.id != null) {
-        hasActive.value = true;
-        activeRoute.value = currentTransportAssignment.value.route!;
-      }
+      
+
       final startOfDay = DateTime(now.year, now.month, now.day);                    // 00:00:00.000
       final endOfDay   = DateTime(now.year, now.month, now.day, 23, 59, 59, 999);  // 23:59:59.999
       assignedCount.value = transportAssignments.length;
@@ -62,6 +59,14 @@ class HomeController extends GetxController {
         TransportAssignment transport = todayRoutes[i];
         RouteMap routeFound = (resultRoutes as Iterable).map((r) => RouteMap.fromJson(r)).toList().singleWhere((r) => r.id == transport.routeId);
         todayRoutes[i] = todayRoutes[i].copyWith(route: Optional.of(routeFound));
+        if (transport.id == todayRoutes[i].id) {
+          activeRoute.value = todayRoutes[i].route!;
+        }
+      }
+
+      currentTransportAssignment.value = todayRoutes.singleWhere((ta) => ta.status == STATUS_IN_PROGRESS, orElse: () => TransportAssignment());
+      if (currentTransportAssignment.value.id != null) {
+        hasActive.value = true;
       }
 
       print(todayRoutes.length);

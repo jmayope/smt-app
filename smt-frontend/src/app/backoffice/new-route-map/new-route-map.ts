@@ -89,6 +89,7 @@ export class NewRouteMap implements OnInit {
           marker.setLatLng(position).openPopup();
           this.map.setView(position, this.mapZoom);
           console.log(`Marker movido: posicion: ${position.lat} ${position.lng}`)
+          this.ChangeDetector.detectChanges();  
         });
 
         this.map.setView(coords, this.mapZoom);
@@ -405,7 +406,7 @@ export class NewRouteMap implements OnInit {
         for (let index = 0; index < this.markers_info.length; index++) {
           if (index < this.markers_info.length - 1) {
             let marker = this.markers_info[index];
-            let next_marker = this.markers_info[index];
+            let next_marker = this.markers_info[index + 1];
             let new_route_segment = {
               has_restriction: false,
               route_id: route_created.id,

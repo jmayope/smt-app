@@ -99,6 +99,9 @@ const String STATUS_COMPLETED = 'completed';
 const String STATUS_CANCELLED = 'cancelled';
 const String STATUS_DELAYED = 'delayed';
 
+const String STATUS_DEPARTURE = 'departure';
+const String STATUS_ARRIVAL = 'arrival';
+
 const String COMPANIES = 'companies';
 const String USERS = 'users';
 const String SUBSCRIPTION_PACKAGES = 'subscription_packages';

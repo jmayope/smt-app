@@ -1,0 +1,14 @@
+{
+  "id?": "9ac7bb51-1849-4776-9141-cae8d83506f0",
+  "assignment_id?": "d137291c-bcae-4e56-9931-c962739f3f9e",
+  "route_point_id?": "656e4a45-6e41-431f-b927-d013fe40c3d0",
+  "timestamp?": "@datetime",
+  "location?": "Punto de inicio - Campamento",
+  "event_type?": "departure",
+  "latitude?": -11.52410000,
+  "longitude?": -75.91230000,
+  "notes?": "Salida de la unidad según programación.",
+  "created_at?": "@datetime",
+  "has_issue?": false,
+  "is_verified?": true
+}

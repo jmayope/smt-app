@@ -276,9 +276,9 @@
               <tr class="text-secondary small text-uppercase">
                 <th>Ruta</th>
                 <th>Vehículo</th>
-                <th>Conductor</th>
                 <th>Carga</th>
                 <th>Estado</th>
+                <th>Fecha</th>
                 <th>Horario</th>
                 <th class="text-end">Acciones</th>
               </tr>
@@ -286,11 +286,16 @@
             <tbody>
 
               <tr *ngFor="let t of trips">
-                <td class="fw-semibold text-dark" *ngIf="t.route">{{t.route.start_location}} → {{t.route.end_location}}</td>
+                <td class="fw-semibold text-dark" *ngIf="t.route">
+                  {{t.route.start_location}} → {{t.route.end_location}} <br>
+                  <span *ngIf="t.driver">
+                    {{t.driver.first_name}} {{t.driver.last_name}}
+                  </span>
+                </td>
                 <td *ngIf="t.vehicle">{{t.vehicle.license_plate | uppercase}}</td>
-                <td *ngIf="t.driver">{{t.driver.first_name}} {{t.driver.last_name}}</td>
                 <td>{{t.load_weight_tons}} Tn {{t.material_type}}</td>
                 <td><span class="badge text-bg-success">{{getStatusName(t.status)}}</span></td>
+                <td>{{t.assignment_date | date: 'dd/MM/yyyy'}}</td>
                 <td class="text-secondary small">{{t.estimated_start_time | date:'HH:mm a'}} — {{t.estimated_end_time | date:'HH:mm a'}} (est.)</td>
                 <td class="text-end">
                   <div class="dropdown" dropdown>

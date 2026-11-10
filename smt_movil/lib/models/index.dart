@@ -4,6 +4,7 @@ export 'transport_assignment.dart';
 export 'table_type.dart';
 export 'subscription_package.dart';
 export 'user_company_role.dart';
+export 'transport_log.dart';
 export 'route_segment.dart';
 export 'user.dart';
 export 'company.dart';
