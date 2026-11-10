@@ -34,6 +34,7 @@ export class NewVehicle implements OnInit {
 
   capacities: any[] = [25, 30, 35];
   user_loged: any;
+  errors: any[] = [];
 
   ngOnInit(): void {
     this.user_loged = this.Main.getSession();
@@ -53,10 +54,25 @@ export class NewVehicle implements OnInit {
     }
   }
 
+  async validateLicensePlate() {
+    this.errors = this.errors.filter((e: any) => e.code !== "placa");
+    let result_license_plate: any = await firstValueFrom(this.Supabase.select(VEHICLES, {filters: {license_plate: this.new_vehicle.license_plate}}));
+    console.log(result_license_plate);
+    if (result_license_plate.length) {
+      this.errors.push({code: 'placa', message: "Ya existe el número de licencia de la placa"});
+      messageAlert("Validación", "Ya existe el número de licencia de la placa. Verificar!", "warning");
+      this.ChangeDetector.detectChanges();
+      return false;
+    }
+    this.ChangeDetector.detectChanges();
+    return true;
+  }
+
   async save() {
     if (this.inserting) {
       return;
     }
+    if (!(await this.validateLicensePlate())) return;
     this.inserting = true;
 
     if (this.new_vehicle.editing) {

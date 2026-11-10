@@ -35,7 +35,7 @@ class RouteActiveController extends GetxController {
   Future<void> getInitialData() async {
     currentTransportAssignment.value = parameters["transportAssignment"];
     
-
+    
     loading.value = false;
   }
 

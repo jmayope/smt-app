@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:smt_movil/app/data/constants.dart';
 import 'package:smt_movil/app/helpers/main.helper.dart';
 import 'package:smt_movil/app/theme/app_colors.dart';
+import 'package:smt_movil/models/index.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -361,10 +362,10 @@ class HomeView extends GetView<HomeController> {
                   const SizedBox(height: 24),
                   _buildSectionTitle(
                     'RUTAS DE HOY',
-                    actionLabel: 'Ver todas',
+                    // actionLabel: 'Ver todas',
                     onAction: () => controller.goToRoutes(),
                   ),
-                  const SizedBox(height: 12),
+                  // const SizedBox(height: 12),
                   _buildTodayRoutes(),
                 ],
               )
@@ -562,7 +563,7 @@ class HomeView extends GetView<HomeController> {
     return Obx(() {
       if (controller.loading.value) {
         return const Padding(
-          padding: EdgeInsets.symmetric(vertical: 24),
+          padding: EdgeInsets.symmetric(vertical: 10),
           child: Center(child: CircularProgressIndicator()),
         );
       }
@@ -570,7 +571,7 @@ class HomeView extends GetView<HomeController> {
       final items = controller.todayRoutes;
       if (items.isEmpty) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Center(
             child: Text(
               'No tienes rutas asignadas hoy.',
@@ -590,8 +591,8 @@ class HomeView extends GetView<HomeController> {
     });
   }
  
-  Widget _buildRouteItem(int index, dynamic route) {
-    final status = '${route.status}';
+  Widget _buildRouteItem(int index, TransportAssignment transportAssignment) {
+    final status = '${transportAssignment.status}';
     late final Color color;
     late final String label;
     late final IconData icon;
@@ -639,20 +640,38 @@ class HomeView extends GetView<HomeController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${route.name}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
+                  Row(
+                    children: [
+                      Icon(Icons.route, size: 20,),
+                      SizedBox(width: 5,),
+                      Text(
+                        '${transportAssignment.route!.name}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    '${route.schedule} · ${route.distance}',
-                    style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                  Row(
+                    children: [
+                      Icon(Icons.timelapse, color: Colors.grey.shade600, size: 15,),
+                      SizedBox(width: 5,),
+                      Text(
+                        '${transportAssignment.route!.estimatedDurationHours} h',
+                        style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                      ),
+                      Icon(Icons.remove_outlined, color: Colors.grey.shade600, size: 15,),
+                      SizedBox(width: 5,),
+                      Text(
+                        '${transportAssignment.route!.distanceKm} km',
+                        style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                      ),
+                    ],
                   ),
                 ],
               ),
