@@ -56,6 +56,15 @@
   <div class="row">
     <div class="col-md-4">
       <div class="form-group">
+        <small class="text-secondary">Tipo de Combustible</small>
+        <select name="fuel_type" [(ngModel)]="new_vehicle.fuel_type" class="form-select">
+          <option [ngValue]="undefined">--SELECCIONAR--</option>
+          <option *ngFor="let c of fuel_types" [ngValue]="c">{{c}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
         <small class="text-secondary">Capacidad (toneladas)</small>
         <select name="capacity_tons" [(ngModel)]="new_vehicle.capacity_tons" class="form-select">
           <option [ngValue]="undefined">--SELECCIONAR--</option>

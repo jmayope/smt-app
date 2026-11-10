@@ -32,6 +32,8 @@ export class NewVehicle implements OnInit {
 
   vehicle_types: any[] = VEHICLE_TYPES;
 
+  fuel_types: any[] = ['DIESEL','ELECTRICO','GASOLINA'];
+  
   capacities: any[] = [25, 30, 35];
   user_loged: any;
 
