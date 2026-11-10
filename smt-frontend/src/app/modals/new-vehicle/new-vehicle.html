@@ -12,7 +12,7 @@
     <div class="col-md-4">
       <div class="form-group">
         <small class="text-secondary">Placa</small>
-        <input type="text" name="license_plate" (blur)="validateLicensePlate()" [(ngModel)]="new_vehicle.license_plate" class="form-control" placeholder="V1A-745">
+        <input type="text" name="license_plate" maxlength="8" (blur)="validateLicensePlate()" [(ngModel)]="new_vehicle.license_plate" class="form-control" placeholder="V1A-745">
       </div>
     </div>
     <div class="col-md-4">
@@ -88,7 +88,7 @@
 
   <div class="form-group">
     <small class="text-secondary">VIN</small>
-    <input type="text" name="vin" [(ngModel)]="new_vehicle.vin" class="form-control" placeholder="9BWZZZ377VT004251">
+    <input type="text" name="vin" maxlength="17" [(ngModel)]="new_vehicle.vin" class="form-control" placeholder="9BWZZZ377VT004251">
   </div>
 
   <div class="row">

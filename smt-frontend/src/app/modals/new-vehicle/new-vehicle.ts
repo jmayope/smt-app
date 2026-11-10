@@ -61,10 +61,15 @@ export class NewVehicle implements OnInit {
     let result_license_plate: any = await firstValueFrom(this.Supabase.select(VEHICLES, {filters: {license_plate: this.new_vehicle.license_plate}}));
     console.log(result_license_plate);
     if (result_license_plate.length) {
-      this.errors.push({code: 'placa', message: "Ya existe el número de licencia de la placa"});
-      messageAlert("Validación", "Ya existe el número de licencia de la placa. Verificar!", "warning");
-      this.ChangeDetector.detectChanges();
-      return false;
+      if (this.new_vehicle.editing && result_license_plate.length === 1) {
+        this.ChangeDetector.detectChanges();
+        return true;
+      } else {
+        this.errors.push({code: 'placa', message: "Ya existe el número de licencia de la placa"});
+        messageAlert("Validación", "Ya existe el número de licencia de la placa. Verificar!", "warning");
+        this.ChangeDetector.detectChanges();
+        return false;
+      }
     }
     this.ChangeDetector.detectChanges();
     return true;
@@ -74,12 +79,24 @@ export class NewVehicle implements OnInit {
     if (this.inserting) {
       return;
     }
-    if (!(await this.validateLicensePlate())) return;
+    if (!this.new_vehicle.editing && !(await this.validateLicensePlate())) {
+      return;
+    } else {
+      let result_license_plate: any = await firstValueFrom(this.Supabase.select(VEHICLES, {filters: {license_plate: this.new_vehicle.license_plate}}));
+      if (result_license_plate.length > 1) {
+        messageAlert("Validación", "Ya existe el número de licencia de la placa. Verificar!", "warning");
+        this.ChangeDetector.detectChanges();
+        return;
+      }
+    }
     this.inserting = true;
 
     if (this.new_vehicle.editing) {
+      let new_vehicle = structuredClone(this.new_vehicle);
+      delete new_vehicle.editing;
+      delete new_vehicle.documents;
       let result_update: any = await firstValueFrom(
-        this.Supabase.update(VEHICLES, this.new_vehicle.id, this.new_vehicle)
+        this.Supabase.update(VEHICLES, this.new_vehicle.id, new_vehicle)
       );
       if (!result_update) {
         messageAlert("Error", "Hubo un problema al actualizar el vehículo", "error");

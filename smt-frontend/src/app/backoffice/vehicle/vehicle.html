@@ -99,7 +99,7 @@
               <tr *ngFor="let v of vehicles">
                 <td class="fw-semibold text-dark">{{v.license_plate}}</td>
                 <td class="text-secondary small">
-                  <strong>{{v.model | uppercase}}</strong> - {{v.brand | uppercase}} <br>
+                  <strong>{{v.model | uppercase}}</strong> - {{v.brand | uppercase}}<span *ngIf="v.fuel_type"> - <strong>Combustible:</strong>&nbsp;{{v.fuel_type}} </span><br>
                   {{v.year}} - {{v.color}} - <strong>Capacidad:</strong> {{v.capacity_tons}} Tn - <strong>Transporta:</strong> {{v.material_type | uppercase}}
                 </td>
                 <td>

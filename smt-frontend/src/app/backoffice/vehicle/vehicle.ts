@@ -66,6 +66,9 @@ export class Vehicle implements OnInit {
     }
     let result: any = await firstValueFrom(this.Supabase.select(VEHICLES, {filters: filters}));
     this.vehicles = result;
+    this.vehicles.map((v: any) => {
+      v.fuel_type = v.fuel_type || undefined;
+    });
     this.vehicle_totals.total = this.vehicles.length;
     this.vehicle_totals.availables = this.vehicles.filter((v: any) => v.is_available).length;
     this.vehicle_totals.actives = this.vehicles.filter((v: any) => v.is_active).length;
