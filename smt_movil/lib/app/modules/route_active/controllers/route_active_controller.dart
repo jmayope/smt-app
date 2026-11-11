@@ -148,8 +148,6 @@ class RouteActiveController extends GetxController {
         currentRouteSegment.value = allSegments.first;
       } else{
         List<TransportLog> logs = (transportLogs as Iterable).map((l) => TransportLog.fromJson(l)).toList();
-        bool segmentFound = false;
-        int transportLogOfSegmentFound = 0;
         RouteSegment? pendingSegment;
         bool needsDeparture = false;
 
