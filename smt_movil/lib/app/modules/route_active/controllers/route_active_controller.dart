@@ -149,12 +149,74 @@ class RouteActiveController extends GetxController {
       } else{
         List<TransportLog> logs = (transportLogs as Iterable).map((l) => TransportLog.fromJson(l)).toList();
         bool segmentFound = false;
+        int transportLogOfSegmentFound = 0;
+        RouteSegment? pendingSegment;
+        bool needsDeparture = false;
+
         for (var i = 0; i < allSegments.length; i++) {
-          if (logs.where((l) => [STATUS_DEPARTURE, STATUS_ARRIVAL].contains(l.eventType!)).length < 2 && !segmentFound ) {
-            currentRouteSegment.value = allSegments[i];
-            userLocation.value = LatLng(currentRouteSegment.value.fromPoint!.latitude!, currentRouteSegment.value.fromPoint!.longitude!);
-            segmentFound = true;
+          RouteSegment segment = allSegments[i];
+          
+          // Buscar si YA EXISTE un departure para el punto de salida de ESTE segmento
+          final hasDeparture = logs.any((l) => 
+            l.assignmentId == currentTransportAssignment.value.id &&
+            l.eventType == STATUS_DEPARTURE && 
+            l.routePointId == segment.fromPointId
+          );
+
+          // Buscar si YA EXISTE un arrival para el punto de llegada de ESTE segmento
+          final hasArrival = logs.any((l) => 
+            l.assignmentId == currentTransportAssignment.value.id &&
+            l.eventType == STATUS_ARRIVAL && 
+            l.routePointId == segment.toPointId
+          );
+
+          // Si falta alguna de las dos, este es el segmento pendiente
+          if (!hasDeparture || !hasArrival) {
+            pendingSegment = segment;
+            needsDeparture = !hasDeparture;
+            break; // Detenemos la búsqueda en el primer segmento incompleto
           }
+        }
+
+        // Evaluar el segmento pendiente
+        if (pendingSegment != null) {
+          currentRouteSegment.value = pendingSegment;
+          
+          if (needsDeparture) {
+            // Si falta el departure, lo insertamos y seteamos la ubicación en el punto de salida
+            userLocation.value = LatLng(
+              pendingSegment.fromPoint!.latitude!, 
+              pendingSegment.fromPoint!.longitude!
+            );
+
+            final newTransportLog = {
+              "assignment_id": currentTransportAssignment.value.id,
+              "route_point_id": pendingSegment.fromPoint!.id,
+              "timestamp": DateTime.now().toIso8601String(),
+              "location": pendingSegment.fromPoint!.name,
+              "event_type": STATUS_DEPARTURE,
+              "latitude": pendingSegment.fromPoint!.latitude,
+              "longitude": pendingSegment.fromPoint!.longitude,
+              "notes": "Salida de la unidad según programación.",
+              "has_issue": false,
+              "is_verified": true
+            };
+
+            final resultTransportLog = await supabase.insert(TRANSPORT_LOGS, newTransportLog);
+            if ((resultTransportLog as Iterable).isEmpty) {
+              Get.snackbar("Error", "Hubo un error al momento de registrar el log.");
+              return;
+            }
+          } else {
+            // Si ya tiene departure pero falta arrival, significa que el usuario está en camino al toPoint
+            userLocation.value = LatLng(
+              pendingSegment.toPoint!.latitude!, 
+              pendingSegment.toPoint!.longitude!
+            );
+            print("Esperando llegada al punto: ${pendingSegment.toPoint!.name}");
+          }
+        } else {
+          print("¡Ruta completada!");
         }
       }
     }
